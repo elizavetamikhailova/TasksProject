@@ -3,7 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../TasksProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TasksProject/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/api/route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/api/staff/add.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/api/staff/add.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/api/staff/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/api/staff/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/api/task/add.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/api/task/add.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/api/task/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/api/task/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/app/staff/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/app/staff/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/app/task/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/app/task/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/cmd/di/di.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/cmd/di/di.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/dao/gorm/model/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/dao/gorm/model/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/dao/gorm/model/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/dao/gorm/model/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/dao/gorm/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/dao/gorm/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/dao/gorm/task.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +45,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
@@ -82,6 +95,10 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changed module in go.mod" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed module in go.mod" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
@@ -94,10 +111,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="564" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1575720780076" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1575799775738">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1575800051397">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1575799775738" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1575800051397" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1575799748962">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -110,6 +127,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799835737" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1575800053739">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1575800053739" />
     <state x="641" y="288" width="704" height="528" key="find.popup" timestamp="1575790837506">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

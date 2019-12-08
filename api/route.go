@@ -1,10 +1,10 @@
 package api
 
 import (
-	staffApi "awesomeProject1/api/staff"
-	taskApi "awesomeProject1/api/task"
-	"awesomeProject1/app/staff"
-	"awesomeProject1/app/task"
+	staffApi "github.com/elizavetamikhailova/TasksProject/api/staff"
+	taskApi "github.com/elizavetamikhailova/TasksProject/api/task"
+	"github.com/elizavetamikhailova/TasksProject/app/staff"
+	"github.com/elizavetamikhailova/TasksProject/app/task"
 	"github.com/julienschmidt/httprouter"
 	"go.uber.org/dig"
 )
@@ -16,9 +16,9 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 	router := httprouter.New()
 
 	staffApi1 := staffApi.Staff{}
-	if err := dig.Invoke(func(op staff.Staff){
+	if err := dig.Invoke(func(op staff.Staff) {
 		staffApi1 = staffApi.NewApiStaff(op)
-	}); err != nil{
+	}); err != nil {
 		panic(err)
 	}
 
@@ -31,7 +31,6 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.POST("/staff/add", staffApi1.Add)
 	router.POST("/task/add", taskApi1.AddTask)
-
 
 	return router
 }

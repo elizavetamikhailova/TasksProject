@@ -1,6 +1,6 @@
 package model
 
-import "awesomeProject1/entity"
+import "github.com/elizavetamikhailova/TasksProject/entity"
 
 type Staff struct {
 	entity.Staff
@@ -9,4 +9,3 @@ type Staff struct {
 func (Staff) TableName() string {
 	return "tasks.staff"
 }
-

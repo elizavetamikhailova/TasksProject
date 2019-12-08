@@ -1,18 +1,18 @@
 package gorm
 
 import (
-	"awesomeProject1/dao"
-	"awesomeProject1/dao/gorm/model"
-	"awesomeProject1/entity"
+	"github.com/elizavetamikhailova/TasksProject/dao"
+	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
+	"github.com/elizavetamikhailova/TasksProject/entity"
 	"github.com/jinzhu/gorm"
 	"time"
 )
 
-type Staff struct{
+type Staff struct {
 	db *gorm.DB
 }
 
-func (s Staff) Add(login string, phone string, passMd5 string) error{
+func (s Staff) Add(login string, phone string, passMd5 string) error {
 
 	staff := model.Staff{Staff: entity.Staff{
 		Login:     login,
@@ -24,7 +24,7 @@ func (s Staff) Add(login string, phone string, passMd5 string) error{
 	return s.db.Create(&staff).Error
 }
 
-func NewDaoStaff(db *gorm.DB) dao.Staff{
+func NewDaoStaff(db *gorm.DB) dao.Staff {
 	return &Staff{
 		db: db,
 	}

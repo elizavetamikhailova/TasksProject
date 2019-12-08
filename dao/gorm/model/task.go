@@ -1,6 +1,6 @@
 package model
 
-import "awesomeProject1/entity"
+import "github.com/elizavetamikhailova/TasksProject/entity"
 
 type Task struct {
 	entity.Task

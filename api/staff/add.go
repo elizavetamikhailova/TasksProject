@@ -1,10 +1,10 @@
 package staff
 
 import (
-	"awesomeProject1/api/errorcode"
-	"awesomeProject1/app/staff"
 	"encoding/json"
 	"github.com/asaskevich/govalidator"
+	"github.com/elizavetamikhailova/TasksProject/api/errorcode"
+	"github.com/elizavetamikhailova/TasksProject/app/staff"
 	"github.com/julienschmidt/httprouter"
 	"io"
 	"io/ioutil"

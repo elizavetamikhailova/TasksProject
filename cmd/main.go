@@ -1,13 +1,12 @@
 package main
 
 import (
-	"awesomeProject1/api"
-	"awesomeProject1/cmd/di"
-	"awesomeProject1/configs"
+	"github.com/elizavetamikhailova/TasksProject/api"
+	"github.com/elizavetamikhailova/TasksProject/cmd/di"
+	"github.com/elizavetamikhailova/TasksProject/configs"
 	"github.com/jinzhu/configor"
 	"net/http"
 )
-
 
 func main() {
 	cfg := configs.Config{}

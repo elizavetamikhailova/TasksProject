@@ -1,14 +1,14 @@
 package staff
 
 import (
-	"awesomeProject1/dao"
+	"github.com/elizavetamikhailova/TasksProject/dao"
 )
 
 type Staff struct {
 	staffDAO dao.Staff
 }
 
-func NewAppStaff(staffDAO dao.Staff) Staff{
+func NewAppStaff(staffDAO dao.Staff) Staff {
 	return Staff{
 		staffDAO: staffDAO,
 	}

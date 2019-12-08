@@ -1,11 +1,11 @@
 package di
 
 import (
-	"awesomeProject1/app/staff"
-	"awesomeProject1/app/task"
-	"awesomeProject1/configs"
-	dao "awesomeProject1/dao/gorm"
 	"fmt"
+	"github.com/elizavetamikhailova/TasksProject/app/staff"
+	"github.com/elizavetamikhailova/TasksProject/app/task"
+	"github.com/elizavetamikhailova/TasksProject/configs"
+	dao "github.com/elizavetamikhailova/TasksProject/dao/gorm"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"go.uber.org/dig"
@@ -13,9 +13,9 @@ import (
 	"os"
 )
 
-func GetDI(cfg configs.Config) *dig.Container{
+func GetDI(cfg configs.Config) *dig.Container {
 	di := dig.New()
-	di.Provide(func() *gorm.DB{
+	di.Provide(func() *gorm.DB {
 		db, err := gorm.Open("postgres",
 			fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable",
 				cfg.DB.Host, cfg.DB.Port, cfg.DB.User, cfg.DB.Db, cfg.DB.Password,
