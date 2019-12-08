@@ -31,7 +31,7 @@ type ArgGet struct {
 }
 
 type Data struct {
-	entity.Task
+	entity.GetTasksResponse
 }
 
 func (t *Task) AddTask(arg ArgAddTask) error {
@@ -50,7 +50,7 @@ func (t *Task) GetTask(arg ArgGet) ([]Data, error) {
 	ud := make([]Data, len(tasks))
 
 	for k, v := range tasks {
-		ud[k].Task = v
+		ud[k].GetTasksResponse = v
 	}
 
 	return ud, nil

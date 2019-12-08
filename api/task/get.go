@@ -33,12 +33,12 @@ func (t *Task) GetTaskById(w http.ResponseWriter, r *http.Request, ps httprouter
 		return
 	}
 
-	task, err := t.op.GetTask(post)
+	task1, err := t.op.GetTask(post)
 	if err != nil {
 		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
 		return
 	}
-	jData, err := json.Marshal(task)
+	jData, err := json.Marshal(task1)
 	if err != nil {
 		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
 		return

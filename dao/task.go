@@ -15,5 +15,5 @@ type Task interface {
 
 	GetTasksByStaffId(
 		staffId int,
-	) ([]entity.Task, error)
+	) ([]entity.GetTasksResponse, error)
 }
