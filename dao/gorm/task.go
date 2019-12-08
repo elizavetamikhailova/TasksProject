@@ -17,7 +17,14 @@ func (t Task) AddSubTask(
 	staffId int,
 	parentId int,
 ) error {
-	panic("implement me")
+	task := model.Task{Task: entity.Task{
+		TypeId:    typeId,
+		StaffId:   staffId,
+		StateId:   1,
+		ParentId:  parentId,
+		CreatedAt: time.Time{},
+	}}
+	return t.db.Create(&task).Error
 }
 
 func (t Task) AddTask(typeId int, staffId int) error {

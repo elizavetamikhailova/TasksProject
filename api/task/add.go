@@ -26,6 +26,21 @@ func validationAddTask(bodyIN io.ReadCloser) (task.ArgAddTask, error) {
 	return post, nil
 }
 
+func validationAddSubTask(bodyIN io.ReadCloser) (task.ArgAddSubTask, error) {
+	post := task.ArgAddSubTask{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
 func (t *Task) AddTask(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	post, err := validationAddTask(r.Body)
 	if err != nil {
@@ -34,6 +49,19 @@ func (t *Task) AddTask(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 	}
 
 	if err = t.op.AddTask(post); err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}
+
+func (t *Task) AddSubTask(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationAddSubTask(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+
+	if err = t.op.AddSubTask(post); err != nil {
 		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
 		return
 	}

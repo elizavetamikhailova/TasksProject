@@ -30,16 +30,9 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 	}
 
 	router.POST("/staff/add", staffApi1.Add)
-	router.POST("/task/add", taskApi1.AddTask)
+
+	router.POST("/task/addTask", taskApi1.AddTask)
+	router.POST("/task/addSubTask", taskApi1.AddSubTask)
 
 	return router
 }
-
-//func  Get(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-//
-//	jData, err := json.Marshal("{hello : it works!}")
-//	if err != nil {
-//		return
-//	}
-//	w.Write(jData)
-//}
