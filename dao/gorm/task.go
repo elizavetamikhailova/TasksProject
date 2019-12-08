@@ -1,6 +1,7 @@
 package gorm
 
 import (
+	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/dao"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
 	"github.com/elizavetamikhailova/TasksProject/entity"
@@ -10,6 +11,32 @@ import (
 
 type Task struct {
 	db *gorm.DB
+}
+
+func (t Task) GetTasksByStaffId(
+	staffId int,
+) ([]entity.Task, error) {
+	var tasks []entity.Task
+
+	tasksFromDb, err := t.db.
+		Table(fmt.Sprintf(`%s t`, new(model.Task).TableName())).
+		Where(`t.staff_id = ?`, staffId).
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for tasksFromDb.Next() {
+		var task entity.Task
+		err := tasksFromDb.Scan(&task.Id, &task.TypeId, &task.StaffId, &task.StateId, &task.ParentId, &task.StartedAt, &task.FinishedAt, &task.CreatedAt, &task.UpdatedAt, &task.DeletedAt)
+		if err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, task)
+	}
+
+	return tasks, nil
 }
 
 func (t Task) AddSubTask(

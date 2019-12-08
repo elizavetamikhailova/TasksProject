@@ -33,6 +33,7 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.POST("/task/addTask", taskApi1.AddTask)
 	router.POST("/task/addSubTask", taskApi1.AddSubTask)
+	router.POST("/task/getTasks", taskApi1.GetTaskById)
 
 	return router
 }

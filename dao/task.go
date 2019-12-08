@@ -1,13 +1,19 @@
 package dao
 
+import "github.com/elizavetamikhailova/TasksProject/entity"
+
 type Task interface {
 	AddTask(typeId int,
 		staffId int,
-		) error
+	) error
 
 	AddSubTask(
 		typeId int,
 		staffId int,
 		parentId int,
-		) error
+	) error
+
+	GetTasksByStaffId(
+		staffId int,
+	) ([]entity.Task, error)
 }
