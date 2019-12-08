@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="" />
+    <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../TasksProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TasksProject/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../TasksProject/go.mod" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +25,7 @@
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="ProjectId" id="1UeRzGNpYbqqNAD7AsGrMF4hA8F" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -102,6 +106,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="837" y="447" width="302" height="210" key="Github.ShareDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799830225" />
+    <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog" timestamp="1575799835737">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799835737" />
     <state x="641" y="288" width="704" height="528" key="find.popup" timestamp="1575790837506">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

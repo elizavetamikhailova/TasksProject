@@ -1,4 +1,4 @@
-module awesomeProject1
+module github.com/elizavetamikhailova/TasksProject
 
 go 1.13
 
