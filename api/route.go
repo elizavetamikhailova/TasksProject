@@ -1,8 +1,10 @@
 package api
 
 import (
+	changesApi "github.com/elizavetamikhailova/TasksProject/api/changes"
 	staffApi "github.com/elizavetamikhailova/TasksProject/api/staff"
 	taskApi "github.com/elizavetamikhailova/TasksProject/api/task"
+	"github.com/elizavetamikhailova/TasksProject/app/changes"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
 	"github.com/elizavetamikhailova/TasksProject/app/task"
 	"github.com/julienschmidt/httprouter"
@@ -29,11 +31,20 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 		panic(err)
 	}
 
+	changesApi1 := changesApi.Changes{}
+	if err := dig.Invoke(func(op changes.Changes) {
+		changesApi1 = changesApi.NewApiChanges(op)
+	}); err != nil {
+		panic(err)
+	}
+
 	router.POST("/staff/add", staffApi1.Add)
 
 	router.POST("/task/addTask", taskApi1.AddTask)
 	router.POST("/task/addSubTask", taskApi1.AddSubTask)
 	router.POST("/task/getTasks", taskApi1.GetTaskById)
+
+	router.POST("/changes/get", changesApi1.GetChanges)
 
 	return router
 }

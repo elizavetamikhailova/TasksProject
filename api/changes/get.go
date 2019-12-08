@@ -1,18 +1,18 @@
-package task
+package changes
 
 import (
 	"encoding/json"
 	"github.com/asaskevich/govalidator"
 	"github.com/elizavetamikhailova/TasksProject/api/errorcode"
-	"github.com/elizavetamikhailova/TasksProject/app/task"
+	"github.com/elizavetamikhailova/TasksProject/app/changes"
 	"github.com/julienschmidt/httprouter"
 	"io"
 	"io/ioutil"
 	"net/http"
 )
 
-func ValidationGetTaskById(bodyIN io.ReadCloser) (task.ArgGet, error) {
-	post := task.ArgGet{}
+func ValidationGetChanges(bodyIN io.ReadCloser) (changes.ArgGetChanges, error) {
+	post := changes.ArgGetChanges{}
 	body, err := ioutil.ReadAll(bodyIN)
 	if err != nil {
 		return post, err
@@ -26,19 +26,19 @@ func ValidationGetTaskById(bodyIN io.ReadCloser) (task.ArgGet, error) {
 	return post, nil
 }
 
-func (t *Task) GetTaskById(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	post, err := ValidationGetTaskById(r.Body)
+func (c *Changes) GetChanges(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := ValidationGetChanges(r.Body)
 	if err != nil {
 		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
 		return
 	}
 
-	task1, err := t.op.GetTaskByStaffId(post)
+	changes1, err := c.op.GetChanges(post)
 	if err != nil {
 		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
 		return
 	}
-	jData, err := json.Marshal(task1)
+	jData, err := json.Marshal(changes1)
 	if err != nil {
 		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
 		return

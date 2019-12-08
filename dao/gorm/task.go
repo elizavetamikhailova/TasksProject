@@ -49,6 +49,36 @@ func (t Task) GetTasksByStaffId(
 	return tasks, nil
 }
 
+func (t Task) GetTasksLastUpdate(
+	staffId int,
+	updateTime time.Time,
+) ([]entity.GetTasksResponse, error) {
+	var tasks []entity.GetTasksResponse
+
+	tasksFromDb, err := t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Select(`staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at`).
+		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
+		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
+		Where(`staff_task.staff_id = ? and staff_task.updated_at > ?`, staffId, updateTime).
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for tasksFromDb.Next() {
+		var task entity.GetTasksResponse
+		err := tasksFromDb.Scan(&task.Id, &task.ParentId, &task.TypeCode, &task.StateCode, &task.StartedAt, &task.FinishedAt)
+		if err != nil {
+			return nil, err
+		}
+		tasks = append(tasks, task)
+	}
+
+	return tasks, nil
+}
+
 func (t Task) AddSubTask(
 	typeId int,
 	staffId int,

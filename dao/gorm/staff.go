@@ -1,6 +1,8 @@
 package gorm
 
 import (
+	"database/sql"
+	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/dao"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
 	"github.com/elizavetamikhailova/TasksProject/entity"
@@ -10,6 +12,28 @@ import (
 
 type Staff struct {
 	db *gorm.DB
+}
+
+func (s Staff) GetStaffLastUpdated(
+	staffId int,
+	updateTime time.Time,
+) (*entity.Staff, error) {
+	var staff entity.Staff
+
+	staffFromDb := s.db.
+		Table(fmt.Sprintf(`%s s`, new(model.Task).TableName())).
+		Where(`s.id = ? and s.updated_at > ?`, staffId, updateTime).
+		Row()
+
+	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &staff, nil
 }
 
 func (s Staff) Add(login string, phone string, passMd5 string) error {

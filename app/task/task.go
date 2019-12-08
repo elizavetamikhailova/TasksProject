@@ -42,7 +42,7 @@ func (t *Task) AddSubTask(arg ArgAddSubTask) error {
 	return t.taskDAO.AddSubTask(arg.TypeId, arg.StaffId, arg.ParentId)
 }
 
-func (t *Task) GetTask(arg ArgGet) ([]Data, error) {
+func (t *Task) GetTaskByStaffId(arg ArgGet) ([]Data, error) {
 	tasks, err := t.taskDAO.GetTasksByStaffId(arg.Id)
 	if err != nil {
 		return nil, err
