@@ -46,5 +46,7 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.POST("/changes/get", changesApi1.GetChanges)
 
+	router.POST("/task/updateLeadTime", changesApi1.UpdateTaskLeadTime)
+
 	return router
 }

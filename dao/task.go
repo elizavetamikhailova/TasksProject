@@ -24,4 +24,6 @@ type Task interface {
 		staffId int,
 		updateTime time.Time,
 	) ([]entity.GetTasksResponse, error)
+
+	UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error
 }

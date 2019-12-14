@@ -57,7 +57,8 @@ func (t Task) GetTasksLastUpdate(
 
 	tasksFromDb, err := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-		Select(`staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at`).
+		Select(`staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
+				staff_task.difficulty_level, staff_task.started_at, staff_task.finished_at`).
 		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
 		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
 		Where(`staff_task.staff_id = ? and staff_task.updated_at > ?`, staffId, updateTime).
@@ -68,12 +69,25 @@ func (t Task) GetTasksLastUpdate(
 	}
 
 	for tasksFromDb.Next() {
-		var task entity.GetTasksResponse
-		err := tasksFromDb.Scan(&task.Id, &task.ParentId, &task.TypeCode, &task.StateCode, &task.StartedAt, &task.FinishedAt)
+		var task model.GetTasksResponse
+		err := tasksFromDb.Scan(&task.Id, &task.ParentId, &task.TypeCode, &task.StateCode, &task.ExpectedLeadTime,
+			&task.DifficultyLevel, &task.StartedAt, &task.FinishedAt)
 		if err != nil {
 			return nil, err
 		}
-		tasks = append(tasks, task)
+
+		var taskEntity = entity.GetTasksResponse{
+			Id:               task.Id,
+			ParentId:         task.ParentId,
+			TypeCode:         task.TypeCode,
+			StateCode:        task.StateCode,
+			ExpectedLeadTime: task.ExpectedLeadTime.Float64,
+			DifficultyLevel:  task.DifficultyLevel.Int64,
+			StartedAt:        task.StartedAt,
+			FinishedAt:       task.FinishedAt,
+		}
+
+		tasks = append(tasks, taskEntity)
 	}
 
 	return tasks, nil
@@ -92,7 +106,7 @@ func (t Task) AddSubTask(
 		CreatedAt: time.Time{},
 	}}
 	return t.db.Create(&task).Error
-}
+} //staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at
 
 func (t Task) AddTask(typeId int, staffId int) error {
 	task := model.Task{Task: entity.Task{
@@ -103,6 +117,13 @@ func (t Task) AddTask(typeId int, staffId int) error {
 	}}
 
 	return t.db.Create(&task).Error
+}
+
+func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error {
+	return t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Where(`staff_task.id = ?`, taskId).
+		Updates(map[string]interface{}{"updated_at": time.Now(), "expected_lead_time": newLeadTime}).Error
 }
 
 func NewDaoTask(db *gorm.DB) dao.Task {

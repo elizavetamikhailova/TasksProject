@@ -25,9 +25,6 @@ type ArgGetChanges struct {
 
 type Data struct {
 	entity.Changes
-	//*StaffData
-	//tasks []TaskData
-
 }
 
 type TaskData struct {
@@ -65,4 +62,17 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 	}
 
 	return data, nil
+}
+
+//updateTaskLeadTime
+
+type ArgUpdateTaskLeadTime struct {
+	StaffId     int       `valid:"required"`
+	TaskId      int       `valid:"required"`
+	NewLeadTime int       `valid:"required"`
+	UpdateTime  time.Time `valid:"required"`
+}
+
+func (c *Changes) UpdateTaskExpectedLeadTime(arg ArgUpdateTaskLeadTime) error {
+	return c.taskDAO.UpdateTaskExpectedLeadTime(arg.TaskId, arg.NewLeadTime)
 }
