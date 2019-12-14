@@ -16,14 +16,18 @@ func NewAppTask(taskDAO dao.Task) Task {
 }
 
 type ArgAddTask struct {
-	TypeId  int `valid:"required"`
-	StaffId int `valid:"required"`
+	TypeId           int `valid:"required"`
+	StaffId          int `valid:"required"`
+	ExpectedLeadTime float64
+	DifficultyLevel  int64
 }
 
 type ArgAddSubTask struct {
-	TypeId   int `valid:"required"`
-	StaffId  int `valid:"required"`
-	ParentId int `valid:"required"`
+	TypeId           int `valid:"required"`
+	StaffId          int `valid:"required"`
+	ParentId         int `valid:"required"`
+	ExpectedLeadTime float64
+	DifficultyLevel  int64
 }
 
 type ArgGet struct {
@@ -35,11 +39,11 @@ type Data struct {
 }
 
 func (t *Task) AddTask(arg ArgAddTask) error {
-	return t.taskDAO.AddTask(arg.TypeId, arg.StaffId)
+	return t.taskDAO.AddTask(arg.TypeId, arg.StaffId, arg.ExpectedLeadTime, arg.DifficultyLevel)
 }
 
 func (t *Task) AddSubTask(arg ArgAddSubTask) error {
-	return t.taskDAO.AddSubTask(arg.TypeId, arg.StaffId, arg.ParentId)
+	return t.taskDAO.AddSubTask(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel)
 }
 
 func (t *Task) GetTaskByStaffId(arg ArgGet) ([]Data, error) {

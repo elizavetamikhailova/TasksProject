@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/changes/update.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dao/gorm/model/getTasksResponse.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/changes/changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/changes/changes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/task/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/task/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/gorm/model/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/model/task.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/GetTasksResponse.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/GetTasksResponse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Task.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Task.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +97,8 @@
     <MESSAGE value="the method for receiving tasks has been changed, a new entity &quot;GetTasksResponse&quot; has been added" />
     <MESSAGE value="added method to get changes by update time&#10;added method to get tasks by id and update time&#10;added method to get staff by id and update time" />
     <MESSAGE value="added annotation that removes null entity fields from the answer" />
-    <option name="LAST_COMMIT_MESSAGE" value="added annotation that removes null entity fields from the answer" />
+    <MESSAGE value="added method for updating expected lead time" />
+    <option name="LAST_COMMIT_MESSAGE" value="added method for updating expected lead time" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -113,10 +112,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1576312489556" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1576057911099">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1576313402050">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1576057911099" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1576313402050" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1575823121070">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -129,10 +128,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799835737" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576057914155">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576313405345">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576057914155" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576313405345" />
     <state x="641" y="288" width="704" height="528" key="find.popup" timestamp="1575790837506">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

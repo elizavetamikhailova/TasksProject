@@ -8,12 +8,16 @@ import (
 type Task interface {
 	AddTask(typeId int,
 		staffId int,
+		expectedLeadTime float64,
+		difficultyLevel int64,
 	) error
 
 	AddSubTask(
 		typeId int,
 		staffId int,
 		parentId int,
+		expectedLeadTime float64,
+		difficultyLevel int64,
 	) error
 
 	GetTasksByStaffId(

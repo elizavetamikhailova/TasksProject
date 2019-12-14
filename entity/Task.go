@@ -12,17 +12,19 @@ finished_at
 created_at
 updated_at
 deleted_at
- */
+*/
 
 type Task struct {
-	Id	int	`gorm:"column:id"`
-	TypeId	int	 `gorm:"column:type_id"`
-	StaffId int `gorm:"column:staff_id"`
-	StateId int `gorm:"column:state_id"`
-	ParentId int `gorm:"column:parent_id"`
-	StartedAt time.Time `gorm:"column:started_at"`
-	FinishedAt time.Time  `gorm:"column:finished_at"`
-	CreatedAt time.Time `gorm:"column:created_at"`
-	UpdatedAt time.Time `gorm:"column:updated_at"`
-	DeletedAt time.Time `gorm:"column:deleted_at"`
+	Id               int       `gorm:"column:id"`
+	TypeId           int       `gorm:"column:type_id"`
+	StaffId          int       `gorm:"column:staff_id"`
+	StateId          int       `gorm:"column:state_id"`
+	ParentId         int       `json:",omitempty"`
+	ExpectedLeadTime float64   `json:",omitempty"`
+	DifficultyLevel  int64     `json:",omitempty"`
+	StartedAt        time.Time `gorm:"column:started_at"`
+	FinishedAt       time.Time `json:",omitempty"`
+	CreatedAt        time.Time `gorm:"column:created_at"`
+	UpdatedAt        time.Time `json:",omitempty"`
+	DeletedAt        time.Time `json:",omitempty"`
 }
