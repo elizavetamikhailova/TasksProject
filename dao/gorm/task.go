@@ -121,12 +121,30 @@ func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error {
 //as subquery
 //where id =  13 and type_id = 2
 func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
+	var task entity.Task
+
+	taskFromDB := t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Where(`staff_task.id = ?`, taskId).Row()
+
+	err := taskFromDB.Scan(&task.Id, &task.TypeId, &task.StaffId, &task.StateId, &task.ParentId,
+		&task.StartedAt, &task.FinishedAt, &task.CreatedAt, &task.UpdatedAt, &task.DeletedAt,
+		&task.ExpectedLeadTime, &task.DifficultyLevel)
+
+	println(task.Id, task.TypeId, task.StaffId, task.StateId, task.ParentId,
+		task.ExpectedLeadTime, task.DifficultyLevel)
+
+	if err != nil {
+		panic(err)
+	}
+
 	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesName())).
 		Select(`task_state_change.state_to_id as new_state`).
-		Where(`task_state_change.type_id = 2 and task_state_change.state_from_id = 1 and task_state_change.state_to_id = ?`, stateTo).SubQuery()
+		Where(`task_state_change.type_id = ? and task_state_change.state_from_id = ? and task_state_change.state_to_id = ?`,
+			task.TypeId, task.StateId, stateTo).SubQuery()
 	return t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-		Where(`staff_task.id = ? and staff_task.type_id = ?`, taskId, 2).
+		Where(`staff_task.id = ? and staff_task.type_id = ?`, taskId, task.TypeId).
 		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": subQuery}).Error
 }
 
