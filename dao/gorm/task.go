@@ -135,7 +135,7 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		task.ExpectedLeadTime, task.DifficultyLevel)
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesName())).

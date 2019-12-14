@@ -6,9 +6,11 @@ import (
 )
 
 const (
-	CodeUnauthorized = "unauthorized"
-	CodeDataInvalid = "data_invalid"
-	CodeUnexpected = "unexpected_error"
+	CodeUnauthorized             = "unauthorized"
+	CodeDataInvalid              = "data_invalid"
+	CodeUnexpected               = "unexpected_error"
+	CodeUnableToChangeTaskStatus = "unable_to_change_task_status"
+	CodeTaskDoesNotExist         = "task_does_not_exist"
 
 	MessageUnauthorized = "authorization required "
 )

@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/changes/updateTask.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/changes/updateTask.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/errorcode/errorcode.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/errorcode/errorcode.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/Task.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Task.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +99,8 @@
     <MESSAGE value="added fields for expected lead time and difficulty level" />
     <MESSAGE value="added method for creating a task with subsequent return of changes" />
     <MESSAGE value="Added raw task status update method with checking the conditions of available changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added raw task status update method with checking the conditions of available changes" />
+    <MESSAGE value="Added task status update method with checking the conditions of available changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added task status update method with checking the conditions of available changes" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -112,10 +114,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1576312489556" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1576339143378">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1576341128094">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1576339143378" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1576341128094" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1575823121070">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -128,10 +130,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799835737" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576339158450">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576341130076">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576339158450" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576341130076" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1576340125610">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

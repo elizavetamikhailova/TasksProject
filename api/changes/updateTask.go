@@ -1,6 +1,7 @@
 package changes
 
 import (
+	"database/sql"
 	"encoding/json"
 	"github.com/asaskevich/govalidator"
 	"github.com/elizavetamikhailova/TasksProject/api/errorcode"
@@ -74,7 +75,11 @@ func (c *Changes) UpdateTaskStatus(w http.ResponseWriter, r *http.Request, ps ht
 	}
 
 	if err = c.op.UpdateTaskStatusByStaff(post); err != nil {
-		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		if err == sql.ErrNoRows {
+			errorcode.WriteError(errorcode.CodeTaskDoesNotExist, err.Error(), w)
+		} else {
+			errorcode.WriteError(errorcode.CodeUnableToChangeTaskStatus, err.Error(), w)
+		}
 		return
 	}
 
