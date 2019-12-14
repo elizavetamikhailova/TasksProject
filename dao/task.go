@@ -23,4 +23,6 @@ type Task interface {
 	) ([]entity.GetTasksResponse, error)
 
 	UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error
+
+	UpdateTaskStatus(taskId int, stateTo int) error
 }
