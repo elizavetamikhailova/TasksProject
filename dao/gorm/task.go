@@ -93,30 +93,12 @@ func (t Task) GetTasksLastUpdate(
 	return tasks, nil
 }
 
-func (t Task) AddSubTask(
-	typeId int,
-	staffId int,
-	parentId int,
-	expectedLeadTime float64,
-	difficultyLevel int64,
-) error {
-	task := model.Task{Task: entity.Task{
-		TypeId:           typeId,
-		StaffId:          staffId,
-		StateId:          1,
-		ParentId:         parentId,
-		ExpectedLeadTime: expectedLeadTime,
-		DifficultyLevel:  difficultyLevel,
-		CreatedAt:        time.Time{},
-	}}
-	return t.db.Create(&task).Error
-} //staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at
-
-func (t Task) AddTask(typeId int, staffId int, expectedLeadTime float64,
+func (t Task) AddTask(typeId int, staffId int, parentId int, expectedLeadTime float64,
 	difficultyLevel int64) error {
 	task := model.Task{Task: entity.Task{
 		TypeId:           typeId,
 		StaffId:          staffId,
+		ParentId:         parentId,
 		StateId:          1,
 		ExpectedLeadTime: expectedLeadTime,
 		DifficultyLevel:  difficultyLevel,
