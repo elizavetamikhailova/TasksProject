@@ -267,18 +267,48 @@ func (t Task) AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime fl
 	}
 
 	id, err := t.AddTaskWithoutStaff(typeId, expectedLeadTime, difficultyLevel)
-	println("qqqqqq")
 
 	if err != nil {
 		return err
 	}
 
 	for _, v := range staffWorkLoad {
-		println(v.StaffId, v.Aggr)
 		err := t.addAwaitingTask(id, v.StaffId)
 		if err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+//update tasks.staff_task set state_id = 1, staff_id = 1
+//from (select st.id from tasks.staff_task st where st.id = 38 and st.state_id = 7) as subquery
+//where tasks.staff_task.id = subquery.id
+
+type Result struct {
+	TaskId int
+}
+
+func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
+
+	//subQuery := t.db.Table(fmt.Sprintf(`%s st`, new(model.Task).TableName())).
+	//	Select(`st.id`).
+	//	Where(`st.id = ? and st.state_id = 7`,
+	//		taskId).SubQuery()
+	//return t.db.
+	//	Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+	//	Where(`staff_task.id = ?`, subQuery).
+	//	Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": 1, "staff_id" : staffId}).Error
+
+	//сделать транзакцию с делитом
+
+	var result Result
+	d := t.db.Raw("update tasks.staff_task set state_id = 1, staff_id = ?, updated_at = ? from "+
+		"(select st.id from tasks.staff_task st where st.id = ? and st.state_id = 7) as subquery "+
+		"where tasks.staff_task.id = subquery.id returning tasks.staff_task.id", staffId, time.Now(), taskId).Scan(&result)
+	if d.Error != nil {
+		return d.Error
 	}
 
 	return nil

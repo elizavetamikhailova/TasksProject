@@ -42,6 +42,21 @@ func ValidationUpdateTaskStatus(bodyIN io.ReadCloser) (changes.ArgUpdateTaskStat
 	return post, nil
 }
 
+func ValidationUpdateAwaitingTaskToActive(bodyIN io.ReadCloser) (changes.ArgUpdateAwaitingTaskToActive, error) {
+	post := changes.ArgUpdateAwaitingTaskToActive{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
 func (c *Changes) UpdateTaskLeadTime(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	post, err := ValidationUpdateLeadTime(r.Body)
 	if err != nil {
@@ -75,6 +90,35 @@ func (c *Changes) UpdateTaskStatus(w http.ResponseWriter, r *http.Request, ps ht
 	}
 
 	if err = c.op.UpdateTaskStatusByStaff(post); err != nil {
+		if err == sql.ErrNoRows {
+			errorcode.WriteError(errorcode.CodeTaskDoesNotExist, err.Error(), w)
+		} else {
+			errorcode.WriteError(errorcode.CodeUnableToChangeTaskStatus, err.Error(), w)
+		}
+		return
+	}
+
+	changes1, err := c.op.GetChanges(changes.ArgGetChanges{
+		StaffId:    post.StaffId,
+		UpdateTime: post.UpdateTime,
+	})
+
+	jData, err := json.Marshal(changes1)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	w.Write(jData)
+}
+
+func (c *Changes) UpdateAwaitingTaskToActive(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := ValidationUpdateAwaitingTaskToActive(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+
+	if err = c.op.UpdateAwaitingTaskToActive(post); err != nil {
 		if err == sql.ErrNoRows {
 			errorcode.WriteError(errorcode.CodeTaskDoesNotExist, err.Error(), w)
 		} else {

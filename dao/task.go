@@ -33,4 +33,6 @@ type Task interface {
 	GetTasksLastUpdateForBoss(
 		updateTime time.Time,
 	) ([]entity.GetTasksResponse, error)
+
+	UpdateAwaitingTaskToActive(taskId int, staffId int) error
 }
