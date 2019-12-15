@@ -148,8 +148,120 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": subQuery}).Error
 }
 
+//select s.id, sum(st.difficulty_level + st.expected_lead_time) as aggr from tasks.staff s
+//left join tasks.staff_task st on (s.id = st.staff_id)
+//where st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null
+//group by s.id
+
+func (t Task) GetStaffWorkLoad() ([]entity.Workload, error) {
+	var workloadByStaff []entity.Workload
+
+	workloadFromDb, err := t.db.
+		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
+		Select(`s.id, sum(case when st.difficulty_level is null then 0 else st.difficulty_level end + case when st.expected_lead_time is null then 0 else st.expected_lead_time end) as aggr`).
+		Joins("left join tasks.staff_task st on (s.id = st.staff_id)").
+		Where(`st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null`).
+		Group("s.id").
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for workloadFromDb.Next() {
+		var workload entity.Workload
+		err := workloadFromDb.Scan(&workload.StaffId, &workload.Aggr)
+		if err != nil {
+			return nil, err
+		}
+		workloadByStaff = append(workloadByStaff, workload)
+	}
+
+	return workloadByStaff, nil
+
+}
+
+func (t *Task) addAwaitingTask(taskId int, staffId int) error {
+	task := model.AwaitingTask{AwaitingTask: entity.AwaitingTask{
+		TaskId:  taskId,
+		StaffId: staffId,
+		StateId: 1,
+	}}
+
+	return t.db.Create(&task).Error
+}
+
+func (t Task) AddTaskWithoutStaff(typeId int, expectedLeadTime float64,
+	difficultyLevel int64) (int, error) {
+
+	task := model.Task{Task: entity.Task{
+		TypeId:           typeId,
+		StateId:          7,
+		ExpectedLeadTime: expectedLeadTime,
+		DifficultyLevel:  difficultyLevel,
+		CreatedAt:        time.Time{},
+	}}
+
+	d := t.db.Create(&task).Scan(&task)
+
+	if d.Error != nil {
+		return 0, d.Error
+	}
+
+	return task.Id, nil
+}
+
+func (t Task) AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64) error {
+	staffWorkLoad, err := t.GetStaffWorkLoad()
+	if err != nil {
+		return err
+	}
+
+	id, err := t.AddTaskWithoutStaff(typeId, expectedLeadTime, difficultyLevel)
+	println("qqqqqq")
+
+	if err != nil {
+		return err
+	}
+
+	for _, v := range staffWorkLoad {
+		println(v.StaffId, v.Aggr)
+		err := t.addAwaitingTask(id, v.StaffId)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func NewDaoTask(db *gorm.DB) dao.Task {
 	return &Task{
 		db: db,
 	}
 }
+
+//5 исполнителей, у которых меньше всего заданий
+//select s.id, count(*) as amount from tasks.staff s join tasks.staff_task st
+//on (s.id = st.staff_id) where st.state_id = 1 or st.state_id = 2
+//group by s.id order by amount desc limit 5
+
+//5 исполнителей, у которых меньше всего часов занято заданиями
+//select s.id, sum(st.expected_lead_time) as amount from tasks.staff s join tasks.staff_task st
+//on (s.id = st.staff_id) where st.state_id = 1 or st.state_id = 2
+//group by s.id order by amount desc limit 5
+
+//5 исполнителей, сложность, количество, время
+//вариант 1
+//select s.id,
+//sum(case when st.difficulty_level is null then 0 else st.difficulty_level end +
+//case when st.expected_lead_time is null then 0 else st.expected_lead_time end) as aggr
+//from tasks.staff s
+//left join tasks.staff_task st on (s.id = st.staff_id)
+//where st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null
+//group by s.id
+//вариант 2
+//select s.id, sum(st.difficulty_level + st.expected_lead_time) as aggr from tasks.staff s
+//left join tasks.staff_task st on (s.id = st.staff_id)
+//where st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null
+//group by s.id

@@ -89,6 +89,13 @@ type ArgUpdateTaskStatus struct {
 	UpdateTime time.Time `valid:"required"`
 }
 
+type ArgAddTaskWithAutomaticStaffSelection struct {
+	TypeId           int `valid:"required"`
+	ExpectedLeadTime float64
+	DifficultyLevel  int64
+	UpdateTime       time.Time `valid:"required"`
+}
+
 func (c *Changes) UpdateTaskExpectedLeadTime(arg ArgUpdateTaskLeadTime) error {
 	return c.taskDAO.UpdateTaskExpectedLeadTime(arg.TaskId, arg.NewLeadTime)
 }
@@ -99,4 +106,8 @@ func (c *Changes) AddTaskForStaff(arg ArgAddTaskForStaff) error {
 
 func (c *Changes) UpdateTaskStatusByStaff(arg ArgUpdateTaskStatus) error {
 	return c.taskDAO.UpdateTaskStatus(arg.TaskId, arg.StateTo)
+}
+
+func (c *Changes) AddTaskWithAutomaticStaffSelection(arg ArgAddTaskWithAutomaticStaffSelection) error {
+	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel)
 }

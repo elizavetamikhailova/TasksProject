@@ -25,4 +25,8 @@ type Task interface {
 	UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error
 
 	UpdateTaskStatus(taskId int, stateTo int) error
+
+	GetStaffWorkLoad() ([]entity.Workload, error)
+
+	AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64) error
 }
