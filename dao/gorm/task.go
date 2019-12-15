@@ -230,9 +230,11 @@ func (t Task) GetStaffWorkLoad() ([]entity.Workload, error) {
 
 func (t *Task) addAwaitingTask(taskId int, staffId int) error {
 	task := model.AwaitingTask{AwaitingTask: entity.AwaitingTask{
-		TaskId:  taskId,
-		StaffId: staffId,
-		StateId: 1,
+		TaskId:    taskId,
+		StaffId:   staffId,
+		StateId:   1,
+		CreatedAt: &time.Time{},
+		UpdatedAt: &time.Time{},
 	}}
 
 	return t.db.Create(&task).Error

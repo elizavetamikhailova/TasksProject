@@ -7,14 +7,16 @@ import (
 )
 
 type Changes struct {
-	staffDAO dao.Staff
-	taskDAO  dao.Task
+	staffDAO        dao.Staff
+	taskDAO         dao.Task
+	awaitingTaskDAO dao.AwaitingTask
 }
 
-func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task) Changes {
+func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, awaitingTaskDAO dao.AwaitingTask) Changes {
 	return Changes{
-		staffDAO: staffDAO,
-		taskDAO:  taskDAO,
+		staffDAO:        staffDAO,
+		taskDAO:         taskDAO,
+		awaitingTaskDAO: awaitingTaskDAO,
 	}
 }
 
@@ -58,10 +60,21 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 		tud[k] = v
 	}
 
+	awaitingTasks, err := c.awaitingTaskDAO.GetAwaitingTask(arg.StaffId, arg.UpdateTime)
+	if err != nil {
+		return nil, err
+	}
+	tud1 := make([]entity.GetAwaitingTaskResponse, len(awaitingTasks))
+
+	for k, v := range awaitingTasks {
+		tud1[k] = v
+	}
+
 	data := &Data{
 		entity.Changes{
-			Staff: staff,
-			Tasks: tud,
+			Staff:         staff,
+			Tasks:         tud,
+			AwaitingTasks: tud1,
 		},
 	}
 
