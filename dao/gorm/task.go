@@ -100,7 +100,7 @@ func (t Task) GetTasksLastUpdateForBoss(
 
 	tasksFromDb, err := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-		Select(`staff_task.staff_id, staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
+		Select(`staff_task.id, staff_task.staff_id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
 				staff_task.difficulty_level, staff_task.started_at, staff_task.finished_at`).
 		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
 		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
@@ -233,8 +233,8 @@ func (t *Task) addAwaitingTask(taskId int, staffId int) error {
 		TaskId:    taskId,
 		StaffId:   staffId,
 		StateId:   1,
-		CreatedAt: &time.Time{},
-		UpdatedAt: &time.Time{},
+		CreatedAt: time.Time{},
+		UpdatedAt: time.Time{},
 	}}
 
 	return t.db.Create(&task).Error

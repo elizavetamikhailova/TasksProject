@@ -7,7 +7,7 @@ type AwaitingTask struct {
 	TaskId    int
 	StaffId   int
 	StateId   int
-	CreatedAt *time.Time
-	UpdatedAt *time.Time
+	CreatedAt time.Time
+	UpdatedAt time.Time
 	DeletedAt *time.Time
 }

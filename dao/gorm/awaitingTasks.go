@@ -28,7 +28,7 @@ func (a AwaitingTask) GetAwaitingTask(staffId int,
 		Joins("left join tasks.staff_task st on (awt.task_id = st.id)").
 		Joins("join tasks.awaiting_task_state ats on (awt.state_id = ats.id)").
 		Joins("join tasks.task_type tt on (st.type_id = tt.id)").
-		Where(`awt.updated_at = ? and awt.staff_id = ?`, updateTime, staffId).
+		Where(`awt.updated_at > ? and awt.staff_id = ?`, updateTime, staffId).
 		Rows()
 
 	if err != nil {
