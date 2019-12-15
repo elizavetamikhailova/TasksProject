@@ -1,7 +1,6 @@
 package gorm
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/dao"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
@@ -21,15 +20,38 @@ func (s Staff) GetStaffLastUpdated(
 	var staff entity.Staff
 
 	staffFromDb := s.db.
-		Table(fmt.Sprintf(`%s s`, new(model.Task).TableName())).
+		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
 		Where(`s.id = ? and s.updated_at > ?`, staffId, updateTime).
 		Row()
 
-	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone)
+	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
+		&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, nil
-		}
+		//if err == sql.ErrNoRows {
+		//	return nil, nil
+		//}
+		return nil, err
+	}
+
+	return &staff, nil
+}
+
+func (s Staff) GetStaffLastUpdatedForBoss(
+	updateTime time.Time,
+) (*entity.Staff, error) {
+	var staff entity.Staff
+
+	staffFromDb := s.db.
+		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
+		Where(`s.updated_at > ?`, updateTime).
+		Row()
+
+	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
+		&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
+	if err != nil {
+		//if err == sql.ErrNoRows {
+		//	return nil, nil
+		//}
 		return nil, err
 	}
 

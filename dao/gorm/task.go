@@ -93,6 +93,50 @@ func (t Task) GetTasksLastUpdate(
 	return tasks, nil
 }
 
+func (t Task) GetTasksLastUpdateForBoss(
+	updateTime time.Time,
+) ([]entity.GetTasksResponse, error) {
+	var tasks []entity.GetTasksResponse
+
+	tasksFromDb, err := t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Select(`staff_task.staff_id, staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
+				staff_task.difficulty_level, staff_task.started_at, staff_task.finished_at`).
+		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
+		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
+		Where(`staff_task.updated_at > ?`, updateTime).
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for tasksFromDb.Next() {
+		var task model.GetTasksResponse
+		err := tasksFromDb.Scan(&task.Id, &task.StaffId, &task.ParentId, &task.TypeCode, &task.StateCode, &task.ExpectedLeadTime,
+			&task.DifficultyLevel, &task.StartedAt, &task.FinishedAt)
+		if err != nil {
+			return nil, err
+		}
+
+		var taskEntity = entity.GetTasksResponse{
+			Id:               task.Id,
+			StaffId:          task.StaffId.Int64,
+			ParentId:         task.ParentId,
+			TypeCode:         task.TypeCode,
+			StateCode:        task.StateCode,
+			ExpectedLeadTime: task.ExpectedLeadTime.Float64,
+			DifficultyLevel:  task.DifficultyLevel.Int64,
+			StartedAt:        task.StartedAt,
+			FinishedAt:       task.FinishedAt,
+		}
+
+		tasks = append(tasks, taskEntity)
+	}
+
+	return tasks, nil
+}
+
 func (t Task) AddTask(typeId int, staffId int, parentId int, expectedLeadTime float64,
 	difficultyLevel int64) error {
 	task := model.Task{Task: entity.Task{
@@ -148,7 +192,10 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": subQuery}).Error
 }
 
-//select s.id, sum(st.difficulty_level + st.expected_lead_time) as aggr from tasks.staff s
+//select s.id,
+//sum(case when st.difficulty_level is null then 0 else st.difficulty_level end +
+//case when st.expected_lead_time is null then 0 else st.expected_lead_time end) as aggr
+//from tasks.staff s
 //left join tasks.staff_task st on (s.id = st.staff_id)
 //where st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null
 //group by s.id

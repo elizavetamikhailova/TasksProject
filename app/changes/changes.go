@@ -23,6 +23,10 @@ type ArgGetChanges struct {
 	UpdateTime time.Time `valid:"required"`
 }
 
+type ArgGetChangesForBoss struct {
+	UpdateTime time.Time `valid:"required"`
+}
+
 type Data struct {
 	entity.Changes
 }
@@ -45,6 +49,35 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 	//sud := StaffData{staff}
 
 	tasks, err := c.taskDAO.GetTasksLastUpdate(arg.StaffId, arg.UpdateTime)
+	if err != nil {
+		return nil, err
+	}
+	tud := make([]entity.GetTasksResponse, len(tasks))
+
+	for k, v := range tasks {
+		tud[k] = v
+	}
+
+	data := &Data{
+		entity.Changes{
+			Staff: staff,
+			Tasks: tud,
+		},
+	}
+
+	return data, nil
+}
+
+func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*Data, error) {
+
+	staff, err := c.staffDAO.GetStaffLastUpdatedForBoss(arg.UpdateTime)
+	if err != nil {
+		return nil, err
+	}
+
+	//sud := StaffData{staff}
+
+	tasks, err := c.taskDAO.GetTasksLastUpdateForBoss(arg.UpdateTime)
 	if err != nil {
 		return nil, err
 	}

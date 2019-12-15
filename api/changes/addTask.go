@@ -78,4 +78,15 @@ func (c *Changes) AddTaskWithAutomaticStaffSelection(w http.ResponseWriter, r *h
 		return
 	}
 
+	changes1, err := c.op.GetChangesForBoss(changes.ArgGetChangesForBoss{
+		UpdateTime: post.UpdateTime,
+	})
+
+	jData, err := json.Marshal(changes1)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	w.Write(jData)
+
 }

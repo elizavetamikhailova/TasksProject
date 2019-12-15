@@ -29,4 +29,8 @@ type Task interface {
 	GetStaffWorkLoad() ([]entity.Workload, error)
 
 	AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64) error
+
+	GetTasksLastUpdateForBoss(
+		updateTime time.Time,
+	) ([]entity.GetTasksResponse, error)
 }
