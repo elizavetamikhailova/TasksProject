@@ -292,17 +292,7 @@ type Result struct {
 
 func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
 
-	//subQuery := t.db.Table(fmt.Sprintf(`%s st`, new(model.Task).TableName())).
-	//	Select(`st.id`).
-	//	Where(`st.id = ? and st.state_id = 7`,
-	//		taskId).SubQuery()
-	//return t.db.
-	//	Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-	//	Where(`staff_task.id = ?`, subQuery).
-	//	Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": 1, "staff_id" : staffId}).Error
-
 	//сделать транзакцию с делитом
-
 	var result Result
 	d := t.db.Raw("update tasks.staff_task set state_id = 1, staff_id = ?, updated_at = ? from "+
 		"(select st.id from tasks.staff_task st where st.id = ? and st.state_id = 7) as subquery "+
@@ -311,7 +301,11 @@ func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
 		return d.Error
 	}
 
-	return nil
+	//update tasks.awaiting_tasks set state_id = 2 where task_id = 38
+	return t.db.
+		Table(fmt.Sprintf(`%s awaiting_tasks`, new(model.Task).AwaitingTasksName())).
+		Where(`awaiting_tasks.task_id = ?`, taskId).
+		Updates(map[string]interface{}{"state_id": 2, "updated_at": time.Now()}).Error
 }
 
 func NewDaoTask(db *gorm.DB) dao.Task {
