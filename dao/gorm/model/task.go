@@ -18,6 +18,10 @@ func (Task) AwaitingTasksTableName() string {
 	return "tasks.awaiting_tasks"
 }
 
-func (Task) FlagsTableName() string {
+func (Task) TasksFlagsTableName() string {
 	return "tasks.tasks_flags"
+}
+
+func (Task) FlagTableName() string {
+	return "tasks.flags"
 }

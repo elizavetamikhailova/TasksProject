@@ -11,6 +11,7 @@ type Task interface {
 		parentId int,
 		expectedLeadTime float64,
 		difficultyLevel int64,
+		flags []string,
 	) error
 
 	GetTasksByStaffId(

@@ -155,7 +155,7 @@ func (t Task) GetTasksLastUpdateForBoss(
 }
 
 func (t Task) AddTask(typeId int, staffId int, parentId int, expectedLeadTime float64,
-	difficultyLevel int64) error {
+	difficultyLevel int64, flags []string) error {
 	task := model.Task{Task: entity.Task{
 		TypeId:           typeId,
 		StaffId:          staffId,
@@ -166,7 +166,19 @@ func (t Task) AddTask(typeId int, staffId int, parentId int, expectedLeadTime fl
 		CreatedAt:        time.Time{},
 	}}
 
-	return t.db.Create(&task).Error
+	d := t.db.Create(&task).Scan(&task)
+
+	if d.Error != nil {
+		return d.Error
+	}
+
+	err := t.AddFlags(flags, task.Id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error {
@@ -245,7 +257,7 @@ func (t Task) GetStaffWorkLoad() ([]entity.Workload, error) {
 
 }
 
-func (t *Task) addAwaitingTask(taskId int, staffId int) error {
+func (t *Task) AddAwaitingTask(taskId int, staffId int) error {
 	task := model.AwaitingTask{AwaitingTask: entity.AwaitingTask{
 		TaskId:    taskId,
 		StaffId:   staffId,
@@ -290,7 +302,7 @@ func (t Task) AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime fl
 	}
 
 	for _, v := range staffWorkLoad {
-		err := t.addAwaitingTask(id, v.StaffId)
+		err := t.AddAwaitingTask(id, v.StaffId)
 		if err != nil {
 			return err
 		}
@@ -328,7 +340,7 @@ func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
 func (t Task) GetFlagsByTask(taskId int) ([]string, error) {
 	var flags []string
 
-	flagsFromDb, err := t.db.Table(fmt.Sprintf(`%s tf`, new(model.Task).FlagsTableName())).
+	flagsFromDb, err := t.db.Table(fmt.Sprintf(`%s tf`, new(model.Task).TasksFlagsTableName())).
 		Select(`f.code`).
 		Joins("join tasks.flags f on (tf.flag_id = f.id)").
 		Where(`tf.task_id = ?`, taskId).
@@ -348,6 +360,32 @@ func (t Task) GetFlagsByTask(taskId int) ([]string, error) {
 	}
 
 	return flags, nil
+}
+
+func (t Task) AddFlags(flags []string, taskId int) error {
+
+	for _, v := range flags {
+		var id int
+		flagIdFromDb := t.db.Table(fmt.Sprintf(`%s f`, new(model.Task).FlagTableName())).
+			Select(`f.id`).
+			Where(`f.code = ?`, v).
+			Row()
+		err := flagIdFromDb.Scan(&id)
+		if err != nil {
+			return err
+		}
+
+		flag := model.FlagsForTasks{Flag: entity.Flag{
+			TaskId: taskId,
+			FlagId: id,
+		}}
+		err = t.db.Create(&flag).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func NewDaoTask(db *gorm.DB) dao.Task {

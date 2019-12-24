@@ -21,6 +21,7 @@ type ArgAddTask struct {
 	ParentId         int
 	ExpectedLeadTime float64
 	DifficultyLevel  int64
+	Flags            []string
 }
 
 type ArgGet struct {
@@ -32,7 +33,7 @@ type Data struct {
 }
 
 func (t *Task) AddTask(arg ArgAddTask) error {
-	return t.taskDAO.AddTask(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel)
+	return t.taskDAO.AddTask(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags)
 }
 
 func (t *Task) GetTaskByStaffId(arg ArgGet) ([]Data, error) {
