@@ -14,4 +14,5 @@ type GetTasksResponse struct {
 	DifficultyLevel  int64     `json:",omitempty"`
 	StartedAt        time.Time `gorm:"column:started_at"`
 	FinishedAt       time.Time `gorm:"column:finished_at"`
+	Flags            []string  `json:",omitempty"`
 }

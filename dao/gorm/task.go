@@ -30,6 +30,7 @@ func (t Task) GetTasksByStaffId(
 		Select(`staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at`).
 		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
 		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
+		Joins("").
 		Where(`staff_task.staff_id = ?`, staffId).
 		Rows()
 
@@ -43,6 +44,11 @@ func (t Task) GetTasksByStaffId(
 		if err != nil {
 			return nil, err
 		}
+		flags, err := t.GetFlagsByTask(task.Id)
+		if err != nil {
+			return nil, err
+		}
+		task.Flags = flags
 		tasks = append(tasks, task)
 	}
 
@@ -76,6 +82,10 @@ func (t Task) GetTasksLastUpdate(
 			return nil, err
 		}
 
+		flags, err := t.GetFlagsByTask(task.Id)
+		if err != nil {
+			return nil, err
+		}
 		var taskEntity = entity.GetTasksResponse{
 			Id:               task.Id,
 			ParentId:         task.ParentId,
@@ -85,6 +95,7 @@ func (t Task) GetTasksLastUpdate(
 			DifficultyLevel:  task.DifficultyLevel.Int64,
 			StartedAt:        task.StartedAt,
 			FinishedAt:       task.FinishedAt,
+			Flags:            flags,
 		}
 
 		tasks = append(tasks, taskEntity)
@@ -119,6 +130,11 @@ func (t Task) GetTasksLastUpdateForBoss(
 			return nil, err
 		}
 
+		flags, err := t.GetFlagsByTask(task.Id)
+		if err != nil {
+			return nil, err
+		}
+
 		var taskEntity = entity.GetTasksResponse{
 			Id:               task.Id,
 			StaffId:          task.StaffId.Int64,
@@ -129,6 +145,7 @@ func (t Task) GetTasksLastUpdateForBoss(
 			DifficultyLevel:  task.DifficultyLevel.Int64,
 			StartedAt:        task.StartedAt,
 			FinishedAt:       task.FinishedAt,
+			Flags:            flags,
 		}
 
 		tasks = append(tasks, taskEntity)
@@ -182,7 +199,7 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		return err
 	}
 
-	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesName())).
+	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesTableName())).
 		Select(`task_state_change.state_to_id as new_state`).
 		Where(`task_state_change.type_id = ? and task_state_change.state_from_id = ? and task_state_change.state_to_id = ?`,
 			task.TypeId, task.StateId, stateTo).SubQuery()
@@ -303,9 +320,34 @@ func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
 
 	//update tasks.awaiting_tasks set state_id = 2 where task_id = 38
 	return t.db.
-		Table(fmt.Sprintf(`%s awaiting_tasks`, new(model.Task).AwaitingTasksName())).
+		Table(fmt.Sprintf(`%s awaiting_tasks`, new(model.Task).AwaitingTasksTableName())).
 		Where(`awaiting_tasks.task_id = ?`, taskId).
 		Updates(map[string]interface{}{"state_id": 2, "updated_at": time.Now()}).Error
+}
+
+func (t Task) GetFlagsByTask(taskId int) ([]string, error) {
+	var flags []string
+
+	flagsFromDb, err := t.db.Table(fmt.Sprintf(`%s tf`, new(model.Task).FlagsTableName())).
+		Select(`f.code`).
+		Joins("join tasks.flags f on (tf.flag_id = f.id)").
+		Where(`tf.task_id = ?`, taskId).
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for flagsFromDb.Next() {
+		var flag string
+		err := flagsFromDb.Scan(&flag)
+		if err != nil {
+			return nil, err
+		}
+		flags = append(flags, flag)
+	}
+
+	return flags, nil
 }
 
 func NewDaoTask(db *gorm.DB) dao.Task {

@@ -27,4 +27,5 @@ type Task struct {
 	DeletedAt        *time.Time `json:",omitempty"`
 	ExpectedLeadTime float64    `json:",omitempty"`
 	DifficultyLevel  int64      `json:",omitempty"`
+	Flags            []string   `json:",omitempty"`
 }
