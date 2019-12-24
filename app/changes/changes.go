@@ -140,6 +140,7 @@ type ArgAddTaskWithAutomaticStaffSelection struct {
 	TypeId           int `valid:"required"`
 	ExpectedLeadTime float64
 	DifficultyLevel  int64
+	Flags            []string
 	UpdateTime       time.Time `valid:"required"`
 }
 
@@ -162,7 +163,7 @@ func (c *Changes) UpdateTaskStatusByStaff(arg ArgUpdateTaskStatus) error {
 }
 
 func (c *Changes) AddTaskWithAutomaticStaffSelection(arg ArgAddTaskWithAutomaticStaffSelection) error {
-	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel)
+	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags)
 }
 
 func (c *Changes) UpdateAwaitingTaskToActive(arg ArgUpdateAwaitingTaskToActive) error {

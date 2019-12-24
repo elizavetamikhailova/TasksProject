@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dao/gorm/model/flagsForTasks.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/Flag.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/changes/changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/changes/changes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/task/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/task/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/model/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/model/task.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/Task.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Task.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +107,8 @@
     <MESSAGE value="lil fix" />
     <MESSAGE value="Added method for updating the status of the task from awating to active with verification" />
     <MESSAGE value="Added flag output for tasks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added flag output for tasks" />
+    <MESSAGE value="Added flag adding to task" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added flag adding to task" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -126,10 +122,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1576312489556" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1577187016067">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1577189295878">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1577187016067" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1577189295878" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1575823121070">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -142,10 +138,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799835737" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577187025837">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577189299790">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1577187025837" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1577189299790" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1576415381597">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
