@@ -2,7 +2,7 @@ package model
 
 import (
 	"database/sql"
-	"time"
+	"github.com/go-sql-driver/mysql"
 )
 
 type GetTasksResponse struct {
@@ -13,6 +13,6 @@ type GetTasksResponse struct {
 	StateCode        string
 	ExpectedLeadTime sql.NullFloat64 `json:",omitempty"`
 	DifficultyLevel  sql.NullInt64   `json:",omitempty"`
-	StartedAt        time.Time
-	FinishedAt       time.Time
+	StartedAt        mysql.NullTime  `json:",omitempty"`
+	FinishedAt       mysql.NullTime  `json:",omitempty"`
 }

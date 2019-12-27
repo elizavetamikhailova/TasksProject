@@ -93,9 +93,18 @@ func (t Task) GetTasksLastUpdate(
 			StateCode:        task.StateCode,
 			ExpectedLeadTime: task.ExpectedLeadTime.Float64,
 			DifficultyLevel:  task.DifficultyLevel.Int64,
-			StartedAt:        task.StartedAt,
-			FinishedAt:       task.FinishedAt,
+			StartedAt:        task.StartedAt.Time,
+			FinishedAt:       task.FinishedAt.Time,
 			Flags:            flags,
+		}
+
+		switch taskEntity.TypeCode {
+		case "FILL_TASK_FORM":
+			taskEntity.Content, err = t.GetTasksForms(taskEntity.Id)
+		}
+
+		if err != nil {
+			return nil, err
 		}
 
 		tasks = append(tasks, taskEntity)
@@ -143,8 +152,8 @@ func (t Task) GetTasksLastUpdateForBoss(
 			StateCode:        task.StateCode,
 			ExpectedLeadTime: task.ExpectedLeadTime.Float64,
 			DifficultyLevel:  task.DifficultyLevel.Int64,
-			StartedAt:        task.StartedAt,
-			FinishedAt:       task.FinishedAt,
+			StartedAt:        task.StartedAt.Time,
+			FinishedAt:       task.FinishedAt.Time,
 			Flags:            flags,
 		}
 
