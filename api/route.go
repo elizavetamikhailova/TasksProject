@@ -2,11 +2,9 @@ package api
 
 import (
 	changesApi "github.com/elizavetamikhailova/TasksProject/api/changes"
-	formApi "github.com/elizavetamikhailova/TasksProject/api/forms"
 	staffApi "github.com/elizavetamikhailova/TasksProject/api/staff"
 	taskApi "github.com/elizavetamikhailova/TasksProject/api/task"
 	"github.com/elizavetamikhailova/TasksProject/app/changes"
-	"github.com/elizavetamikhailova/TasksProject/app/forms"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
 	"github.com/elizavetamikhailova/TasksProject/app/task"
 	"github.com/julienschmidt/httprouter"
@@ -29,13 +27,6 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 	taskApi1 := taskApi.Task{}
 	if err := dig.Invoke(func(op task.Task) {
 		taskApi1 = taskApi.NewApiTask(op)
-	}); err != nil {
-		panic(err)
-	}
-
-	formApi1 := formApi.Form{}
-	if err := dig.Invoke(func(op forms.Form) {
-		formApi1 = formApi.NewApiForm(op)
 	}); err != nil {
 		panic(err)
 	}
@@ -63,7 +54,7 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.POST("/task/UpdateAwaitingTaskToActive", changesApi1.UpdateAwaitingTaskToActive)
 
-	router.POST("/form/InsertAnswers", formApi1.InsertAnswers)
+	router.POST("/form/InsertAnswers", changesApi1.InsertAnswers)
 
 	return router
 }

@@ -10,13 +10,15 @@ type Changes struct {
 	staffDAO        dao.Staff
 	taskDAO         dao.Task
 	awaitingTaskDAO dao.AwaitingTask
+	AnswersDAO      dao.StaffAnswers
 }
 
-func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, awaitingTaskDAO dao.AwaitingTask) Changes {
+func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, awaitingTaskDAO dao.AwaitingTask, answersDAO dao.StaffAnswers) Changes {
 	return Changes{
 		staffDAO:        staffDAO,
 		taskDAO:         taskDAO,
 		awaitingTaskDAO: awaitingTaskDAO,
+		AnswersDAO:      answersDAO,
 	}
 }
 
@@ -168,4 +170,15 @@ func (c *Changes) AddTaskWithAutomaticStaffSelection(arg ArgAddTaskWithAutomatic
 
 func (c *Changes) UpdateAwaitingTaskToActive(arg ArgUpdateAwaitingTaskToActive) error {
 	return c.taskDAO.UpdateAwaitingTaskToActive(arg.TaskId, arg.StaffId)
+}
+
+type ArgInsertAnswers struct {
+	FormId       int       `valid:"required"`
+	QuestionCode []string  `valid:"required"`
+	StaffId      int       `valid:"required"`
+	UpdateTime   time.Time `valid:"required"`
+}
+
+func (c *Changes) Insert(arg ArgInsertAnswers) error {
+	return c.AnswersDAO.InsertStaffAnswers(arg.FormId, arg.QuestionCode)
 }
