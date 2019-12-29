@@ -52,7 +52,7 @@ func (t Task) GetTasksForms(taskId int) (*entity.TaskForm, error) {
 	return &taskForm, nil
 }
 
-func (t TaskForm) InsertStaffAnswers(formId int, questionCode []string) error {
+func (t TaskForm) InsertStaffAnswers(formId int, questionCode []string, taskId int) error {
 	for _, v := range questionCode {
 		staffAnswer := model.StaffAnswers{StaffAnswers: entity.StaffAnswers{
 			FormId:       formId,
@@ -67,7 +67,11 @@ func (t TaskForm) InsertStaffAnswers(formId int, questionCode []string) error {
 		}
 	}
 
-	return nil
+	return t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Where(`staff_task.id = ?`, taskId).
+		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": 3}).Error
+
 }
 
 func NewDaoForm(db *gorm.DB) dao.StaffAnswers {
