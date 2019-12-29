@@ -2,9 +2,16 @@ package gorm
 
 import (
 	"fmt"
+	"github.com/elizavetamikhailova/TasksProject/dao"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
 	"github.com/elizavetamikhailova/TasksProject/entity"
+	"github.com/jinzhu/gorm"
+	"time"
 )
+
+type TaskForm struct {
+	db *gorm.DB
+}
 
 func (t Task) GetTasksForms(taskId int) (*entity.TaskForm, error) {
 	var taskForm entity.TaskForm
@@ -43,4 +50,28 @@ func (t Task) GetTasksForms(taskId int) (*entity.TaskForm, error) {
 	taskForm.FormQuestions = questions
 
 	return &taskForm, nil
+}
+
+func (t TaskForm) InsertStaffAnswers(formId int, questionCode []string) error {
+	for _, v := range questionCode {
+		staffAnswer := model.StaffAnswers{StaffAnswers: entity.StaffAnswers{
+			FormId:       formId,
+			QuestionCode: v,
+			CreatedAt:    time.Time{},
+			UpdatedAt:    time.Time{},
+		}}
+
+		err := t.db.Create(&staffAnswer).Scan(&staffAnswer).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func NewDaoForm(db *gorm.DB) dao.StaffAnswers {
+	return &TaskForm{
+		db: db,
+	}
 }

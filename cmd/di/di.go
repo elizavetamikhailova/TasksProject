@@ -3,6 +3,7 @@ package di
 import (
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/app/changes"
+	"github.com/elizavetamikhailova/TasksProject/app/forms"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
 	"github.com/elizavetamikhailova/TasksProject/app/task"
 	"github.com/elizavetamikhailova/TasksProject/configs"
@@ -39,6 +40,9 @@ func GetDI(cfg configs.Config) *dig.Container {
 	di.Provide(changes.NewAppChanges)
 
 	di.Provide(dao.NewDaoAwaitingTask)
+
+	di.Provide(dao.NewDaoForm)
+	di.Provide(forms.NewAppStaffAnswers)
 
 	return di
 }

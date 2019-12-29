@@ -49,6 +49,16 @@ func (t Task) GetTasksByStaffId(
 			return nil, err
 		}
 		task.Flags = flags
+
+		switch task.TypeCode {
+		case "FILL_TASK_FORM":
+			task.Content, err = t.GetTasksForms(task.Id)
+		}
+
+		if err != nil {
+			return nil, err
+		}
+
 		tasks = append(tasks, task)
 	}
 
@@ -155,6 +165,15 @@ func (t Task) GetTasksLastUpdateForBoss(
 			StartedAt:        task.StartedAt.Time,
 			FinishedAt:       task.FinishedAt.Time,
 			Flags:            flags,
+		}
+
+		switch taskEntity.TypeCode {
+		case "FILL_TASK_FORM":
+			taskEntity.Content, err = t.GetTasksForms(taskEntity.Id)
+		}
+
+		if err != nil {
+			return nil, err
 		}
 
 		tasks = append(tasks, taskEntity)
