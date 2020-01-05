@@ -131,6 +131,17 @@ type ArgAddTaskForStaff struct {
 	UpdateTime       time.Time `valid:"required"`
 }
 
+type ArgAddTaskWithContent struct {
+	TypeId           int `valid:"required"`
+	StaffId          int `valid:"required"`
+	ParentId         int `json:",omitempty"`
+	ExpectedLeadTime float64
+	DifficultyLevel  int64
+	Flags            []string
+	UpdateTime       time.Time `valid:"required"`
+	Content          interface{}
+}
+
 type ArgUpdateTaskStatus struct {
 	StaffId    int       `valid:"required"`
 	TaskId     int       `valid:"required"`
@@ -158,6 +169,23 @@ func (c *Changes) UpdateTaskExpectedLeadTime(arg ArgUpdateTaskLeadTime) error {
 
 func (c *Changes) AddTaskForStaff(arg ArgAddTaskForStaff) error {
 	return c.taskDAO.AddTask(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags)
+}
+
+func (c *Changes) AddTaskWithContent(arg ArgAddTaskWithContent) error {
+	var content interface{}
+	switch arg.TypeId {
+	case 6:
+		{
+			var jsonContent = arg.Content.(map[string]interface{})
+			newContent := entity.TaskContent{
+				Text:    jsonContent["Text"].(string),
+				Title:   jsonContent["Title"].(string),
+				Address: jsonContent["Address"].(string),
+			}
+			content = newContent
+		}
+	}
+	return c.taskDAO.AddTaskWithContent(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)
 }
 
 func (c *Changes) UpdateTaskStatusByStaff(arg ArgUpdateTaskStatus) error {

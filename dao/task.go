@@ -14,6 +14,14 @@ type Task interface {
 		flags []string,
 	) error
 
+	AddTaskWithContent(typeId int,
+		staffId int,
+		parentId int,
+		expectedLeadTime float64,
+		difficultyLevel int64,
+		flags []string,
+		content interface{}) error
+
 	GetTasksByStaffId(
 		staffId int,
 	) ([]entity.GetTasksResponse, error)

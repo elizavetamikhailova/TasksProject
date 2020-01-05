@@ -48,6 +48,8 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 	router.POST("/task/updateLeadTime", changesApi1.UpdateTaskLeadTime)
 	router.POST("/task/AddTaskForStaff", changesApi1.AddTaskForStaff)
 
+	router.POST("/task/AddTaskWithContent", changesApi1.AddTaskWithContent)
+
 	router.POST("/task/UpdateTaskStatusByStaff", changesApi1.UpdateTaskStatus)
 
 	router.POST("/task/AddTaskWithAutomaticStaffSelection", changesApi1.AddTaskWithAutomaticStaffSelection)

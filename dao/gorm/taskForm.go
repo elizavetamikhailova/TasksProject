@@ -1,6 +1,7 @@
 package gorm
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/dao"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
@@ -25,6 +26,9 @@ func (t Task) GetTasksForms(taskId int) (*entity.TaskForm, error) {
 	err := taskFormFromDb.Scan(&taskForm.TaskId, &taskForm.GroupCode, &taskForm.GroupTitle, &taskForm.Id, &taskForm.GroupId)
 
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
 		return nil, err
 	}
 

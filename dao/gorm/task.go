@@ -53,6 +53,8 @@ func (t Task) GetTasksByStaffId(
 		switch task.TypeCode {
 		case "FILL_TASK_FORM":
 			task.Content, err = t.GetTasksForms(task.Id)
+		case "TASK":
+			task.Content, err = t.GetTaskContent(task.Id)
 		}
 
 		if err != nil {
@@ -111,6 +113,8 @@ func (t Task) GetTasksLastUpdate(
 		switch taskEntity.TypeCode {
 		case "FILL_TASK_FORM":
 			taskEntity.Content, err = t.GetTasksForms(taskEntity.Id)
+		case "TASK":
+			taskEntity.Content, err = t.GetTaskContent(task.Id)
 		}
 
 		if err != nil {
@@ -170,6 +174,8 @@ func (t Task) GetTasksLastUpdateForBoss(
 		switch taskEntity.TypeCode {
 		case "FILL_TASK_FORM":
 			taskEntity.Content, err = t.GetTasksForms(taskEntity.Id)
+		case "TASK":
+			taskEntity.Content, err = t.GetTaskContent(task.Id)
 		}
 
 		if err != nil {
@@ -204,6 +210,44 @@ func (t Task) AddTask(typeId int, staffId int, parentId int, expectedLeadTime fl
 
 	if err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expectedLeadTime float64,
+	difficultyLevel int64, flags []string, content interface{}) error {
+	task := model.Task{Task: entity.Task{
+		TypeId:           typeId,
+		StaffId:          staffId,
+		ParentId:         parentId,
+		StateId:          1,
+		ExpectedLeadTime: expectedLeadTime,
+		DifficultyLevel:  difficultyLevel,
+		CreatedAt:        time.Time{},
+	}}
+
+	d := t.db.Create(&task).Scan(&task)
+
+	if d.Error != nil {
+		return d.Error
+	}
+
+	err := t.AddFlags(flags, task.Id)
+
+	if err != nil {
+		return err
+	}
+
+	switch task.TypeId {
+	case 6:
+		{
+			var newContent = content.(entity.TaskContent)
+			err = t.AddTaskContent(task.Id, newContent.Text, newContent.Title, newContent.Address)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
