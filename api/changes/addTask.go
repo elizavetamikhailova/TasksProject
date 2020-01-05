@@ -117,8 +117,7 @@ func (c *Changes) AddTaskWithContent(w http.ResponseWriter, r *http.Request, ps 
 		return
 	}
 
-	changes1, err := c.op.GetChanges(changes.ArgGetChanges{
-		StaffId:    post.StaffId,
+	changes1, err := c.op.GetChangesForBoss(changes.ArgGetChangesForBoss{
 		UpdateTime: post.UpdateTime,
 	})
 
