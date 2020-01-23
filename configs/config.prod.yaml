@@ -1,6 +1,6 @@
 db:
-  host:     localhost
-  db:       default
+  host:     postgres
+  db:     default
   name:     default
   user:     default
   password: secret

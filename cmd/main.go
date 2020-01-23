@@ -10,7 +10,7 @@ import (
 
 func main() {
 	cfg := configs.Config{}
-	if err := configor.Load(&cfg, "configs/config.yaml"); err != nil {
+	if err := configor.Load(&cfg, "configs/config.prod1.yaml", "configs/config.yaml"); err != nil {
 		panic(err)
 	}
 	container := di.GetDI(cfg)

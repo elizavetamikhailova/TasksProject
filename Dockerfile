@@ -5,7 +5,7 @@ ADD . /TaskProject
 WORKDIR /TaskProject
 
 ENV GO111MODULE=on
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=vendor -x utkonos.ru/TaskProject/cmd/TaskProject
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./build/app -x github.com/elizavetamikhailova/TasksProject/cmd
 
 RUN ls
 
@@ -18,6 +18,6 @@ RUN apk add --no-cache --update ca-certificates tzdata \
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 ADD configs /root/configs
-ADD data /root/data
-COPY --from=0 /TaskProject/TaskProject .
-CMD ["/root/TaskProject"]
+# ADD data /root/data
+COPY --from=0 /TaskProject/build/app .
+CMD ["/root/app"]
