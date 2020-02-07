@@ -38,7 +38,7 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 		panic(err)
 	}
 
-	router.POST("/staff/add", staffApi1.Add)
+	router.POST("/staff/add", changesApi1.AddStaff)
 
 	router.POST("/task/addTask", taskApi1.AddTask)
 	router.POST("/task/getTasks", taskApi1.GetTaskById)

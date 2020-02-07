@@ -235,3 +235,14 @@ type ArgInsertAnswers struct {
 func (c *Changes) Insert(arg ArgInsertAnswers) error {
 	return c.AnswersDAO.InsertStaffAnswers(arg.FormId, arg.QuestionCode, arg.TaskId)
 }
+
+type ArgAddStaff struct {
+	Login      string    `valid:"required"`
+	Phone      string    `valid:"required"`
+	PassMd5    string    `valid:"required"`
+	UpdateTime time.Time `valid:"required"`
+}
+
+func (c *Changes) AddStaff(arg ArgAddStaff) error {
+	return c.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
+}
