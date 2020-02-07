@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/changes/updateTask.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/changes/updateTask.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/changes/changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/changes/changes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/model/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/model/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Changes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/ChangesForBoss.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/ChangesForBoss.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +101,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added method to get tasks by id" />
     <MESSAGE value="the method for receiving tasks has been changed, a new entity &quot;GetTasksResponse&quot; has been added" />
     <MESSAGE value="added method to get changes by update time&#10;added method to get tasks by id and update time&#10;added method to get staff by id and update time" />
     <MESSAGE value="added annotation that removes null entity fields from the answer" />
@@ -129,7 +125,8 @@
     <MESSAGE value="Dockerfile added" />
     <MESSAGE value="adding files for remote work on the server" />
     <MESSAGE value="added changes for boss" />
-    <option name="LAST_COMMIT_MESSAGE" value="added changes for boss" />
+    <MESSAGE value="added updateTaskStatus for boss" />
+    <option name="LAST_COMMIT_MESSAGE" value="added updateTaskStatus for boss" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -144,10 +141,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1579767831639" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581063910231">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581068832572">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1581063910231" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1581068832572" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1579768628679">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -176,10 +173,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1578234331892" />
-    <state x="641" y="288" width="863" height="606" key="find.popup" timestamp="1579768103730">
+    <state x="641" y="288" width="863" height="606" key="find.popup" timestamp="1581069149066">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="641" y="288" width="863" height="606" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1579768103730" />
+    <state x="641" y="288" width="863" height="606" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1581069149066" />
     <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1577464606964">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

@@ -81,6 +81,7 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 			Staff:         staff,
 			Tasks:         tud,
 			AwaitingTasks: tud1,
+			UpdateTime:    time.Now(),
 		},
 	}
 
@@ -108,8 +109,9 @@ func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*DataForBoss, err
 
 	data := &DataForBoss{
 		entity.ChangesForBoss{
-			Staff: staff,
-			Tasks: tud,
+			Staff:      staff,
+			Tasks:      tud,
+			UpdateTime: time.Now(),
 		},
 	}
 
