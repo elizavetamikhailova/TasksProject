@@ -196,6 +196,10 @@ func (c *Changes) UpdateTaskStatusByStaff(arg ArgUpdateTaskStatus) error {
 	return c.taskDAO.UpdateTaskStatus(arg.TaskId, arg.StateTo)
 }
 
+func (c *Changes) UpdateTaskStatusByBoss(arg ArgUpdateTaskStatus) error {
+	return c.taskDAO.UpdateTaskStatusByBoss(arg.TaskId, arg.StateTo)
+}
+
 func (c *Changes) AddTaskWithAutomaticStaffSelection(arg ArgAddTaskWithAutomaticStaffSelection) error {
 	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags)
 }

@@ -14,6 +14,10 @@ func (Task) StateChangesTableName() string {
 	return "tasks.task_state_change"
 }
 
+func (Task) StateChangesForBossTableName() string {
+	return "tasks.task_state_change_for_boss"
+}
+
 func (Task) AwaitingTasksTableName() string {
 	return "tasks.awaiting_tasks"
 }

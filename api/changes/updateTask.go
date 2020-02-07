@@ -82,6 +82,30 @@ func (c *Changes) UpdateTaskLeadTime(w http.ResponseWriter, r *http.Request, ps 
 	w.Write(jData)
 }
 
+func (c *Changes) UpdateTaskLeadTimeForBoss(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := ValidationUpdateLeadTime(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+
+	if err = c.op.UpdateTaskExpectedLeadTime(post); err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+
+	changes1, err := c.op.GetChangesForBoss(changes.ArgGetChangesForBoss{
+		UpdateTime: post.UpdateTime,
+	})
+
+	jData, err := json.Marshal(changes1)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	w.Write(jData)
+}
+
 func (c *Changes) UpdateTaskStatus(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	post, err := ValidationUpdateTaskStatus(r.Body)
 	if err != nil {
@@ -100,6 +124,34 @@ func (c *Changes) UpdateTaskStatus(w http.ResponseWriter, r *http.Request, ps ht
 
 	changes1, err := c.op.GetChanges(changes.ArgGetChanges{
 		StaffId:    post.StaffId,
+		UpdateTime: post.UpdateTime,
+	})
+
+	jData, err := json.Marshal(changes1)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	w.Write(jData)
+}
+
+func (c *Changes) UpdateTaskStatusByBoss(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := ValidationUpdateTaskStatus(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+
+	if err = c.op.UpdateTaskStatusByBoss(post); err != nil {
+		if err == sql.ErrNoRows {
+			errorcode.WriteError(errorcode.CodeTaskDoesNotExist, err.Error(), w)
+		} else {
+			errorcode.WriteError(errorcode.CodeUnableToChangeTaskStatus, err.Error(), w)
+		}
+		return
+	}
+
+	changes1, err := c.op.GetChangesForBoss(changes.ArgGetChangesForBoss{
 		UpdateTime: post.UpdateTime,
 	})
 

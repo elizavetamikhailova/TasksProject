@@ -472,6 +472,34 @@ func NewDaoTask(db *gorm.DB) dao.Task {
 	}
 }
 
+func (t Task) UpdateTaskStatusByBoss(taskId int, stateTo int) error {
+	var task entity.Task
+
+	taskFromDB := t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Where(`staff_task.id = ?`, taskId).Row()
+
+	err := taskFromDB.Scan(&task.Id, &task.TypeId, &task.StaffId, &task.StateId, &task.ParentId,
+		&task.StartedAt, &task.FinishedAt, &task.CreatedAt, &task.UpdatedAt, &task.DeletedAt,
+		&task.ExpectedLeadTime, &task.DifficultyLevel)
+
+	println(task.Id, task.TypeId, task.StaffId, task.StateId, task.ParentId,
+		task.ExpectedLeadTime, task.DifficultyLevel)
+
+	if err != nil {
+		return err
+	}
+
+	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesForBossTableName())).
+		Select(`task_state_change.state_to_id as new_state`).
+		Where(`task_state_change.type_id = ? and task_state_change.state_from_id = ? and task_state_change.state_to_id = ?`,
+			task.TypeId, task.StateId, stateTo).SubQuery()
+	return t.db.
+		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
+		Where(`staff_task.id = ? and staff_task.type_id = ?`, taskId, task.TypeId).
+		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": subQuery}).Error
+}
+
 //5 исполнителей, у которых меньше всего заданий
 //select s.id, count(*) as amount from tasks.staff s join tasks.staff_task st
 //on (s.id = st.staff_id) where st.state_id = 1 or st.state_id = 2

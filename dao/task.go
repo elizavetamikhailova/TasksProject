@@ -44,4 +44,6 @@ type Task interface {
 	) ([]entity.GetTasksResponse, error)
 
 	UpdateAwaitingTaskToActive(taskId int, staffId int) error
+
+	UpdateTaskStatusByBoss(taskId int, stateTo int) error
 }
