@@ -38,24 +38,36 @@ func (s Staff) GetStaffLastUpdated(
 
 func (s Staff) GetStaffLastUpdatedForBoss(
 	updateTime time.Time,
-) (*entity.Staff, error) {
-	var staff entity.Staff
+) ([]entity.Staff, error) {
+	var staffList []entity.Staff
 
-	staffFromDb := s.db.
+	staffFromDb, err := s.db.
 		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
 		Where(`s.updated_at > ?`, updateTime).
-		Row()
+		Rows()
 
-	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
-		&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
 	if err != nil {
-		//if err == sql.ErrNoRows {
-		//	return nil, nil
-		//}
 		return nil, err
 	}
 
-	return &staff, nil
+	for staffFromDb.Next() {
+
+		var staff entity.Staff
+
+		err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
+			&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
+
+		if err != nil {
+			//if err == sql.ErrNoRows {
+			//	return nil, nil
+			//}
+			return nil, err
+		}
+
+		staffList = append(staffList, staff)
+	}
+
+	return staffList, nil
 }
 
 func (s Staff) Add(login string, phone string, passMd5 string) error {

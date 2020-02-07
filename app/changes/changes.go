@@ -35,6 +35,10 @@ type Data struct {
 	entity.Changes
 }
 
+type DataForBoss struct {
+	entity.ChangesForBoss
+}
+
 type TaskData struct {
 	entity.GetTasksResponse
 }
@@ -83,7 +87,7 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 	return data, nil
 }
 
-func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*Data, error) {
+func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*DataForBoss, error) {
 
 	staff, err := c.staffDAO.GetStaffLastUpdatedForBoss(arg.UpdateTime)
 	if err != nil {
@@ -102,8 +106,8 @@ func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*Data, error) {
 		tud[k] = v
 	}
 
-	data := &Data{
-		entity.Changes{
+	data := &DataForBoss{
+		entity.ChangesForBoss{
 			Staff: staff,
 			Tasks: tud,
 		},
