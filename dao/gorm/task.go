@@ -342,7 +342,7 @@ func (t *Task) AddAwaitingTask(taskId int, staffId int) error {
 }
 
 func (t Task) AddTaskWithoutStaff(typeId int, expectedLeadTime float64,
-	difficultyLevel int64, flags []string) (int, error) {
+	difficultyLevel int64, flags []string, content interface{}) (int, error) {
 
 	task := model.Task{Task: entity.Task{
 		TypeId:           typeId,
@@ -364,16 +364,27 @@ func (t Task) AddTaskWithoutStaff(typeId int, expectedLeadTime float64,
 		return 0, err
 	}
 
+	switch task.TypeId {
+	case 6:
+		{
+			var newContent = content.(entity.TaskContent)
+			err = t.AddTaskContent(task.Id, newContent.Text, newContent.Title, newContent.Address)
+			if err != nil {
+				return 0, err
+			}
+		}
+	}
+
 	return task.Id, nil
 }
 
-func (t Task) AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64, flags []string) error {
+func (t Task) AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64, flags []string, content interface{}) error {
 	staffWorkLoad, err := t.GetStaffWorkLoad()
 	if err != nil {
 		return err
 	}
 
-	id, err := t.AddTaskWithoutStaff(typeId, expectedLeadTime, difficultyLevel, flags)
+	id, err := t.AddTaskWithoutStaff(typeId, expectedLeadTime, difficultyLevel, flags, content)
 
 	if err != nil {
 		return err

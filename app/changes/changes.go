@@ -160,7 +160,8 @@ type ArgAddTaskWithAutomaticStaffSelection struct {
 	ExpectedLeadTime float64
 	DifficultyLevel  int64
 	Flags            []string
-	UpdateTime       time.Time `valid:"required"`
+	UpdateTime       time.Time   `valid:"required"`
+	Content          interface{} `json:",omitempty"`
 }
 
 type ArgUpdateAwaitingTaskToActive struct {
@@ -203,7 +204,20 @@ func (c *Changes) UpdateTaskStatusByBoss(arg ArgUpdateTaskStatus) error {
 }
 
 func (c *Changes) AddTaskWithAutomaticStaffSelection(arg ArgAddTaskWithAutomaticStaffSelection) error {
-	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags)
+	var content interface{}
+	switch arg.TypeId {
+	case 6:
+		{
+			var jsonContent = arg.Content.(map[string]interface{})
+			newContent := entity.TaskContent{
+				Text:    jsonContent["Text"].(string),
+				Title:   jsonContent["Title"].(string),
+				Address: jsonContent["Address"].(string),
+			}
+			content = newContent
+		}
+	}
+	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)
 }
 
 func (c *Changes) UpdateAwaitingTaskToActive(arg ArgUpdateAwaitingTaskToActive) error {
