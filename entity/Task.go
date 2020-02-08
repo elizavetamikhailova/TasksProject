@@ -18,6 +18,7 @@ type Task struct {
 	Id               int        `gorm:"column:id"`
 	TypeId           int        `gorm:"column:type_id"`
 	StaffId          int        `gorm:"column:staff_id"`
+	StaffLogin       string     `json:",omitempty"`
 	StateId          int        `gorm:"column:state_id"`
 	ParentId         int        `json:",omitempty"`
 	StartedAt        time.Time  `gorm:"column:started_at"`

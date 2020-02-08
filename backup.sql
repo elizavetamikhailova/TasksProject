@@ -123,7 +123,7 @@ CREATE FUNCTION tasks.check_for_done() RETURNS trigger
 declare count_id integer;
 declare new_id integer;
   begin
-    if new.state_id = 3
+    if new.state_id = 3 and (not new.type_id = 6)
       then 
         select count(st.id) from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1 into count_id;
       if count_id = 1 and (select st.id from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1) = new.id
@@ -706,6 +706,42 @@ CREATE TABLE tasks.task_state_change (
 ALTER TABLE tasks.task_state_change OWNER TO "default";
 
 --
+-- Name: task_state_change_for_boss; Type: TABLE; Schema: tasks; Owner: default
+--
+
+CREATE TABLE tasks.task_state_change_for_boss (
+    id integer NOT NULL,
+    type_id integer NOT NULL,
+    state_from_id integer NOT NULL,
+    state_to_id integer NOT NULL
+);
+
+
+ALTER TABLE tasks.task_state_change_for_boss OWNER TO "default";
+
+--
+-- Name: task_state_change_for_boss_id_seq; Type: SEQUENCE; Schema: tasks; Owner: default
+--
+
+CREATE SEQUENCE tasks.task_state_change_for_boss_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tasks.task_state_change_for_boss_id_seq OWNER TO "default";
+
+--
+-- Name: task_state_change_for_boss_id_seq; Type: SEQUENCE OWNED BY; Schema: tasks; Owner: default
+--
+
+ALTER SEQUENCE tasks.task_state_change_for_boss_id_seq OWNED BY tasks.task_state_change_for_boss.id;
+
+
+--
 -- Name: task_state_change_id_seq; Type: SEQUENCE; Schema: tasks; Owner: default
 --
 
@@ -931,6 +967,13 @@ ALTER TABLE ONLY tasks.task_state_change ALTER COLUMN id SET DEFAULT nextval('ta
 
 
 --
+-- Name: task_state_change_for_boss id; Type: DEFAULT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.task_state_change_for_boss ALTER COLUMN id SET DEFAULT nextval('tasks.task_state_change_for_boss_id_seq'::regclass);
+
+
+--
 -- Name: task_type id; Type: DEFAULT; Schema: tasks; Owner: default
 --
 
@@ -978,6 +1021,18 @@ COPY tasks.awaiting_tasks (id, task_id, staff_id, state_id, created_at, updated_
 35	50	1	1	2019-12-27 20:20:52.246261	2019-12-27 20:20:52.246261	\N
 36	50	4	1	2019-12-27 20:20:52.249825	2019-12-27 20:20:52.249825	\N
 37	50	3	1	2019-12-27 20:20:52.25196	2019-12-27 20:20:52.25196	\N
+38	115	1	1	2020-02-07 13:04:35.763189	2020-02-07 13:04:35.763189	\N
+39	115	3	1	2020-02-07 13:04:35.765446	2020-02-07 13:04:35.765446	\N
+40	115	4	1	2020-02-07 13:04:35.767058	2020-02-07 13:04:35.767058	\N
+41	116	1	1	2020-02-07 13:07:16.408576	2020-02-07 13:07:16.408576	\N
+42	116	3	1	2020-02-07 13:07:16.410087	2020-02-07 13:07:16.410087	\N
+43	116	4	1	2020-02-07 13:07:16.411281	2020-02-07 13:07:16.411281	\N
+44	117	1	1	2020-02-07 13:13:40.596893	2020-02-07 13:13:40.596893	\N
+45	117	3	1	2020-02-07 13:13:40.599254	2020-02-07 13:13:40.599254	\N
+46	117	4	1	2020-02-07 13:13:40.602568	2020-02-07 13:13:40.602568	\N
+47	118	1	1	2020-02-07 13:16:38.596844	2020-02-07 13:16:38.596844	\N
+48	118	3	1	2020-02-07 13:16:38.598442	2020-02-07 13:16:38.598442	\N
+49	118	4	1	2020-02-07 13:16:38.599673	2020-02-07 13:16:38.599673	\N
 \.
 
 
@@ -1029,6 +1084,8 @@ COPY tasks.staff (id, login, phone, pass_md5, created_at, updated_at, deleted_at
 1	Liza	89160525834	123123	2019-12-08 11:31:57.259851	2019-12-08 11:31:57.259851	0001-01-01 00:00:00	\N
 3	Ivan	89160525834	123123	2019-12-15 12:06:38.930063	2019-12-15 12:06:38.930063	0001-01-01 00:00:00	\N
 4	Alexey	89160525834	123123	2019-12-15 12:06:50.847941	2019-12-15 12:06:50.847941	0001-01-01 00:00:00	\N
+5	Merri	89160525834	123123	2020-02-07 13:27:01.795765	2020-02-07 13:27:01.795765	0001-01-01 00:00:00	\N
+6	Pin	89160525834	123123	2020-02-07 13:28:59.092183	2020-02-07 13:28:59.092183	0001-01-01 00:00:00	\N
 \.
 
 
@@ -1066,6 +1123,7 @@ COPY tasks.staff_form (id, staff_id, group_id, created_at, updated_at, deleted_a
 54	1	1	2020-01-05 11:26:12.030521	2020-01-05 11:26:12.030521	\N	99
 55	1	2	2020-01-05 11:40:47.418501	2020-01-05 11:40:47.418501	\N	101
 56	1	2	2020-01-05 11:40:47.418501	2020-01-05 11:40:47.418501	\N	102
+57	1	1	2020-02-07 11:11:33.054485	2020-02-07 11:11:33.054485	\N	121
 \.
 
 
@@ -1082,12 +1140,7 @@ COPY tasks.staff_session (id, device_code, session_key, auth_token, original_pas
 --
 
 COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, finished_at, created_at, updated_at, deleted_at, difficulty_level, expected_lead_time) FROM stdin;
-111	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:29:38.714363	2020-01-05 17:29:38.714363	\N	6	5
-112	6	3	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:39:06.093371	2020-01-05 17:39:06.093371	\N	6	5
-113	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:46:25.349114	2020-01-05 17:46:25.349114	\N	6	5
 20	1	3	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2019-12-15 12:10:52.580465	2019-12-15 12:10:52.580465	0001-01-01 00:00:00	4	1
-107	6	3	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:17:19.461108	2020-01-05 17:17:19.461108	\N	6	5
-108	6	3	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:17:48.976138	2020-01-05 17:17:48.976138	\N	6	5
 41	1	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2019-12-24 15:17:20.879937	2019-12-24 15:17:20.879937	\N	2	4
 42	1	3	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2019-12-24 15:20:14.127922	2019-12-24 15:20:14.127922	\N	6	5
 17	3	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2019-12-14 22:40:00.756795	2019-12-14 22:40:00.756795	0001-01-01 00:00:00	0	3
@@ -1113,6 +1166,15 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 100	2	1	2	13	2019-12-25 12:04:20.638603	0001-01-01 00:00:00	2019-12-14 14:35:04.379662	2019-12-25 10:16:23	0001-01-01 00:00:00	1	2
 101	5	1	2	13	\N	\N	2020-01-05 11:40:47.418501	2020-01-05 11:40:47.418501	\N	0	0
 13	2	1	2	0	2019-12-25 12:04:20.638603	0001-01-01 00:00:00	2019-12-14 14:35:04.379662	2020-01-05 14:48:34.691434	0001-01-01 00:00:00	1	2
+111	6	1	3	0	2020-02-07 12:27:33.090104	0001-01-01 00:00:00	2020-01-05 17:29:38.714363	2020-02-07 12:33:43.17714	\N	6	5
+112	6	3	6	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:39:06.093371	2020-02-07 12:41:50.798604	\N	6	5
+115	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-07 13:04:35.754088	2020-02-07 13:04:35.754088	\N	2	1
+116	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-07 13:07:16.401294	2020-02-07 13:07:16.401294	\N	2	1
+117	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-07 13:13:40.589164	2020-02-07 13:13:40.589164	\N	2	1
+118	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-07 13:16:38.584047	2020-02-07 13:16:38.584047	\N	2	1
+113	6	1	3	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:46:25.349114	2020-01-05 17:46:25.349114	\N	6	5
+121	5	1	1	120	\N	\N	2020-02-07 11:11:33.054485	2020-02-07 11:11:33.054485	\N	0	0
+120	3	1	3	113	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-07 13:16:38	2020-02-07 14:11:33.054374	\N	1	1
 \.
 
 
@@ -1124,6 +1186,10 @@ COPY tasks.task_content (id, text, title, address, task_id) FROM stdin;
 1	First task with content lalalalalalalallalalalalallala	First task	Laplndia	111
 2	Second task with content lalalalalalalallalalalalallala	Second task	Laplndia	112
 3	Task with content lalalalalalalallalalalalallala	Task	Laplndia	113
+4	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	115
+5	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	116
+6	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	117
+7	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	118
 \.
 
 
@@ -1140,8 +1206,6 @@ COPY tasks.task_incident (id, inicident_id, created_at, updated_at, deleted_at) 
 --
 
 COPY tasks.task_state_change (id, type_id, state_from_id, state_to_id) FROM stdin;
-1	2	1	2
-2	2	2	3
 3	1	1	2
 4	1	2	3
 6	1	2	5
@@ -1152,6 +1216,30 @@ COPY tasks.task_state_change (id, type_id, state_from_id, state_to_id) FROM stdi
 11	1	5	2
 13	2	5	2
 14	2	2	5
+15	6	1	2
+16	6	2	3
+17	6	2	5
+18	6	5	2
+19	6	5	1
+1	2	1	3
+\.
+
+
+--
+-- Data for Name: task_state_change_for_boss; Type: TABLE DATA; Schema: tasks; Owner: default
+--
+
+COPY tasks.task_state_change_for_boss (id, type_id, state_from_id, state_to_id) FROM stdin;
+1	1	1	4
+2	1	1	6
+3	1	5	4
+4	1	5	6
+5	6	1	4
+6	6	1	6
+7	6	5	4
+8	6	5	6
+9	1	2	3
+10	6	2	3
 \.
 
 
@@ -1178,11 +1266,13 @@ COPY tasks.tasks_flags (id, task_id, flag_id) FROM stdin;
 3	41	1
 4	42	1
 5	50	1
-10	107	1
-11	108	1
 14	111	1
 15	112	1
 16	113	1
+18	115	1
+19	116	1
+20	117	1
+21	118	1
 \.
 
 
@@ -1212,7 +1302,7 @@ SELECT pg_catalog.setval('tasks.awaiting_task_state_id_seq', 2, true);
 -- Name: awaiting_tasks_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 37, true);
+SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 49, true);
 
 
 --
@@ -1247,14 +1337,14 @@ SELECT pg_catalog.setval('tasks.staff_answers_id_seq', 9, true);
 -- Name: staff_form_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_form_id_seq', 56, true);
+SELECT pg_catalog.setval('tasks.staff_form_id_seq', 57, true);
 
 
 --
 -- Name: staff_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_id_seq', 4, true);
+SELECT pg_catalog.setval('tasks.staff_id_seq', 6, true);
 
 
 --
@@ -1268,14 +1358,14 @@ SELECT pg_catalog.setval('tasks.staff_session_id_seq', 1, false);
 -- Name: staff_task_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_task_id_seq', 113, true);
+SELECT pg_catalog.setval('tasks.staff_task_id_seq', 121, true);
 
 
 --
 -- Name: task_content_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.task_content_id_seq', 3, true);
+SELECT pg_catalog.setval('tasks.task_content_id_seq', 7, true);
 
 
 --
@@ -1286,10 +1376,17 @@ SELECT pg_catalog.setval('tasks.task_incident_id_seq', 1, false);
 
 
 --
+-- Name: task_state_change_for_boss_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
+--
+
+SELECT pg_catalog.setval('tasks.task_state_change_for_boss_id_seq', 9, true);
+
+
+--
 -- Name: task_state_change_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.task_state_change_id_seq', 4, true);
+SELECT pg_catalog.setval('tasks.task_state_change_id_seq', 5, true);
 
 
 --
@@ -1303,7 +1400,7 @@ SELECT pg_catalog.setval('tasks.task_type_id_seq', 3, true);
 -- Name: tasks_flags_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 16, true);
+SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 21, true);
 
 
 --
@@ -1530,13 +1627,6 @@ CREATE TRIGGER check_for_delay_sub_tasks BEFORE UPDATE ON tasks.staff_task FOR E
 
 
 --
--- Name: staff_task check_for_done; Type: TRIGGER; Schema: tasks; Owner: default
---
-
-CREATE TRIGGER check_for_done BEFORE UPDATE ON tasks.staff_task FOR EACH ROW EXECUTE FUNCTION tasks.check_for_done();
-
-
---
 -- Name: staff_task check_for_lateness; Type: TRIGGER; Schema: tasks; Owner: default
 --
 
@@ -1668,6 +1758,30 @@ ALTER TABLE ONLY tasks.staff_form
 
 ALTER TABLE ONLY tasks.task_content
     ADD CONSTRAINT task_content_fk FOREIGN KEY (task_id) REFERENCES tasks.staff_task(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: task_state_change_for_boss task_state_change_for_boss_fk; Type: FK CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.task_state_change_for_boss
+    ADD CONSTRAINT task_state_change_for_boss_fk FOREIGN KEY (type_id) REFERENCES tasks.task_type(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: task_state_change_for_boss task_state_change_for_boss_fk_1; Type: FK CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.task_state_change_for_boss
+    ADD CONSTRAINT task_state_change_for_boss_fk_1 FOREIGN KEY (state_from_id) REFERENCES tasks.tasks_state(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: task_state_change_for_boss task_state_change_for_boss_fk_2; Type: FK CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.task_state_change_for_boss
+    ADD CONSTRAINT task_state_change_for_boss_fk_2 FOREIGN KEY (state_to_id) REFERENCES tasks.tasks_state(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

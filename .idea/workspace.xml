@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/changes/addStaff.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/changes/changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/changes/changes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backup.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/gorm/model/getTasksResponse.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/model/getTasksResponse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/GetTasksResponse.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/GetTasksResponse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Task.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/push_postgres.sh" beforeDir="false" afterPath="$PROJECT_DIR$/script/push_postgres.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +104,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added annotation that removes null entity fields from the answer" />
     <MESSAGE value="added method for updating expected lead time" />
     <MESSAGE value="added fields for expected lead time and difficulty level" />
     <MESSAGE value="added method for creating a task with subsequent return of changes" />
@@ -126,7 +128,8 @@
     <MESSAGE value="added updateTaskStatus for boss" />
     <MESSAGE value="added updateTime for changes and changesForBoss" />
     <MESSAGE value="added content to awaiting tasks" />
-    <option name="LAST_COMMIT_MESSAGE" value="added content to awaiting tasks" />
+    <MESSAGE value="added return of changes in the request for the addition of staff" />
+    <option name="LAST_COMMIT_MESSAGE" value="added return of changes in the request for the addition of staff" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -141,10 +144,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1579767831639" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581070643761">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581071439409">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1581070643761" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1581071439409" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1579768628679">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -165,10 +168,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1579778130093" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1581063914846">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1581078069830">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1581063914846" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1581078069830" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578234331892">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -177,6 +180,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="641" y="288" width="863" height="606" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1581069918678" />
+    <state x="625" y="346" width="726" height="413" key="git4idea.merge.GitPullDialog" timestamp="1581076247827">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="625" y="346" width="726" height="413" key="git4idea.merge.GitPullDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1581076247827" />
     <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1577464606964">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

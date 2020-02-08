@@ -8,6 +8,7 @@ import (
 type GetTasksResponse struct {
 	Id               int
 	StaffId          sql.NullInt64 `json:",omitempty"`
+	StaffLogin       string        `json:",omitempty"`
 	ParentId         int           `json:",omitempty"`
 	TypeCode         string
 	StateCode        string

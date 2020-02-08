@@ -27,8 +27,9 @@ func (t Task) GetTasksByStaffId(
 
 	tasksFromDb, err := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-		Select(`staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at`).
+		Select(`staff_task.id, staff.login, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.started_at, staff_task.finished_at`).
 		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
+		Joins("join tasks.staff staff on (staff_task.staff_id = staff.id)").
 		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
 		Joins("").
 		Where(`staff_task.staff_id = ?`, staffId).
@@ -40,7 +41,7 @@ func (t Task) GetTasksByStaffId(
 
 	for tasksFromDb.Next() {
 		var task entity.GetTasksResponse
-		err := tasksFromDb.Scan(&task.Id, &task.ParentId, &task.TypeCode, &task.StateCode, &task.StartedAt, &task.FinishedAt)
+		err := tasksFromDb.Scan(&task.Id, &task.StaffLogin, &task.ParentId, &task.TypeCode, &task.StateCode, &task.StartedAt, &task.FinishedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -75,9 +76,10 @@ func (t Task) GetTasksLastUpdate(
 
 	tasksFromDb, err := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-		Select(`staff_task.id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
+		Select(`staff_task.id, staff.login, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
 				staff_task.difficulty_level, staff_task.started_at, staff_task.finished_at`).
 		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
+		Joins("join tasks.staff staff on (staff_task.staff_id = staff.id)").
 		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
 		Where(`staff_task.staff_id = ? and staff_task.updated_at > ?`, staffId, updateTime).
 		Rows()
@@ -85,10 +87,9 @@ func (t Task) GetTasksLastUpdate(
 	if err != nil {
 		return nil, err
 	}
-
 	for tasksFromDb.Next() {
 		var task model.GetTasksResponse
-		err := tasksFromDb.Scan(&task.Id, &task.ParentId, &task.TypeCode, &task.StateCode, &task.ExpectedLeadTime,
+		err := tasksFromDb.Scan(&task.Id, &task.StaffLogin, &task.ParentId, &task.TypeCode, &task.StateCode, &task.ExpectedLeadTime,
 			&task.DifficultyLevel, &task.StartedAt, &task.FinishedAt)
 		if err != nil {
 			return nil, err
@@ -100,6 +101,7 @@ func (t Task) GetTasksLastUpdate(
 		}
 		var taskEntity = entity.GetTasksResponse{
 			Id:               task.Id,
+			StaffLogin:       task.StaffLogin,
 			ParentId:         task.ParentId,
 			TypeCode:         task.TypeCode,
 			StateCode:        task.StateCode,
@@ -134,9 +136,10 @@ func (t Task) GetTasksLastUpdateForBoss(
 
 	tasksFromDb, err := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
-		Select(`staff_task.id, staff_task.staff_id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
+		Select(`staff_task.id, staff.login, staff_task.staff_id, staff_task.parent_id, task_type.code, tasks_state.code, staff_task.expected_lead_time, 
 				staff_task.difficulty_level, staff_task.started_at, staff_task.finished_at`).
 		Joins("join tasks.task_type task_type on (staff_task.type_id = task_type.id)").
+		Joins("join tasks.staff staff on (staff_task.staff_id = staff.id)").
 		Joins("join tasks.tasks_state tasks_state on(staff_task.state_id = tasks_state.id)").
 		Where(`staff_task.updated_at > ?`, updateTime).
 		Rows()
@@ -147,7 +150,7 @@ func (t Task) GetTasksLastUpdateForBoss(
 
 	for tasksFromDb.Next() {
 		var task model.GetTasksResponse
-		err := tasksFromDb.Scan(&task.Id, &task.StaffId, &task.ParentId, &task.TypeCode, &task.StateCode, &task.ExpectedLeadTime,
+		err := tasksFromDb.Scan(&task.Id, &task.StaffLogin, &task.StaffId, &task.ParentId, &task.TypeCode, &task.StateCode, &task.ExpectedLeadTime,
 			&task.DifficultyLevel, &task.StartedAt, &task.FinishedAt)
 		if err != nil {
 			return nil, err
@@ -160,6 +163,7 @@ func (t Task) GetTasksLastUpdateForBoss(
 
 		var taskEntity = entity.GetTasksResponse{
 			Id:               task.Id,
+			StaffLogin:       task.StaffLogin,
 			StaffId:          task.StaffId.Int64,
 			ParentId:         task.ParentId,
 			TypeCode:         task.TypeCode,
