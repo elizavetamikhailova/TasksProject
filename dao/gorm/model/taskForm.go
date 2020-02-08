@@ -13,3 +13,7 @@ func (TaskForm) TableName() string {
 func (TaskForm) QuestionsTableName() string {
 	return "tasks.questions"
 }
+
+func (TaskForm) AnswersTableName() string {
+	return "tasks.staff_answers"
+}

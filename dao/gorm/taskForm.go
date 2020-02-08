@@ -53,6 +53,25 @@ func (t Task) GetTasksForms(taskId int) (*entity.TaskForm, error) {
 
 	taskForm.FormQuestions = questions
 
+	var answer entity.FormAnswer
+	answersFromDb := t.db.
+		Table(fmt.Sprintf(`%s sa`, new(model.TaskForm).AnswersTableName())).
+		Select(`sa.question_code, t.title`).
+		Joins("join tasks.questions t on (sa.question_code = t.code)").
+		Where(`sa.form_id = ?`, taskForm.Id).
+		Row()
+
+	err = answersFromDb.Scan(&answer.Code, &answer.Title)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	taskForm.FormAnswer = answer
+
 	return &taskForm, nil
 }
 
