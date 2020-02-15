@@ -1,0 +1,33 @@
+# github.com/BurntSushi/toml v0.3.1
+github.com/BurntSushi/toml
+# github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496
+github.com/asaskevich/govalidator
+# github.com/go-sql-driver/mysql v1.5.0
+github.com/go-sql-driver/mysql
+# github.com/jinzhu/configor v1.1.1
+github.com/jinzhu/configor
+# github.com/jinzhu/gorm v1.9.12
+github.com/jinzhu/gorm
+github.com/jinzhu/gorm/dialects/postgres
+# github.com/jinzhu/inflection v1.0.0
+github.com/jinzhu/inflection
+# github.com/julienschmidt/httprouter v1.3.0
+github.com/julienschmidt/httprouter
+# github.com/lib/pq v1.1.1
+github.com/lib/pq
+github.com/lib/pq/hstore
+github.com/lib/pq/oid
+github.com/lib/pq/scram
+# go.uber.org/dig v1.8.0
+go.uber.org/dig
+go.uber.org/dig/internal/digreflect
+go.uber.org/dig/internal/dot
+# golang.org/x/lint v0.0.0-20190930215403-16217165b5de
+golang.org/x/lint
+golang.org/x/lint/golint
+# golang.org/x/tools v0.0.0-20191030062658-86caa796c7ab
+golang.org/x/tools/go/ast/astutil
+golang.org/x/tools/go/gcexportdata
+golang.org/x/tools/go/internal/gcimporter
+# gopkg.in/yaml.v2 v2.2.2
+gopkg.in/yaml.v2
