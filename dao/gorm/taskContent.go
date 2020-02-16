@@ -6,6 +6,7 @@ import (
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
 	"github.com/elizavetamikhailova/TasksProject/entity"
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type TaskContent struct {
@@ -41,4 +42,15 @@ func (t Task) AddTaskContent(taskId int, text string, title string, address stri
 			TaskId:  taskId,
 		}}
 	return t.db.Create(&content).Scan(&content).Error
+}
+
+func (t Task) AddFillTaskForm(taskId int, staffId int, groupId int) error {
+	staffForm := entity.StaffForm{
+		StaffId:   staffId,
+		GroupId:   groupId,
+		CreatedAt: time.Time{},
+		UpdatedAt: time.Time{},
+		TaskId:    taskId,
+	}
+	return t.db.Table("tasks.staff_form").Create(&staffForm).Scan(&staffForm).Error
 }

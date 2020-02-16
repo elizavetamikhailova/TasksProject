@@ -252,6 +252,14 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 				return err
 			}
 		}
+	case 5:
+		{
+			var newContent = content.(model.AddStaffForm)
+			err = t.AddFillTaskForm(task.Id, task.StaffId, newContent.GroupId)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
