@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/changes/addComment.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/changes/changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/changes/changes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/taskComments.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/taskComments.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entity/Comment.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Comment.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +103,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added change return for boss" />
     <MESSAGE value="Added waiting tasks in changes" />
     <MESSAGE value="Added method for updating the status of the task from awating to active with verification" />
     <MESSAGE value="Added flag output for tasks" />
@@ -134,7 +127,8 @@
     <MESSAGE value="added the addition of forms and fixed some bugs with forms" />
     <MESSAGE value="added the ability to view comments" />
     <MESSAGE value="added the ability to view comments (lil fix)" />
-    <option name="LAST_COMMIT_MESSAGE" value="added the ability to view comments (lil fix)" />
+    <MESSAGE value="added the ability to add comments (lil fix)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added the ability to add comments (lil fix)" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -149,10 +143,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1579767831639" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582120000522">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1582122304034">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1582120000522" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1582122304034" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1579768628679">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -173,10 +167,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1579778130093" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1582120003658">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1582122306723">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1582120003658" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1582122306723" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578234331892">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
