@@ -13,8 +13,8 @@ type TaskContent struct {
 	db *gorm.DB
 }
 
-func (t Task) GetTaskContent(taskId int) (*entity.TaskContent, error) {
-	var taskContent entity.TaskContent
+func (t Task) GetTaskContent(taskId int) (*model.TaskContent, error) {
+	var taskContent model.TaskContent
 	taskContentFromDb := t.db.
 		Table(fmt.Sprintf(`%s tc`, new(model.TaskContent).TableName())).
 		Select(`tc.text, tc.title, tc.address`).
@@ -34,19 +34,18 @@ func (t Task) GetTaskContent(taskId int) (*entity.TaskContent, error) {
 	if err != nil {
 		return nil, err
 	}
-	taskContent.Comment = comments
+	taskContent.Comments = comments
 
 	return &taskContent, nil
 }
 
 func (t Task) AddTaskContent(taskId int, text string, title string, address string) error {
-	content := model.TaskContent{
-		TaskContent: entity.TaskContent{
-			Text:    text,
-			Title:   title,
-			Address: address,
-			TaskId:  taskId,
-		}}
+	content := entity.TaskContent{
+		Text:    text,
+		Title:   title,
+		Address: address,
+		TaskId:  taskId,
+	}
 	return t.db.Create(&content).Scan(&content).Error
 }
 

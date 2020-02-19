@@ -3,11 +3,10 @@ package gorm
 import (
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
-	"github.com/elizavetamikhailova/TasksProject/entity"
 )
 
-func (t Task) GetCommentsByTask(taskId int) ([]entity.Comment, error) {
-	var comments []entity.Comment
+func (t Task) GetCommentsByTask(taskId int) ([]model.Comment, error) {
+	var comments []model.Comment
 
 	commentsFromDB, err := t.db.Table(fmt.Sprintf(`%s tc`, new(model.Task).CommentsTableName())).
 		Select(`tc.id, tc.staff_id, ts.login, tc.task_id, tc."text", tc.created_at, tc.deleted_at`).
@@ -20,7 +19,7 @@ func (t Task) GetCommentsByTask(taskId int) ([]entity.Comment, error) {
 	}
 
 	for commentsFromDB.Next() {
-		var comment entity.Comment
+		var comment model.Comment
 		err := commentsFromDB.Scan(&comment)
 		if err != nil {
 			return nil, err

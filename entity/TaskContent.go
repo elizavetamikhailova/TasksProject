@@ -5,6 +5,9 @@ type TaskContent struct {
 	Text    string
 	Title   string
 	Address string
-	TaskId  int       `json:",omitempty"`
-	Comment []Comment `json:",omitempty"`
+	TaskId  int `json:",omitempty"`
+}
+
+func (TaskContent) TableName() string {
+	return "tasks.task_content"
 }
