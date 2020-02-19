@@ -7,5 +7,5 @@ type TaskForm struct {
 	GroupCode     string
 	GroupTitle    string
 	FormQuestions []FormQuestions
-	FormAnswer    FormAnswer `json:",omitempty"`
+	FormAnswer    *FormAnswer `json:",omitempty"`
 }

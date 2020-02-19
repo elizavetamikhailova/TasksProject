@@ -65,5 +65,9 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.POST("/form/InsertAnswers", changesApi1.InsertAnswers)
 
+	router.POST("/task/AddCommentForBoss", changesApi1.AddCommentForBoss)
+
+	router.POST("/task/AddCommentForStaff", changesApi1.AddCommentForStaff)
+
 	return router
 }

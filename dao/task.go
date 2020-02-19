@@ -46,4 +46,6 @@ type Task interface {
 	UpdateAwaitingTaskToActive(taskId int, staffId int) error
 
 	UpdateTaskStatusByBoss(taskId int, stateTo int) error
+
+	AddComment(staffId int, taskId int, text string) error
 }

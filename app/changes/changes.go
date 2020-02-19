@@ -2,6 +2,7 @@ package changes
 
 import (
 	"github.com/elizavetamikhailova/TasksProject/dao"
+	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
 	"github.com/elizavetamikhailova/TasksProject/entity"
 	"time"
 )
@@ -191,6 +192,15 @@ func (c *Changes) AddTaskWithContent(arg ArgAddTaskWithContent) error {
 			}
 			content = newContent
 		}
+	case 5:
+		{
+			var jsonContent = arg.Content.(map[string]interface{})
+			newContent := model.AddStaffForm{
+				GroupId: int(jsonContent["GroupId"].(float64)),
+			}
+			content = newContent
+		}
+
 	}
 	return c.taskDAO.AddTaskWithContent(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)
 }
@@ -245,4 +255,15 @@ type ArgAddStaff struct {
 
 func (c *Changes) AddStaff(arg ArgAddStaff) error {
 	return c.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
+}
+
+type ArgAddComment struct {
+	StaffId    int       `valid:"required"`
+	TaskId     int       `valid:"required"`
+	Text       string    `valid:"required"`
+	UpdateTime time.Time `valid:"required"`
+}
+
+func (c *Changes) AddComment(arg ArgAddComment) error {
+	return c.taskDAO.AddComment(arg.StaffId, arg.TaskId, arg.Text)
 }
