@@ -5,7 +5,7 @@ import "time"
 type Comment struct {
 	Id         int
 	StaffId    int
-	StaffLogin int
+	StaffLogin string
 	TaskId     int
 	Text       string
 	CreatedAt  time.Time  `gorm:"column:created_at"`

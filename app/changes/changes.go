@@ -256,3 +256,14 @@ type ArgAddStaff struct {
 func (c *Changes) AddStaff(arg ArgAddStaff) error {
 	return c.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
 }
+
+type ArgAddComment struct {
+	StaffId    int       `valid:"required"`
+	TaskId     int       `valid:"required"`
+	Text       string    `valid:"required"`
+	UpdateTime time.Time `valid:"required"`
+}
+
+func (c *Changes) AddComment(arg ArgAddComment) error {
+	return c.taskDAO.AddComment(arg.StaffId, arg.TaskId, arg.Text)
+}

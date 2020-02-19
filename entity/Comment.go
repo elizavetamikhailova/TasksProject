@@ -10,3 +10,7 @@ type Comment struct {
 	CreatedAt time.Time  `gorm:"column:created_at"`
 	DeletedAt *time.Time `json:",omitempty"`
 }
+
+func (Comment) TableName() string {
+	return "tasks.comments"
+}
