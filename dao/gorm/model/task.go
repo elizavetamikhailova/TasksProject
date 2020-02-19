@@ -29,3 +29,7 @@ func (Task) TasksFlagsTableName() string {
 func (Task) FlagTableName() string {
 	return "tasks.flags"
 }
+
+func (Task) CommentsTableName() string {
+	return "tasks.comments"
+}

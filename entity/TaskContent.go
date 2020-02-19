@@ -5,5 +5,6 @@ type TaskContent struct {
 	Text    string
 	Title   string
 	Address string
-	TaskId  int `json:",omitempty"`
+	TaskId  int       `json:",omitempty"`
+	Comment []Comment `json:",omitempty"`
 }

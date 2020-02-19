@@ -30,6 +30,12 @@ func (t Task) GetTaskContent(taskId int) (*entity.TaskContent, error) {
 		return nil, err
 	}
 
+	comments, err := t.GetCommentsByTask(taskId)
+	if err != nil {
+		return nil, err
+	}
+	taskContent.Comment = comments
+
 	return &taskContent, nil
 }
 
