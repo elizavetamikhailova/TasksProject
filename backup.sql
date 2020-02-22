@@ -1,3 +1,4 @@
+
 --
 -- PostgreSQL database dump
 --
@@ -31,14 +32,14 @@ ALTER SCHEMA tasks OWNER TO "default";
 
 CREATE FUNCTION tasks.add_started_at() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-	begin
-		if old.state_id = 1 and new.state_id = 2 
-			then new.started_at = current_timestamp;
-		end if;
-	return new;
-	end;
-
+    AS $$
+	begin
+		if old.state_id = 1 and new.state_id = 2 
+			then new.started_at = current_timestamp;
+		end if;
+	return new;
+	end;
+
 $$;
 
 
@@ -50,17 +51,17 @@ ALTER FUNCTION tasks.add_started_at() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_active() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if old.state_id = 5 and new.state_id = 1 and old.parent_id = 0
-      then 
-	  update tasks.staff_task set state_id = 1 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if old.state_id = 5 and new.state_id = 1 and old.parent_id = 0
+      then 
+	  update tasks.staff_task set state_id = 1 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
+
 $$;
 
 
@@ -72,17 +73,17 @@ ALTER FUNCTION tasks.check_for_active() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_cancel() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-declare count_id integer;
-declare new_id integer;
-  begin
-    if new.state_id = 4
-      then 
-      	update tasks.staff_task set state_id = 4 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
+    AS $$
+declare count_id integer;
+declare new_id integer;
+  begin
+    if new.state_id = 4
+      then 
+      	update tasks.staff_task set state_id = 4 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -94,16 +95,16 @@ ALTER FUNCTION tasks.check_for_cancel() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_change_state_from_delay_to_in_progress() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if old.state_id = 5 and new.state_id = 2 and old.parent_id = 0
-      then 
-	  update tasks.staff_task set state_id = 2 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if old.state_id = 5 and new.state_id = 2 and old.parent_id = 0
+      then 
+	  update tasks.staff_task set state_id = 2 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -115,22 +116,22 @@ ALTER FUNCTION tasks.check_for_change_state_from_delay_to_in_progress() OWNER TO
 
 CREATE FUNCTION tasks.check_for_delay() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if old.state_id = 2 and new.state_id = 5 
-      then 
-	  insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
-	  									updated_at, difficulty_level, expected_lead_time) 
-			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
-	  insert into tasks.staff_form (staff_id, group_id, created_at, 
-  						            updated_at, task_id) 						       
-			 values (new.staff_id, 2, current_timestamp, current_timestamp, new_task_id);
-			return new;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if old.state_id = 2 and new.state_id = 5 
+      then 
+	  insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
+	  									updated_at, difficulty_level, expected_lead_time) 
+			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
+	  insert into tasks.staff_form (staff_id, group_id, created_at, 
+  						            updated_at, task_id) 						       
+			 values (new.staff_id, 2, current_timestamp, current_timestamp, new_task_id);
+			return new;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -142,16 +143,16 @@ ALTER FUNCTION tasks.check_for_delay() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_delay_sub_tasks() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if (old.state_id = 2 or old.state_id = 1)  and new.state_id = 5 and old.parent_id = 0
-      then 
-	  update tasks.staff_task set state_id = 5 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if (old.state_id = 2 or old.state_id = 1)  and new.state_id = 5 and old.parent_id = 0
+      then 
+	  update tasks.staff_task set state_id = 5 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -163,17 +164,17 @@ ALTER FUNCTION tasks.check_for_delay_sub_tasks() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_delete() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-declare count_id integer;
-declare new_id integer;
-  begin
-    if new.state_id = 6
-      then 
-      	update tasks.staff_task set state_id = 6 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
+    AS $$
+declare count_id integer;
+declare new_id integer;
+  begin
+    if new.state_id = 6
+      then 
+      	update tasks.staff_task set state_id = 6 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -185,22 +186,22 @@ ALTER FUNCTION tasks.check_for_delete() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_done() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-declare count_id integer;
-declare new_id integer;
-  begin
-    if new.state_id = 3
-      then 
-        select count(st.id) from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1 into count_id;
-      if count_id = 1 and (select st.id from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1) = new.id
-      	then
-      	update tasks.staff_task set state_id = 3 where id = old.parent_id;
-      	return new;
-      end if;
-    end if;
-  return new;
-  end;
-
+    AS $$
+declare count_id integer;
+declare new_id integer;
+  begin
+    if new.state_id = 3
+      then 
+        select count(st.id) from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1 into count_id;
+      if count_id = 1 and (select st.id from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1) = new.id
+      	then
+      	update tasks.staff_task set state_id = 3 where id = old.parent_id;
+      	return new;
+      end if;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -212,20 +213,21 @@ ALTER FUNCTION tasks.check_for_done() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_end_work_day() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare count_id integer;
-  begin
-    if new.type_id = 4
-      then 
-	  select count(st.id) from tasks.staff_task st where st.state_id != 3 and st.state_id != 4 and st.state_id != 6 limit 1 into count_id;
-	  if count_id > 0
-	  	then raise exception 'it is impossible to complete the work day while there are unclosed tasks';
-	  else return new;
-	  	end if;
-    end if;
-  end;
-
-
+    AS $$
+  declare count_id integer;
+  begin
+    if new.type_id = 4
+      then 
+	  select count(st.id) from tasks.staff_task st where st.state_id != 3 and st.state_id != 4 and st.state_id != 6 limit 1 into count_id;
+	  if count_id > 0
+	  	then raise exception 'it is impossible to complete the work day while there are unclosed tasks';
+	  else return new;
+	  	end if;
+	  else return new;
+    end if;
+  end;
+
+
 $$;
 
 
@@ -237,22 +239,22 @@ ALTER FUNCTION tasks.check_for_end_work_day() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_lateness() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if (new.updated_at > new.started_at + to_char(to_timestamp((new.expected_lead_time) * 60), 'MI:SS')::interval) and (old.state_id = 2 and new.state_id = 3)
-      then 
-      insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
-	  									updated_at, difficulty_level, expected_lead_time) 
-			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
-      insert into tasks.staff_form (staff_id, group_id, created_at, 
-								       updated_at, task_id) 
-			 values (new.staff_id, 1, current_timestamp, current_timestamp, new_task_id);
-			return new;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if (new.updated_at > new.started_at + to_char(to_timestamp((new.expected_lead_time) * 60), 'MI:SS')::interval) and (old.state_id = 2 and new.state_id = 3)
+      then 
+      insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
+	  									updated_at, difficulty_level, expected_lead_time) 
+			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
+      insert into tasks.staff_form (staff_id, group_id, created_at, 
+								       updated_at, task_id) 
+			 values (new.staff_id, 1, current_timestamp, current_timestamp, new_task_id);
+			return new;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -1145,6 +1147,19 @@ COPY tasks.awaiting_task_state (id, title, code) FROM stdin;
 --
 
 COPY tasks.awaiting_tasks (id, task_id, staff_id, state_id, created_at, updated_at, deleted_at) FROM stdin;
+38	132	1	1	2020-02-22 09:58:54.786583	2020-02-22 09:58:54.786583	\N
+39	132	4	1	2020-02-22 09:58:54.789312	2020-02-22 09:58:54.789312	\N
+40	132	3	1	2020-02-22 09:58:54.790845	2020-02-22 09:58:54.790845	\N
+41	133	1	1	2020-02-22 09:59:20.985778	2020-02-22 09:59:20.985778	\N
+42	133	4	1	2020-02-22 09:59:20.987025	2020-02-22 09:59:20.987025	\N
+43	133	3	1	2020-02-22 09:59:20.988689	2020-02-22 09:59:20.988689	\N
+44	134	1	1	2020-02-22 10:00:28.622718	2020-02-22 10:00:28.622718	\N
+45	134	4	1	2020-02-22 10:00:28.624048	2020-02-22 10:00:28.624048	\N
+46	134	3	1	2020-02-22 10:00:28.625405	2020-02-22 10:00:28.625405	\N
+47	139	1	1	2020-02-22 11:43:05.948383	2020-02-22 11:43:05.948383	\N
+48	139	3	1	2020-02-22 11:43:05.95853	2020-02-22 11:43:05.95853	\N
+49	139	4	1	2020-02-22 11:43:05.974458	2020-02-22 11:43:05.974458	\N
+50	139	5	1	2020-02-22 11:43:05.979313	2020-02-22 11:43:05.979313	\N
 \.
 
 
@@ -1155,6 +1170,8 @@ COPY tasks.awaiting_tasks (id, task_id, staff_id, state_id, created_at, updated_
 COPY tasks.comments (id, staff_id, task_id, text, created_at, deleted_at) FROM stdin;
 1	1	111	Памагити	2020-02-19 17:16:20.770635	\N
 2	1	111	:(	2020-02-19 17:24:08.486826	\N
+3	1	137	Личный кабинет и метрики пока отсутствуют, появятся в будущем 	2020-02-22 11:40:46.516609	\N
+4	1	137	Авторизации и пушей тоже пока нет 😁	2020-02-22 11:41:05.729732	\N
 \.
 
 
@@ -1206,6 +1223,7 @@ COPY tasks.staff (id, login, phone, pass_md5, created_at, updated_at, deleted_at
 1	Liza	89160525834	123123	2019-12-08 11:31:57.259851	2019-12-08 11:31:57.259851	0001-01-01 00:00:00	\N
 3	Ivan	89160525834	123123	2019-12-15 12:06:38.930063	2019-12-15 12:06:38.930063	0001-01-01 00:00:00	\N
 4	Alexey	89160525834	123123	2019-12-15 12:06:50.847941	2019-12-15 12:06:50.847941	0001-01-01 00:00:00	\N
+5	Dmitry 	777777777	1234	2020-02-22 11:28:01.393411	2020-02-22 11:28:01.393411	0001-01-01 00:00:00	\N
 \.
 
 
@@ -1266,16 +1284,23 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 114	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-15 13:49:32.594042	2020-02-15 13:49:32.594042	\N	3	5
 123	6	1	5	111	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42.999192	2020-02-16 21:37:42.999192	\N	0	0
 111	6	1	5	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-01-05 17:29:38.714363	2020-02-16 21:58:59.221945	\N	6	5
-124	4	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-18 17:15:35.119008	2020-02-18 17:15:35.119008	\N	0	0
-125	4	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42	2020-02-16 21:37:42	\N	0	0
-126	4	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42	2020-02-16 21:37:42	\N	0	0
 17	3	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2019-12-14 22:40:00.756795	2019-12-14 22:40:00.756795	0001-01-01 00:00:00	0	3
-127	4	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42	2020-02-16 21:37:42	\N	0	0
+100	2	1	3	13	2019-12-25 12:04:20.638603	0001-01-01 00:00:00	2019-12-14 14:35:04.379662	2019-12-25 10:16:23	0001-01-01 00:00:00	1	2
 69	5	1	3	38	\N	\N	2019-12-29 22:24:32.758245	2019-12-30 01:36:07.647289	\N	0	0
 70	5	1	3	38	\N	\N	2019-12-29 22:26:26.0089	2019-12-30 01:37:48.688084	\N	0	0
+132	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 09:58:54.772459	2020-02-22 09:58:54.772459	\N	2	1
+133	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 09:59:20.977542	2020-02-22 09:59:20.977542	\N	2	1
+134	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 10:00:28.616703	2020-02-22 10:00:28.616703	\N	2	1
 71	5	1	3	38	\N	\N	2019-12-29 22:40:13.518956	2019-12-30 01:40:34.96518	\N	0	0
-100	2	1	2	13	2019-12-25 12:04:20.638603	0001-01-01 00:00:00	2019-12-14 14:35:04.379662	2019-12-25 10:16:23	0001-01-01 00:00:00	1	2
-13	2	1	2	0	2019-12-25 12:04:20.638603	0001-01-01 00:00:00	2019-12-14 14:35:04.379662	2020-01-05 14:48:34.691434	0001-01-01 00:00:00	1	2
+124	4	1	3	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-18 17:15:35.119008	2020-02-18 17:15:35.119008	\N	0	0
+125	4	1	3	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42	2020-02-16 21:37:42	\N	0	0
+126	4	1	3	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42	2020-02-16 21:37:42	\N	0	0
+127	4	1	3	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-16 21:37:42	2020-02-16 21:37:42	\N	0	0
+135	6	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 11:30:06.464087	2020-02-22 11:30:06.464087	\N	2	1
+136	6	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 11:32:54.499251	2020-02-22 11:32:54.499251	\N	2	1
+137	6	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 11:33:59.963952	2020-02-22 11:33:59.963952	\N	2	1
+138	6	5	1	137	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 11:35:44.848785	2020-02-22 11:35:44.848785	\N	3	1
+139	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 11:43:05.916713	2020-02-22 11:43:05.916713	\N	1	0
 \.
 
 
@@ -1289,6 +1314,14 @@ COPY tasks.task_content (id, text, title, address, task_id) FROM stdin;
 3	Task with content lalalalalalalallalalalalallala	Task	Laplndia	113
 4	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины	114
 5	First task with content lalalalalalalallalalalalallala	First task	Laplndia	123
+6	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	132
+7	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	133
+8	Покататься на сноуборде по всем трассам 	Сноуборд 	Хибины 	134
+9	Прочитать первую главу, сделать рекомендации по написанию введения, Шамиль Гасангусейнович сказал добавить "что это, зачем нужно, в каких компаниях используется" 	Первая глава	Где угодно 	135
+10	Есть методичка (могу скинуть, потому что пока нет возможности добавления файлов), в ней есть не очень понятное описание, как, что и куда нужно делить: нужно подумать над тем какие пункты и подпункты должна содержать ВКР, дать какие-то советы по содержанию	Структуризация	Где угодно 	136
+11	Рассмотреть имеющийся функционал, подумать над тем, что можно добавить 	Функционал приложения 	Где угодно 	137
+12	Приложение для руководителей:В нижнем меню, если нажать на галочку появится поле "Метрики", сообщите, если есть какие-то предложения 	Метрики	Где угодно 	138
+13	Тест	Тест 	Тест	139
 \.
 
 
@@ -1323,6 +1356,8 @@ COPY tasks.task_state_change (id, type_id, state_from_id, state_to_id) FROM stdi
 17	6	2	3
 18	6	5	1
 19	6	5	2
+20	3	1	3
+21	4	1	3
 \.
 
 
@@ -1362,6 +1397,10 @@ COPY tasks.tasks_flags (id, task_id, flag_id) FROM stdin;
 14	111	1
 15	112	1
 16	113	1
+17	132	1
+18	133	1
+19	134	1
+20	135	1
 \.
 
 
@@ -1391,14 +1430,14 @@ SELECT pg_catalog.setval('tasks.awaiting_task_state_id_seq', 2, true);
 -- Name: awaiting_tasks_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 37, true);
+SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 50, true);
 
 
 --
 -- Name: comments_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.comments_id_seq', 2, true);
+SELECT pg_catalog.setval('tasks.comments_id_seq', 4, true);
 
 
 --
@@ -1440,7 +1479,7 @@ SELECT pg_catalog.setval('tasks.staff_form_id_seq', 58, true);
 -- Name: staff_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_id_seq', 4, true);
+SELECT pg_catalog.setval('tasks.staff_id_seq', 5, true);
 
 
 --
@@ -1454,14 +1493,14 @@ SELECT pg_catalog.setval('tasks.staff_session_id_seq', 1, false);
 -- Name: staff_task_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_task_id_seq', 131, true);
+SELECT pg_catalog.setval('tasks.staff_task_id_seq', 139, true);
 
 
 --
 -- Name: task_content_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.task_content_id_seq', 5, true);
+SELECT pg_catalog.setval('tasks.task_content_id_seq', 13, true);
 
 
 --
@@ -1496,7 +1535,7 @@ SELECT pg_catalog.setval('tasks.task_type_id_seq', 3, true);
 -- Name: tasks_flags_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 16, true);
+SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 20, true);
 
 
 --

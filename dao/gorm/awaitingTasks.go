@@ -18,7 +18,7 @@ func (t Task) GetAwaitingTask(staffId int,
 	var tasks []entity.GetAwaitingTaskResponse
 	tasksFromDb, err := t.db.
 		Table(fmt.Sprintf(`%s awt`, new(model.AwaitingTask).TableName())).
-		Select(`awt.task_id, ats.code, tt.code, awt.created_at, st.expected_lead_time, st.difficulty_level`).
+		Select(`awt.task_id, awt.staff_id, ats.code, tt.code, awt.created_at, st.expected_lead_time, st.difficulty_level`).
 		Joins("left join tasks.staff_task st on (awt.task_id = st.id)").
 		Joins("join tasks.awaiting_task_state ats on (awt.state_id = ats.id)").
 		Joins("join tasks.task_type tt on (st.type_id = tt.id)").
@@ -31,7 +31,7 @@ func (t Task) GetAwaitingTask(staffId int,
 
 	for tasksFromDb.Next() {
 		var task entity.GetAwaitingTaskResponse
-		err := tasksFromDb.Scan(&task.TaskId, &task.StateCode, &task.TypeCode, &task.CreatedAt, &task.ExpectedLeadTime, &task.DifficultyLevel)
+		err := tasksFromDb.Scan(&task.TaskId, &task.StaffId, &task.StateCode, &task.TypeCode, &task.CreatedAt, &task.ExpectedLeadTime, &task.DifficultyLevel)
 		if err != nil {
 			return nil, err
 		}
