@@ -38,8 +38,6 @@ func GetDI(cfg configs.Config) *dig.Container {
 
 	di.Provide(changes.NewAppChanges)
 
-	di.Provide(dao.NewDaoAwaitingTask)
-
 	di.Provide(dao.NewDaoForm)
 
 	return di

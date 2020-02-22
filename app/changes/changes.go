@@ -8,18 +8,16 @@ import (
 )
 
 type Changes struct {
-	staffDAO        dao.Staff
-	taskDAO         dao.Task
-	awaitingTaskDAO dao.AwaitingTask
-	AnswersDAO      dao.StaffAnswers
+	staffDAO   dao.Staff
+	taskDAO    dao.Task
+	AnswersDAO dao.StaffAnswers
 }
 
-func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, awaitingTaskDAO dao.AwaitingTask, answersDAO dao.StaffAnswers) Changes {
+func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, answersDAO dao.StaffAnswers) Changes {
 	return Changes{
-		staffDAO:        staffDAO,
-		taskDAO:         taskDAO,
-		awaitingTaskDAO: awaitingTaskDAO,
-		AnswersDAO:      answersDAO,
+		staffDAO:   staffDAO,
+		taskDAO:    taskDAO,
+		AnswersDAO: answersDAO,
 	}
 }
 
@@ -67,7 +65,7 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 		tud[k] = v
 	}
 
-	awaitingTasks, err := c.awaitingTaskDAO.GetAwaitingTask(arg.StaffId, arg.UpdateTime)
+	awaitingTasks, err := c.taskDAO.GetAwaitingTask(arg.StaffId, arg.UpdateTime)
 	if err != nil {
 		return nil, err
 	}

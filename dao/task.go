@@ -48,4 +48,7 @@ type Task interface {
 	UpdateTaskStatusByBoss(taskId int, stateTo int) error
 
 	AddComment(staffId int, taskId int, text string) error
+
+	GetAwaitingTask(staffId int,
+		updateTime time.Time) ([]entity.GetAwaitingTaskResponse, error)
 }

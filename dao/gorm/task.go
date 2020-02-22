@@ -187,6 +187,15 @@ func (t Task) GetTasksLastUpdateForBoss(
 		}
 
 		tasks = append(tasks, taskEntity)
+
+		var awaitingTasks []entity.GetTasksResponse
+		awaitingTasks, err = t.GetAwaitingTaskForBoss(updateTime)
+		if err != nil {
+			return nil, err
+		}
+		for _, task := range awaitingTasks {
+			tasks = append(tasks, task)
+		}
 	}
 
 	return tasks, nil
