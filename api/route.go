@@ -82,5 +82,11 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.GET("/summary/GetMostActiveStaff", summaryApi1.GetMostActiveStaff)
 
+	router.GET("/summary/GetMostLatenessStaff", summaryApi1.GetMostLatenessStaff)
+
+	router.GET("/summary/GetMostProcrastinatingStaff", summaryApi1.GetMostProcratinatingStaff)
+
+	router.GET("/summary/GetMostCancelStaff", summaryApi1.GetMostCancelStaff)
+
 	return router
 }

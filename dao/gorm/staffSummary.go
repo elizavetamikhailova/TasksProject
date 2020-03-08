@@ -67,3 +67,81 @@ func (s Summary) GetMostActiveStaff() ([]model.MostActiveStaff, error) {
 	}
 	return mostActiveStaffList, nil
 }
+
+func (s Summary) GetMostLatenessStaff() ([]model.MostLatenessStaff, error) {
+	var mostLatenessStaffList []model.MostLatenessStaff
+
+	mostLatenessStaffListFromDB, err := s.db.Raw(
+		"select s.id, s.login, count(*) as amount " +
+			"from tasks.staff_task st join tasks.staff s " +
+			"on (st.staff_id = s.id) join tasks.staff_form sf " +
+			"on (st.id = sf.task_id) where st.type_id = 5 and " +
+			"sf.group_id = 1 group by s.login, s.id order by amount desc").Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for mostLatenessStaffListFromDB.Next() {
+		var mostLatenessStaff model.MostLatenessStaff
+		err := mostLatenessStaffListFromDB.Scan(&mostLatenessStaff.StaffId,
+			&mostLatenessStaff.StaffLogin, &mostLatenessStaff.Amount)
+		if err != nil {
+			return nil, err
+		}
+		mostLatenessStaffList = append(mostLatenessStaffList, mostLatenessStaff)
+	}
+	return mostLatenessStaffList, nil
+}
+
+func (s Summary) GetMostProcrastinatingStaff() ([]model.MostProcratinatingStaff, error) {
+	var mostProcrastinatingStaffList []model.MostProcratinatingStaff
+
+	mostProcrastinatingStaffListFromDB, err := s.db.Raw(
+		" select s.id, s.login, count(*) as amount " +
+			"from tasks.staff_task st join tasks.staff s on " +
+			"(st.staff_id = s.id) join tasks.staff_form sf on " +
+			"(st.id = sf.task_id) where  st.type_id = 5 and sf.group_id = 2 " +
+			"group by s.login, s.id order by amount desc").Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for mostProcrastinatingStaffListFromDB.Next() {
+		var mostProcrastinatingStaff model.MostProcratinatingStaff
+		err := mostProcrastinatingStaffListFromDB.Scan(&mostProcrastinatingStaff.StaffId,
+			&mostProcrastinatingStaff.StaffLogin, &mostProcrastinatingStaff.Amount)
+		if err != nil {
+			return nil, err
+		}
+		mostProcrastinatingStaffList = append(mostProcrastinatingStaffList, mostProcrastinatingStaff)
+	}
+	return mostProcrastinatingStaffList, nil
+}
+
+func (s Summary) GetMostCancelStaff() ([]model.MostCancelStaff, error) {
+	var mostCancelStaffList []model.MostCancelStaff
+
+	mostCancelStaffListFromDB, err := s.db.Raw(
+		" select s.id, s.login, count(*) as amount " +
+			"from tasks.staff_task st join tasks.staff s " +
+			"on (st.staff_id = s.id) where  st.state_id = 5 " +
+			"or st.state_id = 6 group by s.login, s.id " +
+			"order by amount desc").Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for mostCancelStaffListFromDB.Next() {
+		var mostCancelStaff model.MostCancelStaff
+		err := mostCancelStaffListFromDB.Scan(&mostCancelStaff.StaffId,
+			&mostCancelStaff.StaffLogin, &mostCancelStaff.Amount)
+		if err != nil {
+			return nil, err
+		}
+		mostCancelStaffList = append(mostCancelStaffList, mostCancelStaff)
+	}
+	return mostCancelStaffList, nil
+}
