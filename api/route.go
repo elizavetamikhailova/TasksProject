@@ -80,5 +80,7 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.GET("/summary/GetMostProductiveStaff", summaryApi1.GetMostProductiveStaff)
 
+	router.GET("/summary/GetMostActiveStaff", summaryApi1.GetMostActiveStaff)
+
 	return router
 }

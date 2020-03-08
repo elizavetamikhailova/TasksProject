@@ -20,3 +20,17 @@ func (s *Summary) GetMostProductiveStaff(w http.ResponseWriter, r *http.Request,
 	}
 	w.Write(jData)
 }
+
+func (s *Summary) GetMostActiveStaff(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	task1, err := s.op.MostActiveStaff()
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	jData, err := json.Marshal(task1)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	w.Write(jData)
+}

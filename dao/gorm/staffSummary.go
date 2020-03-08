@@ -41,3 +41,29 @@ func (s Summary) GetMostProductiveStaff() ([]model.MostProductiveStaff, error) {
 	}
 	return mostProductiveStaffList, nil
 }
+
+func (s Summary) GetMostActiveStaff() ([]model.MostActiveStaff, error) {
+	var mostActiveStaffList []model.MostActiveStaff
+
+	mostActiveStaffListFromDB, err := s.db.Raw(
+		"select s.id, s.login, count(*) as amount " +
+			"from tasks.awaiting_tasks awt join tasks.staff_task st " +
+			"on (awt.task_id = st.id and awt.staff_id = st.staff_id) " +
+			"join tasks.staff s on (st.staff_id = s.id) " +
+			"group by s.login, s.id order by amount desc").Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for mostActiveStaffListFromDB.Next() {
+		var mostActiveStaff model.MostActiveStaff
+		err := mostActiveStaffListFromDB.Scan(&mostActiveStaff.StaffId,
+			&mostActiveStaff.StaffLogin, &mostActiveStaff.Amount)
+		if err != nil {
+			return nil, err
+		}
+		mostActiveStaffList = append(mostActiveStaffList, mostActiveStaff)
+	}
+	return mostActiveStaffList, nil
+}

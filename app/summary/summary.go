@@ -13,19 +13,37 @@ func NewAppSummary(summaryDao dao.Summary) Summary {
 	return Summary{summaryDao: summaryDao}
 }
 
-type Data struct {
+type MostProductiveStaff struct {
 	model.MostProductiveStaff
 }
 
-func (s *Summary) MostProductiveStaff() ([]Data, error) {
+type MostActiveStaff struct {
+	model.MostActiveStaff
+}
+
+func (s *Summary) MostProductiveStaff() ([]MostProductiveStaff, error) {
 	mostProductiveStaff, err := s.summaryDao.GetMostProductiveStaff()
 	if err != nil {
 		return nil, err
 	}
-	ud := make([]Data, len(mostProductiveStaff))
+	ud := make([]MostProductiveStaff, len(mostProductiveStaff))
 
 	for k, v := range mostProductiveStaff {
 		ud[k].MostProductiveStaff = v
+	}
+
+	return ud, nil
+}
+
+func (s *Summary) MostActiveStaff() ([]MostActiveStaff, error) {
+	mostActiveStaff, err := s.summaryDao.GetMostActiveStaff()
+	if err != nil {
+		return nil, err
+	}
+	ud := make([]MostActiveStaff, len(mostActiveStaff))
+
+	for k, v := range mostActiveStaff {
+		ud[k].MostActiveStaff = v
 	}
 
 	return ud, nil
