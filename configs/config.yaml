@@ -4,4 +4,4 @@ db:
   name:     default
   user:     default
   password: secret
-  port:     5432
+  port:     5433
