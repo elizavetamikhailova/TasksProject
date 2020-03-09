@@ -65,12 +65,13 @@ func (t Task) GetTasksForms(taskId int) (*entity.TaskForm, error) {
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, nil
+			taskForm.FormAnswer = nil
+			return &taskForm, nil
 		}
 		return nil, err
 	}
 
-	taskForm.FormAnswer = answer
+	taskForm.FormAnswer = &answer
 
 	return &taskForm, nil
 }

@@ -187,6 +187,15 @@ func (t Task) GetTasksLastUpdateForBoss(
 		}
 
 		tasks = append(tasks, taskEntity)
+
+		var awaitingTasks []entity.GetTasksResponse
+		awaitingTasks, err = t.GetAwaitingTaskForBoss(updateTime)
+		if err != nil {
+			return nil, err
+		}
+		for _, task := range awaitingTasks {
+			tasks = append(tasks, task)
+		}
 	}
 
 	return tasks, nil
@@ -248,6 +257,14 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 		{
 			var newContent = content.(entity.TaskContent)
 			err = t.AddTaskContent(task.Id, newContent.Text, newContent.Title, newContent.Address)
+			if err != nil {
+				return err
+			}
+		}
+	case 5:
+		{
+			var newContent = content.(model.AddStaffForm)
+			err = t.AddFillTaskForm(task.Id, task.StaffId, newContent.GroupId)
 			if err != nil {
 				return err
 			}

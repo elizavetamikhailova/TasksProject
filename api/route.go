@@ -3,9 +3,11 @@ package api
 import (
 	changesApi "github.com/elizavetamikhailova/TasksProject/api/changes"
 	staffApi "github.com/elizavetamikhailova/TasksProject/api/staff"
+	summaryApi "github.com/elizavetamikhailova/TasksProject/api/summary"
 	taskApi "github.com/elizavetamikhailova/TasksProject/api/task"
 	"github.com/elizavetamikhailova/TasksProject/app/changes"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
+	"github.com/elizavetamikhailova/TasksProject/app/summary"
 	"github.com/elizavetamikhailova/TasksProject/app/task"
 	"github.com/julienschmidt/httprouter"
 	"go.uber.org/dig"
@@ -38,6 +40,13 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 		panic(err)
 	}
 
+	summaryApi1 := summaryApi.Summary{}
+	if err := dig.Invoke(func(op summary.Summary) {
+		summaryApi1 = summaryApi.NewApiSummary(op)
+	}); err != nil {
+		panic(err)
+	}
+
 	router.POST("/staff/add", changesApi1.AddStaff)
 
 	router.POST("/task/addTask", taskApi1.AddTask)
@@ -64,6 +73,20 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 	router.POST("/task/UpdateAwaitingTaskToActive", changesApi1.UpdateAwaitingTaskToActive)
 
 	router.POST("/form/InsertAnswers", changesApi1.InsertAnswers)
+
+	router.POST("/task/AddCommentForBoss", changesApi1.AddCommentForBoss)
+
+	router.POST("/task/AddCommentForStaff", changesApi1.AddCommentForStaff)
+
+	router.GET("/summary/GetMostProductiveStaff", summaryApi1.GetMostProductiveStaff)
+
+	router.GET("/summary/GetMostActiveStaff", summaryApi1.GetMostActiveStaff)
+
+	router.GET("/summary/GetMostLatenessStaff", summaryApi1.GetMostLatenessStaff)
+
+	router.GET("/summary/GetMostProcrastinatingStaff", summaryApi1.GetMostProcratinatingStaff)
+
+	router.GET("/summary/GetMostCancelStaff", summaryApi1.GetMostCancelStaff)
 
 	return router
 }

@@ -2,23 +2,22 @@ package changes
 
 import (
 	"github.com/elizavetamikhailova/TasksProject/dao"
+	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
 	"github.com/elizavetamikhailova/TasksProject/entity"
 	"time"
 )
 
 type Changes struct {
-	staffDAO        dao.Staff
-	taskDAO         dao.Task
-	awaitingTaskDAO dao.AwaitingTask
-	AnswersDAO      dao.StaffAnswers
+	staffDAO   dao.Staff
+	taskDAO    dao.Task
+	AnswersDAO dao.StaffAnswers
 }
 
-func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, awaitingTaskDAO dao.AwaitingTask, answersDAO dao.StaffAnswers) Changes {
+func NewAppChanges(staffDAO dao.Staff, taskDAO dao.Task, answersDAO dao.StaffAnswers) Changes {
 	return Changes{
-		staffDAO:        staffDAO,
-		taskDAO:         taskDAO,
-		awaitingTaskDAO: awaitingTaskDAO,
-		AnswersDAO:      answersDAO,
+		staffDAO:   staffDAO,
+		taskDAO:    taskDAO,
+		AnswersDAO: answersDAO,
 	}
 }
 
@@ -66,7 +65,7 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 		tud[k] = v
 	}
 
-	awaitingTasks, err := c.awaitingTaskDAO.GetAwaitingTask(arg.StaffId, arg.UpdateTime)
+	awaitingTasks, err := c.taskDAO.GetAwaitingTask(arg.StaffId, arg.UpdateTime)
 	if err != nil {
 		return nil, err
 	}
@@ -191,6 +190,15 @@ func (c *Changes) AddTaskWithContent(arg ArgAddTaskWithContent) error {
 			}
 			content = newContent
 		}
+	case 5:
+		{
+			var jsonContent = arg.Content.(map[string]interface{})
+			newContent := model.AddStaffForm{
+				GroupId: int(jsonContent["GroupId"].(float64)),
+			}
+			content = newContent
+		}
+
 	}
 	return c.taskDAO.AddTaskWithContent(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)
 }
@@ -245,4 +253,15 @@ type ArgAddStaff struct {
 
 func (c *Changes) AddStaff(arg ArgAddStaff) error {
 	return c.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
+}
+
+type ArgAddComment struct {
+	StaffId    int       `valid:"required"`
+	TaskId     int       `valid:"required"`
+	Text       string    `valid:"required"`
+	UpdateTime time.Time `valid:"required"`
+}
+
+func (c *Changes) AddComment(arg ArgAddComment) error {
+	return c.taskDAO.AddComment(arg.StaffId, arg.TaskId, arg.Text)
 }

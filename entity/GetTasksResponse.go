@@ -5,8 +5,8 @@ import (
 )
 
 type GetTasksResponse struct {
-	Id               int         `gorm:"column:id"`
-	StaffId          int64       `json:",omitempty"`
+	Id               int `gorm:"column:id"`
+	StaffId          int64
 	StaffLogin       string      `json:",omitempty"`
 	ParentId         int         `json:",omitempty"`
 	TypeCode         string      `gorm:"column:code"`

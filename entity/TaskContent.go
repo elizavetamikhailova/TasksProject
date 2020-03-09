@@ -7,3 +7,7 @@ type TaskContent struct {
 	Address string
 	TaskId  int `json:",omitempty"`
 }
+
+func (TaskContent) TableName() string {
+	return "tasks.task_content"
+}

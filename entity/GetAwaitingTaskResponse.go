@@ -11,4 +11,6 @@ type GetAwaitingTaskResponse struct {
 	ExpectedLeadTime float64 `json:",omitempty"`
 	DifficultyLevel  int     `json:",omitempty"`
 	CreatedAt        time.Time
+	Flags            []string    `json:",omitempty"`
+	Content          interface{} `json:",omitempty"`
 }

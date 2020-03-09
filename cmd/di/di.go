@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/app/changes"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
+	"github.com/elizavetamikhailova/TasksProject/app/summary"
 	"github.com/elizavetamikhailova/TasksProject/app/task"
 	"github.com/elizavetamikhailova/TasksProject/configs"
 	dao "github.com/elizavetamikhailova/TasksProject/dao/gorm"
@@ -38,9 +39,10 @@ func GetDI(cfg configs.Config) *dig.Container {
 
 	di.Provide(changes.NewAppChanges)
 
-	di.Provide(dao.NewDaoAwaitingTask)
-
 	di.Provide(dao.NewDaoForm)
+
+	di.Provide(dao.NewDaoSummary)
+	di.Provide(summary.NewAppSummary)
 
 	return di
 }
