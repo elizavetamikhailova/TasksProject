@@ -47,46 +47,47 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 		panic(err)
 	}
 
-	router.POST("/staff/add", changesApi1.AddStaff)
+	router.POST("/staff/auth", staffApi1.Auth)
+	router.POST("/staff/add", staffApi1.CheckToken(changesApi1.AddStaff))
 
-	router.POST("/task/addTask", taskApi1.AddTask)
-	router.POST("/task/getTasks", taskApi1.GetTaskById)
+	router.POST("/task/addTask", staffApi1.CheckToken(taskApi1.AddTask))
+	router.POST("/task/getTasks", staffApi1.CheckToken(taskApi1.GetTaskById))
 
-	router.POST("/changes/get", changesApi1.GetChanges)
+	router.POST("/changes/get", staffApi1.CheckToken(changesApi1.GetChanges))
 
-	router.POST("/changes/boss/get", changesApi1.GetChangesForBoss)
+	router.POST("/changes/boss/get", staffApi1.CheckToken(changesApi1.GetChangesForBoss))
 
-	router.POST("/task/updateLeadTime", changesApi1.UpdateTaskLeadTime)
+	router.POST("/task/updateLeadTime", staffApi1.CheckToken(changesApi1.UpdateTaskLeadTime))
 
-	router.POST("/task/boss/updateLeadTime", changesApi1.UpdateTaskLeadTimeForBoss)
+	router.POST("/task/boss/updateLeadTime", staffApi1.CheckToken(changesApi1.UpdateTaskLeadTimeForBoss))
 
-	router.POST("/task/AddTaskForStaff", changesApi1.AddTaskForStaff)
+	router.POST("/task/AddTaskForStaff", staffApi1.CheckToken(changesApi1.AddTaskForStaff))
 
-	router.POST("/task/AddTaskWithContent", changesApi1.AddTaskWithContent)
+	router.POST("/task/AddTaskWithContent", staffApi1.CheckToken(changesApi1.AddTaskWithContent))
 
-	router.POST("/task/UpdateTaskStatusByStaff", changesApi1.UpdateTaskStatus)
+	router.POST("/task/UpdateTaskStatusByStaff", staffApi1.CheckToken(changesApi1.UpdateTaskStatus))
 
-	router.POST("/task/UpdateTaskStatusByBoss", changesApi1.UpdateTaskStatusByBoss)
+	router.POST("/task/UpdateTaskStatusByBoss", staffApi1.CheckToken(changesApi1.UpdateTaskStatusByBoss))
 
-	router.POST("/task/AddTaskWithAutomaticStaffSelection", changesApi1.AddTaskWithAutomaticStaffSelection)
+	router.POST("/task/AddTaskWithAutomaticStaffSelection", staffApi1.CheckToken(changesApi1.AddTaskWithAutomaticStaffSelection))
 
-	router.POST("/task/UpdateAwaitingTaskToActive", changesApi1.UpdateAwaitingTaskToActive)
+	router.POST("/task/UpdateAwaitingTaskToActive", staffApi1.CheckToken(changesApi1.UpdateAwaitingTaskToActive))
 
-	router.POST("/form/InsertAnswers", changesApi1.InsertAnswers)
+	router.POST("/form/InsertAnswers", staffApi1.CheckToken(changesApi1.InsertAnswers))
 
-	router.POST("/task/AddCommentForBoss", changesApi1.AddCommentForBoss)
+	router.POST("/task/AddCommentForBoss", staffApi1.CheckToken(changesApi1.AddCommentForBoss))
 
-	router.POST("/task/AddCommentForStaff", changesApi1.AddCommentForStaff)
+	router.POST("/task/AddCommentForStaff", staffApi1.CheckToken(changesApi1.AddCommentForStaff))
 
-	router.GET("/summary/GetMostProductiveStaff", summaryApi1.GetMostProductiveStaff)
+	router.GET("/summary/GetMostProductiveStaff", staffApi1.CheckToken(summaryApi1.GetMostProductiveStaff))
 
-	router.GET("/summary/GetMostActiveStaff", summaryApi1.GetMostActiveStaff)
+	router.GET("/summary/GetMostActiveStaff", staffApi1.CheckToken(summaryApi1.GetMostActiveStaff))
 
-	router.GET("/summary/GetMostLatenessStaff", summaryApi1.GetMostLatenessStaff)
+	router.GET("/summary/GetMostLatenessStaff", staffApi1.CheckToken(summaryApi1.GetMostLatenessStaff))
 
-	router.GET("/summary/GetMostProcrastinatingStaff", summaryApi1.GetMostProcratinatingStaff)
+	router.GET("/summary/GetMostProcrastinatingStaff", staffApi1.CheckToken(summaryApi1.GetMostProcratinatingStaff))
 
-	router.GET("/summary/GetMostCancelStaff", summaryApi1.GetMostCancelStaff)
+	router.GET("/summary/GetMostCancelStaff", staffApi1.CheckToken(summaryApi1.GetMostCancelStaff))
 
 	return router
 }

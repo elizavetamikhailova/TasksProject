@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
+    <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="ff">
+      <change afterPath="$PROJECT_DIR$/dao/gorm/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dao/gorm/model/staffSession.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/staff/add.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/staff/add.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/staff/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/staff/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/config.prod.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.prod.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/gorm/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dao/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/entity/Staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/modules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/modules.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +56,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../simple" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
@@ -130,30 +144,18 @@
     <vendoring-mode>true</vendoring-mode>
   </component>
   <component name="WindowStateProjectService">
-    <state x="1051" y="214" width="800" height="677" key="#Go_Modules_(vgo)" timestamp="1575715443514">
-      <screen x="67" y="27" width="1853" height="1053" />
-    </state>
-    <state x="1051" y="214" width="800" height="677" key="#Go_Modules_(vgo)/67.27.1853.1053@67.27.1853.1053" timestamp="1575715443514" />
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1579767831639">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1579767831639" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1583740131111">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1584286947779">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1583740131111" />
-    <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1579768628679">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1584286947779" />
+    <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1584297983801">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1579768628679" />
-    <state x="837" y="447" width="302" height="210" key="Github.ShareDialog" timestamp="1575799830225">
-      <screen x="67" y="27" width="1853" height="1053" />
-    </state>
-    <state x="837" y="447" width="302" height="210" key="Github.ShareDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799830225" />
-    <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog" timestamp="1575799835737">
-      <screen x="67" y="27" width="1853" height="1053" />
-    </state>
-    <state x="767" y="259" width="442" height="587" key="Github.UntrackedFilesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1575799835737" />
+    <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1584297983801" />
     <state x="698" y="270" width="580" height="564" key="MultipleFileMergeDialog" timestamp="1583740106217">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -166,10 +168,14 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1579778130093" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1583740136708">
+    <state width="498" height="446" key="SwitcherDM" timestamp="1584286951967">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1583740136708" />
+    <state width="498" height="446" key="SwitcherDM/67.27.1853.1053@67.27.1853.1053" timestamp="1584286951967" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1583740312571">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1583740312571" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578234331892">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -178,10 +184,14 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="772" y="244" width="432" height="617" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1581751300798" />
-    <state x="641" y="288" width="863" height="606" key="find.popup" timestamp="1581753900929">
+    <state x="761" y="472" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584286933156">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="641" y="288" width="863" height="606" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1581753900929" />
+    <state x="761" y="472" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1853.1053@67.27.1853.1053" timestamp="1584286933156" />
+    <state x="641" y="288" width="863" height="606" key="find.popup" timestamp="1584464251497">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="641" y="288" width="863" height="606" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1584464251497" />
     <state x="625" y="346" width="726" height="413" key="git4idea.merge.GitPullDialog" timestamp="1583740154683">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

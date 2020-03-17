@@ -2,6 +2,10 @@
 github.com/BurntSushi/toml
 # github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496
 github.com/asaskevich/govalidator
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
+# github.com/go-macaron/inject v0.0.0-20160627170012-d8a0b8677191
+github.com/go-macaron/inject
 # github.com/go-sql-driver/mysql v1.5.0
 github.com/go-sql-driver/mysql
 # github.com/jinzhu/configor v1.1.1
@@ -18,10 +22,16 @@ github.com/lib/pq
 github.com/lib/pq/hstore
 github.com/lib/pq/oid
 github.com/lib/pq/scram
+# github.com/unknwon/com v0.0.0-20190804042917-757f69c95f3e
+github.com/unknwon/com
 # go.uber.org/dig v1.8.0
 go.uber.org/dig
 go.uber.org/dig/internal/digreflect
 go.uber.org/dig/internal/dot
+# golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
+golang.org/x/crypto/bcrypt
+golang.org/x/crypto/blowfish
+golang.org/x/crypto/pbkdf2
 # golang.org/x/lint v0.0.0-20190930215403-16217165b5de
 golang.org/x/lint
 golang.org/x/lint/golint
@@ -29,5 +39,9 @@ golang.org/x/lint/golint
 golang.org/x/tools/go/ast/astutil
 golang.org/x/tools/go/gcexportdata
 golang.org/x/tools/go/internal/gcimporter
+# gopkg.in/ini.v1 v1.46.0
+gopkg.in/ini.v1
+# gopkg.in/macaron.v1 v1.3.5
+gopkg.in/macaron.v1
 # gopkg.in/yaml.v2 v2.2.2
 gopkg.in/yaml.v2

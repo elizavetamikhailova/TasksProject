@@ -18,4 +18,8 @@ type Staff interface {
 	GetStaffLastUpdatedForBoss(
 		updateTime time.Time,
 	) ([]entity.Staff, error)
+
+	CheckToken(token string) error
+
+	GetAuth(login string, password string, deviceCode string, pushToken string) (string, error)
 }
