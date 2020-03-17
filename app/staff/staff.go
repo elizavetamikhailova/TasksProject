@@ -2,6 +2,7 @@ package staff
 
 import (
 	"github.com/elizavetamikhailova/TasksProject/dao"
+	"github.com/elizavetamikhailova/TasksProject/entity"
 )
 
 type Staff struct {
@@ -27,6 +28,10 @@ type ArgAuth struct {
 	PushToken  string `valid:"required"`
 }
 
+type ArgGetUserInfo struct {
+	Login string `valid:"required"`
+}
+
 func (s *Staff) Add(arg ArgAdd) error {
 	return s.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
 }
@@ -37,4 +42,8 @@ func (s *Staff) Auth(arg ArgAuth) (string, error) {
 
 func (s *Staff) CheckToken(token string) error {
 	return s.staffDAO.CheckToken(token)
+}
+
+func (s *Staff) GetUserInfo(arg ArgGetUserInfo) (*entity.Staff, error) {
+	return s.staffDAO.GetUserInfo(arg.Login)
 }

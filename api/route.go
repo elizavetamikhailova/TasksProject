@@ -48,9 +48,13 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 	}
 
 	router.POST("/staff/auth", staffApi1.Auth)
+
 	router.POST("/staff/add", staffApi1.CheckToken(changesApi1.AddStaff))
 
+	router.POST("/staff/getUserInfo", staffApi1.CheckToken(staffApi1.GetUserInfo))
+
 	router.POST("/task/addTask", staffApi1.CheckToken(taskApi1.AddTask))
+
 	router.POST("/task/getTasks", staffApi1.CheckToken(taskApi1.GetTaskById))
 
 	router.POST("/changes/get", staffApi1.CheckToken(changesApi1.GetChanges))

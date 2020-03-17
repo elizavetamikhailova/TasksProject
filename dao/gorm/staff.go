@@ -73,6 +73,25 @@ func (s Staff) GetStaffLastUpdatedForBoss(
 	return staffList, nil
 }
 
+func (s Staff) GetUserInfo(login string) (*entity.Staff, error) {
+	var staff entity.Staff
+
+	staffFromDb := s.db.
+		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
+		Where(`s.login = ?`, login).
+		Row()
+
+	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
+		&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
+	if err != nil {
+		//if err == sql.ErrNoRows {
+		//	return nil, nil
+		//}
+		return nil, err
+	}
+
+	return &staff, nil
+}
 func (s Staff) Add(login string, phone string, passMd5 string) error {
 
 	staff := model.Staff{Staff: entity.Staff{

@@ -22,4 +22,5 @@ type Staff interface {
 	CheckToken(token string) error
 
 	GetAuth(login string, password string, deviceCode string, pushToken string) (string, error)
+	GetUserInfo(login string) (*entity.Staff, error)
 }

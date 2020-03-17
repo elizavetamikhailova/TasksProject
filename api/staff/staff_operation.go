@@ -101,3 +101,39 @@ func (s *Staff) CheckToken(next httprouter.Handle) httprouter.Handle {
 		next(w, r, p)
 	}
 }
+
+func validationGetUserInfo(bodyIN io.ReadCloser) (staff.ArgGetUserInfo, error) {
+	post := staff.ArgGetUserInfo{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func (s *Staff) GetUserInfo(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationGetUserInfo(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+
+	staff, err := s.op.GetUserInfo(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	jData, err := json.Marshal(staff)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+	w.Write(jData)
+}
