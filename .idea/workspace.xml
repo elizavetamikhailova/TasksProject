@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/staff/add.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/staff/staff_operation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/staff/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/staff/staff.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/staff.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/staff.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/staff.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/config.prod.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.prod.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +101,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added error handling of task status change" />
     <MESSAGE value="Added automatic task distribution by workload" />
     <MESSAGE value="Added change return for boss" />
     <MESSAGE value="Added waiting tasks in changes" />
@@ -128,7 +125,8 @@
     <MESSAGE value="script/start.sh upd" />
     <MESSAGE value="ff" />
     <MESSAGE value="authorization added" />
-    <option name="LAST_COMMIT_MESSAGE" value="authorization added" />
+    <MESSAGE value="getUserInfo added" />
+    <option name="LAST_COMMIT_MESSAGE" value="getUserInfo added" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -139,10 +137,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1579767831639" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1584466632731">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1584467787168">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1584466632731" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1584467787168" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1584297983801">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -163,10 +161,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="498" height="446" key="SwitcherDM/67.27.1853.1053@67.27.1853.1053" timestamp="1584286951967" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1584466635163">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1584467789449">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1584466635163" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1584467789449" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578234331892">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
