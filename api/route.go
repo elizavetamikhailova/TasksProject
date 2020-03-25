@@ -93,5 +93,7 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.GET("/summary/GetMostCancelStaff", staffApi1.CheckToken(summaryApi1.GetMostCancelStaff))
 
+	router.POST("/staff/UpdatePushToken", staffApi1.CheckToken(staffApi1.UpdatePushToken))
+
 	return router
 }

@@ -137,3 +137,32 @@ func (s *Staff) GetUserInfo(w http.ResponseWriter, r *http.Request, ps httproute
 	}
 	w.Write(jData)
 }
+
+func validationUpdatePushToken(bodyIN io.ReadCloser) (staff.ArgUpdatePushToken, error) {
+	post := staff.ArgUpdatePushToken{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func (s *Staff) UpdatePushToken(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationUpdatePushToken(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+	err = s.op.UpdatePushToken(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}

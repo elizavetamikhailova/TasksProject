@@ -28,6 +28,11 @@ type ArgAuth struct {
 	PushToken  string `valid:"required"`
 }
 
+type ArgUpdatePushToken struct {
+	DeviceId  string `valid:"required"`
+	PushToken string `valid:"required"`
+}
+
 type ArgGetUserInfo struct {
 	Login string `valid:"required"`
 }
@@ -46,4 +51,8 @@ func (s *Staff) CheckToken(token string) error {
 
 func (s *Staff) GetUserInfo(arg ArgGetUserInfo) (*entity.Staff, error) {
 	return s.staffDAO.GetUserInfo(arg.Login)
+}
+
+func (s *Staff) UpdatePushToken(arg ArgUpdatePushToken) error {
+	return s.staffDAO.UpdatePushToken(arg.DeviceId, arg.PushToken)
 }

@@ -153,11 +153,12 @@ func (s Staff) GetAuth(login string, password string, deviceCode string, pushTok
 	tk := &Token{UserId: staff.Id}
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
-
+	//проверять наличие девайсИд и если есть, то обновлять токен, если нет, то добавлять
 	err = s.db.
 		Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
-		Where(`ss.original_pass = ?`, staff.PassMd5).
-		Updates(map[string]interface{}{"auth_token": tokenString}).Error
+		//поменяла пароль на ид
+		Where(`ss.staff_id = ?`, staff.Id).
+		Updates(map[string]interface{}{"auth_token": tokenString, "device_code": deviceCode}).Error
 
 	if err != nil {
 		return "", err
@@ -194,6 +195,18 @@ func (s Staff) CreateAccount(staff model.Staff, password string, deviceCode stri
 		return err
 	}
 
+	return nil
+}
+
+func (s Staff) UpdatePushToken(deviceId string, pushToken string) error {
+	err := s.db.
+		Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
+		Where(`ss.device_code = ?`, deviceId).
+		Updates(map[string]interface{}{"push_token": pushToken}).Error
+
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
