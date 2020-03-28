@@ -1,6 +1,7 @@
 package di
 
 import (
+	firebase "firebase.google.com/go"
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/app/changes"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
@@ -11,6 +12,8 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"go.uber.org/dig"
+	"golang.org/x/net/context"
+	"google.golang.org/api/option"
 	"log"
 	"os"
 )
@@ -29,6 +32,15 @@ func GetDI(cfg configs.Config) *dig.Container {
 		db.LogMode(true)
 		db.SetLogger(log.New(os.Stdout, "\r\n", 0))
 		return db
+	})
+
+	di.Provide(func() *firebase.App {
+		opt := option.WithCredentialsFile("TaskProject-62abf690c362.json")
+		app, err := firebase.NewApp(context.Background(), nil, opt)
+		if err != nil {
+			panic(err)
+		}
+		return app
 	})
 
 	di.Provide(dao.NewDaoStaff)

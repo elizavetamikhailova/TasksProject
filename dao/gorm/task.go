@@ -1,6 +1,7 @@
 package gorm
 
 import (
+	firebase "firebase.google.com/go"
 	"fmt"
 	"github.com/elizavetamikhailova/TasksProject/dao"
 	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
@@ -10,7 +11,15 @@ import (
 )
 
 type Task struct {
-	db *gorm.DB
+	db  *gorm.DB
+	app *firebase.App
+}
+
+func NewDaoTask(db *gorm.DB, app *firebase.App) dao.Task {
+	return &Task{
+		db:  db,
+		app: app,
+	}
 }
 
 /*
@@ -288,7 +297,7 @@ func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error {
 //where id =  13 and type_id = 2
 func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 	var task entity.Task
-
+	var staffIds []int
 	taskFromDB := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
 		Where(`staff_task.id = ?`, taskId).Row()
@@ -304,14 +313,46 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		return err
 	}
 
+	staffIds = append(staffIds, task.StaffId)
 	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesTableName())).
 		Select(`task_state_change.state_to_id as new_state`).
 		Where(`task_state_change.type_id = ? and task_state_change.state_from_id = ? and task_state_change.state_to_id = ?`,
 			task.TypeId, task.StateId, stateTo).SubQuery()
-	return t.db.
+	err = t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
 		Where(`staff_task.id = ? and staff_task.type_id = ?`, taskId, task.TypeId).
 		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": subQuery}).Error
+
+	if err != nil {
+		return err
+	}
+	pushTokens, err := t.getPushTokens(staffIds)
+	if err != nil {
+		return err
+	}
+	//err = sendPush(pushTokens)
+	err = androidMessage(t.app, pushTokens)
+	if err != nil {
+		return err
+	}
+	return err
+}
+
+func (t Task) getPushTokens(staffIds []int) ([]string, error) {
+	var pushTokens []string
+	for _, v := range staffIds {
+		var pushToken string
+		pushTokenFromDb := t.db.
+			Select(`ss.push_token`).
+			Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
+			Where(`ss.staff_id = ?`, v).Row()
+		err := pushTokenFromDb.Scan(&pushToken)
+		if err != nil {
+			return nil, err
+		}
+		pushTokens = append(pushTokens, pushToken)
+	}
+	return pushTokens, nil
 }
 
 //select s.id,
@@ -496,12 +537,6 @@ func (t Task) AddFlags(flags []string, taskId int) error {
 	}
 
 	return nil
-}
-
-func NewDaoTask(db *gorm.DB) dao.Task {
-	return &Task{
-		db: db,
-	}
 }
 
 func (t Task) UpdateTaskStatusByBoss(taskId int, stateTo int) error {
