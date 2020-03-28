@@ -1,6 +1,7 @@
 package gorm
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/elizavetamikhailova/TasksProject/dao"
@@ -78,10 +79,40 @@ func (b Boss) GetAuth(login string, password string, deviceCode string, pushToke
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
 	//проверять наличие девайсИд и если есть, то обновлять токен, если нет, то добавлять
+
+	var deviceCodeFromDb string
+	bossSessionFromDb := b.db.Table("tasks.boss_session").
+		Select(`boss_session.device_code`).
+		Where(`boss_session.auth_token = ? and boss_session.device_code = ?`, tokenString, deviceCode).
+		Row()
+
+	err = bossSessionFromDb.Scan(&deviceCodeFromDb)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			bossSession := model.BossSession{
+				DeviceCode:   deviceCode,
+				AuthToken:    tokenString,
+				OriginalPass: boss.Pass,
+				ExpiresAt:    "2020-10-25T10:16:23.000Z",
+				PushToken:    pushToken,
+				BossId:       boss.Id,
+			}
+
+			d := b.db.Create(&bossSession).Scan(&bossSession)
+			if d.Error != nil {
+				return "", err
+			}
+
+			return tokenString, nil
+		} else {
+			return "", err
+		}
+	}
+
 	err = b.db.
 		Table(fmt.Sprintf(`%s ss`, new(model.BossSession).TableName())).
 		//поменяла пароль на ид
-		Where(`ss.boss_id = ?`, boss.Id).
+		Where(`ss.boss_id = ? and ss.device_code = ?`, boss.Id, deviceCode).
 		Updates(map[string]interface{}{"auth_token": tokenString, "device_code": deviceCode}).Error
 
 	if err != nil {

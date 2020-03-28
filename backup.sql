@@ -1,4 +1,3 @@
-
 --
 -- PostgreSQL database dump
 --
@@ -1852,6 +1851,14 @@ SELECT pg_catalog.setval('tasks.tasks_state_id_seq', 1, true);
 
 ALTER TABLE ONLY tasks.boss
     ADD CONSTRAINT boss_pk PRIMARY KEY (id);
+
+
+--
+-- Name: boss_session boss_session_pk; Type: CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.boss_session
+    ADD CONSTRAINT boss_session_pk PRIMARY KEY (id);
 
 
 --

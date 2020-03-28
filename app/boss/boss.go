@@ -16,10 +16,10 @@ func NewAppBoss(bossDAO dao.Boss) Boss {
 }
 
 type ArgAuth struct {
-	Login      string `valid:"required"`
-	PassMd5    string `valid:"required"`
-	DeviceCode string `valid:"required"`
-	PushToken  string `valid:"required"`
+	Login     string `valid:"required"`
+	PassMd5   string `valid:"required"`
+	DeviceId  string `valid:"required"`
+	PushToken string `valid:"required"`
 }
 
 type ArgUpdatePushToken struct {
@@ -32,7 +32,7 @@ type ArgGetUserInfo struct {
 }
 
 func (b *Boss) Auth(arg ArgAuth) (string, error) {
-	return b.bossDAO.GetAuth(arg.Login, arg.PassMd5, arg.DeviceCode, arg.PushToken)
+	return b.bossDAO.GetAuth(arg.Login, arg.PassMd5, arg.DeviceId, arg.PushToken)
 }
 
 func (b *Boss) CheckToken(token string) error {

@@ -23,10 +23,10 @@ type ArgAdd struct {
 }
 
 type ArgAuth struct {
-	Login      string `valid:"required"`
-	PassMd5    string `valid:"required"`
-	DeviceCode string `valid:"required"`
-	PushToken  string `valid:"required"`
+	Login     string `valid:"required"`
+	PassMd5   string `valid:"required"`
+	DeviceId  string `valid:"required"`
+	PushToken string `valid:"required"`
 }
 
 type ArgUpdatePushToken struct {
@@ -43,7 +43,7 @@ func (s *Staff) Add(arg ArgAdd) error {
 }
 
 func (s *Staff) Auth(arg ArgAuth) (string, error) {
-	return s.staffDAO.GetAuth(arg.Login, arg.PassMd5, arg.DeviceCode, arg.PushToken)
+	return s.staffDAO.GetAuth(arg.Login, arg.PassMd5, arg.DeviceId, arg.PushToken)
 }
 
 func (s *Staff) CheckToken(token string) error {

@@ -1,6 +1,7 @@
 package gorm
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/elizavetamikhailova/TasksProject/dao"
@@ -148,10 +149,42 @@ func (s Staff) GetAuth(login string, password string, deviceCode string, pushTok
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), tk)
 	tokenString, _ := token.SignedString([]byte(os.Getenv("token_password")))
 	//проверять наличие девайсИд и если есть, то обновлять токен, если нет, то добавлять
+
+	var deviceCodeFromDb string
+	staffSessionFromDb := s.db.Table("tasks.staff_session").
+		Select(`staff_session.device_code`).
+		Where(`staff_session.auth_token = ? and staff_session.device_code = ?`, tokenString, deviceCode).
+		Row()
+
+	err = staffSessionFromDb.Scan(&deviceCodeFromDb)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			staffSession := model.StaffSession{
+				DeviceCode:   deviceCode,
+				AuthToken:    tokenString,
+				OriginalPass: staff.PassMd5,
+				ExpiresAt:    "2020-10-25T10:16:23.000Z",
+				PushToken:    pushToken,
+				StaffId:      staff.Id,
+			}
+
+			d := s.db.Create(&staffSession).Scan(&staffSession)
+			if d.Error != nil {
+				return "", err
+			}
+
+			return tokenString, nil
+		} else {
+			return "", err
+		}
+	}
+
+	//если не создаем новую запись, то обнавляем старую и едем дальше
+
 	err = s.db.
 		Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
 		//поменяла пароль на ид
-		Where(`ss.staff_id = ?`, staff.Id).
+		Where(`ss.staff_id = ? and ss.device_code = ?`, staff.Id, deviceCode).
 		Updates(map[string]interface{}{"auth_token": tokenString, "device_code": deviceCode}).Error
 
 	if err != nil {
