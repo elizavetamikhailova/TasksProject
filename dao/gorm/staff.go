@@ -41,34 +41,52 @@ func (s Staff) GetStaffLastUpdated(
 }
 
 func (s Staff) GetStaffLastUpdatedForBoss(
+	bossId int,
 	updateTime time.Time,
 ) ([]entity.Staff, error) {
+
 	var staffList []entity.Staff
 
-	staffFromDb, err := s.db.
-		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
-		Where(`s.updated_at > ?`, updateTime).
+	staffIdsFromDb, err := s.db.Table("tasks.staff_to_boss").
+		Select(`staff_to_boss.staff_id`).
+		Where(`staff_to_boss.boss_id = ?`, bossId).
 		Rows()
 
 	if err != nil {
 		return nil, err
 	}
 
-	for staffFromDb.Next() {
-
-		var staff entity.Staff
-
-		err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
-			&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
+	for staffIdsFromDb.Next() {
+		var id int
+		err = staffIdsFromDb.Scan(&id)
 
 		if err != nil {
-			//if err == sql.ErrNoRows {
-			//	return nil, nil
-			//}
 			return nil, err
 		}
 
-		staffList = append(staffList, staff)
+		staffFromDb, err := s.db.
+			Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
+			Where(`s.updated_at > ? and s.id = ?`, updateTime, id).
+			Rows()
+
+		if err != nil {
+			return nil, err
+		}
+
+		for staffFromDb.Next() {
+
+			var staff entity.Staff
+
+			err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
+				&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
+
+			if err != nil {
+				return nil, err
+			}
+
+			staffList = append(staffList, staff)
+		}
+
 	}
 
 	return staffList, nil

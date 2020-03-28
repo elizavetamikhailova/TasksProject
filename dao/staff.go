@@ -17,6 +17,7 @@ type Staff interface {
 	) (*entity.Staff, error)
 
 	GetStaffLastUpdatedForBoss(
+		bossId int,
 		updateTime time.Time,
 	) ([]entity.Staff, error)
 

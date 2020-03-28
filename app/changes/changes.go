@@ -27,6 +27,7 @@ type ArgGetChanges struct {
 }
 
 type ArgGetChangesForBoss struct {
+	BossId     int       `valid:"required"`
 	UpdateTime time.Time `valid:"required"`
 }
 
@@ -89,7 +90,7 @@ func (c *Changes) GetChanges(arg ArgGetChanges) (*Data, error) {
 
 func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*DataForBoss, error) {
 
-	staff, err := c.staffDAO.GetStaffLastUpdatedForBoss(arg.UpdateTime)
+	staff, err := c.staffDAO.GetStaffLastUpdatedForBoss(arg.BossId, arg.UpdateTime)
 	if err != nil {
 		return nil, err
 	}
