@@ -3,6 +3,7 @@ package di
 import (
 	firebase "firebase.google.com/go"
 	"fmt"
+	"github.com/elizavetamikhailova/TasksProject/app/boss"
 	"github.com/elizavetamikhailova/TasksProject/app/changes"
 	"github.com/elizavetamikhailova/TasksProject/app/staff"
 	"github.com/elizavetamikhailova/TasksProject/app/summary"
@@ -55,6 +56,9 @@ func GetDI(cfg configs.Config) *dig.Container {
 
 	di.Provide(dao.NewDaoSummary)
 	di.Provide(summary.NewAppSummary)
+
+	di.Provide(dao.NewDaoBoss)
+	di.Provide(boss.NewAppBoss)
 
 	return di
 }

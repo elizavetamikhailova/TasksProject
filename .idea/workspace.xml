@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="getUserInfo added">
-      <change afterPath="$PROJECT_DIR$/TaskProject-62abf690c362.json" afterDir="false" />
+    <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/api/boss/boss_operation.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/boss/boss.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dao/boss.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dao/gorm/boss.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dao/gorm/model/boss.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dao/gorm/model/bossSession.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/route.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/di/di.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/di/di.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/push.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/golang.org/x/lint/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/golang.org/x/lint/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/golang.org/x/lint/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/golang.org/x/lint/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/golang.org/x/lint/lint.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/golang.org/x/lint/lint.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/golang.org/x/tools/go/ast/astutil/imports.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/golang.org/x/tools/go/ast/astutil/imports.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/golang.org/x/tools/go/internal/gcimporter/gcimporter.go" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/golang.org/x/tools/go/internal/gcimporter/gcimporter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/modules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/modules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,17 +56,17 @@
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/docker" />
+      <recent name="$PROJECT_DIR$/configs" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/docker/project" />
       <recent name="$PROJECT_DIR$/docker" />
       <recent name="$PROJECT_DIR$/api/changes" />
       <recent name="$PROJECT_DIR$/dao" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/docker" />
-      <recent name="$PROJECT_DIR$/configs" />
     </key>
   </component>
   <component name="RunManager">
@@ -146,10 +144,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1169" y="357" width="658" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1579767831639" />
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1585162833949">
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1585391669527">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1585162833949" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1585391669527" />
     <state x="776" y="310" width="447" height="484" key="FileChooserDialogImpl" timestamp="1585382357877">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -170,10 +168,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="498" height="446" key="SwitcherDM/67.27.1853.1053@67.27.1853.1053" timestamp="1584286951967" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1585158049555">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1585391675170">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1585158049555" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1585391675170" />
     <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578234331892">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
