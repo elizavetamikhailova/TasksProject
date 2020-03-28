@@ -35,9 +35,9 @@ type Task interface {
 
 	UpdateTaskStatus(taskId int, stateTo int) error
 
-	GetStaffWorkLoad() ([]entity.Workload, error)
+	GetStaffWorkLoad(bossId int) ([]entity.Workload, error)
 
-	AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64, flags []string, content interface{}) error
+	AddTaskWithAutomaticStaffSelection(bossId int, typeId int, expectedLeadTime float64, difficultyLevel int64, flags []string, content interface{}) error
 
 	GetTasksLastUpdateForBoss(
 		updateTime time.Time,

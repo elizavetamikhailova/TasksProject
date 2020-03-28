@@ -353,28 +353,46 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 //where st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null
 //group by s.id
 
-func (t Task) GetStaffWorkLoad() ([]entity.Workload, error) {
+func (t Task) GetStaffWorkLoad(bossId int) ([]entity.Workload, error) {
 	var workloadByStaff []entity.Workload
 
-	workloadFromDb, err := t.db.
-		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
-		Select(`s.id, sum(case when st.difficulty_level is null then 0 else st.difficulty_level end + case when st.expected_lead_time is null then 0 else st.expected_lead_time end) as aggr`).
-		Joins("left join tasks.staff_task st on (s.id = st.staff_id)").
-		Where(`st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null`).
-		Group("s.id").
+	staffIdsFromDb, err := t.db.Table("tasks.staff_to_boss").
+		Select(`staff_to_boss.staff_id`).
+		Where(`staff_to_boss.boss_id = ?`, bossId).
 		Rows()
 
 	if err != nil {
 		return nil, err
 	}
 
-	for workloadFromDb.Next() {
-		var workload entity.Workload
-		err := workloadFromDb.Scan(&workload.StaffId, &workload.Aggr)
+	for staffIdsFromDb.Next() {
+		var id int
+		err = staffIdsFromDb.Scan(&id)
+
 		if err != nil {
 			return nil, err
 		}
-		workloadByStaff = append(workloadByStaff, workload)
+
+		workloadFromDb, err := t.db.
+			Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
+			Select(`s.id, sum(case when st.difficulty_level is null then 0 else st.difficulty_level end + case when st.expected_lead_time is null then 0 else st.expected_lead_time end) as aggr`).
+			Joins("left join tasks.staff_task st on (s.id = st.staff_id)").
+			Where(`(st.state_id = 1 or st.state_id = 2 or st.difficulty_level is null or st.expected_lead_time is null) and s.id = ?`, id).
+			Group("s.id").
+			Rows()
+
+		if err != nil {
+			return nil, err
+		}
+
+		for workloadFromDb.Next() {
+			var workload entity.Workload
+			err := workloadFromDb.Scan(&workload.StaffId, &workload.Aggr)
+			if err != nil {
+				return nil, err
+			}
+			workloadByStaff = append(workloadByStaff, workload)
+		}
 	}
 
 	return workloadByStaff, nil
@@ -444,8 +462,8 @@ func (t Task) AddTaskWithoutStaff(typeId int, expectedLeadTime float64,
 	return task.Id, nil
 }
 
-func (t Task) AddTaskWithAutomaticStaffSelection(typeId int, expectedLeadTime float64, difficultyLevel int64, flags []string, content interface{}) error {
-	staffWorkLoad, err := t.GetStaffWorkLoad()
+func (t Task) AddTaskWithAutomaticStaffSelection(bossId int, typeId int, expectedLeadTime float64, difficultyLevel int64, flags []string, content interface{}) error {
+	staffWorkLoad, err := t.GetStaffWorkLoad(bossId)
 	if err != nil {
 		return err
 	}

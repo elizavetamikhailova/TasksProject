@@ -156,6 +156,7 @@ type ArgUpdateTaskStatus struct {
 }
 
 type ArgAddTaskWithAutomaticStaffSelection struct {
+	BossId           int
 	TypeId           int `valid:"required"`
 	ExpectedLeadTime float64
 	DifficultyLevel  int64
@@ -226,7 +227,7 @@ func (c *Changes) AddTaskWithAutomaticStaffSelection(arg ArgAddTaskWithAutomatic
 			content = newContent
 		}
 	}
-	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)
+	return c.taskDAO.AddTaskWithAutomaticStaffSelection(arg.BossId, arg.TypeId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)
 }
 
 func (c *Changes) UpdateAwaitingTaskToActive(arg ArgUpdateAwaitingTaskToActive) error {
