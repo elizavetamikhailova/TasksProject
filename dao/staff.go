@@ -6,7 +6,8 @@ import (
 )
 
 type Staff interface {
-	Add(login string,
+	Add(bossId int,
+		login string,
 		phone string,
 		passMd5 string) error
 

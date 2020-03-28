@@ -245,6 +245,7 @@ func (c *Changes) Insert(arg ArgInsertAnswers) error {
 }
 
 type ArgAddStaff struct {
+	BossId     int       `valid:"required"`
 	Login      string    `valid:"required"`
 	Phone      string    `valid:"required"`
 	PassMd5    string    `valid:"required"`
@@ -252,7 +253,7 @@ type ArgAddStaff struct {
 }
 
 func (c *Changes) AddStaff(arg ArgAddStaff) error {
-	return c.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
+	return c.staffDAO.Add(arg.BossId, arg.Login, arg.Phone, arg.PassMd5)
 }
 
 type ArgAddComment struct {

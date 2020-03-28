@@ -16,6 +16,7 @@ func NewAppStaff(staffDAO dao.Staff) Staff {
 }
 
 type ArgAdd struct {
+	BossId  int    `valid:"required"`
 	Login   string `valid:"required"`
 	Phone   string `valid:"required"`
 	PassMd5 string `valid:"required"`
@@ -38,7 +39,7 @@ type ArgGetUserInfo struct {
 }
 
 func (s *Staff) Add(arg ArgAdd) error {
-	return s.staffDAO.Add(arg.Login, arg.Phone, arg.PassMd5)
+	return s.staffDAO.Add(arg.BossId, arg.Login, arg.Phone, arg.PassMd5)
 }
 
 func (s *Staff) Auth(arg ArgAuth) (string, error) {

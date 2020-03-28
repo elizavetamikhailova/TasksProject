@@ -92,7 +92,7 @@ func (s Staff) GetUserInfo(login string) (*entity.Staff, error) {
 
 	return &staff, nil
 }
-func (s Staff) Add(login string, phone string, passMd5 string) error {
+func (s Staff) Add(bossId int, login string, phone string, passMd5 string) error {
 
 	staff := model.Staff{Staff: entity.Staff{
 		Login:     login,
@@ -100,13 +100,7 @@ func (s Staff) Add(login string, phone string, passMd5 string) error {
 		CreatedAt: time.Time{},
 	}}
 
-	//err := s.db.Create(&staff).Error
-	//
-	//if err != nil {
-	//	return err
-	//}
-
-	return s.CreateAccount(staff, passMd5, "", "")
+	return s.CreateAccount(bossId, staff, passMd5, "", "")
 }
 
 func (s Staff) CheckToken(token string) error {
@@ -167,13 +161,23 @@ func (s Staff) GetAuth(login string, password string, deviceCode string, pushTok
 	return tokenString, nil
 }
 
-func (s Staff) CreateAccount(staff model.Staff, password string, deviceCode string, pushToken string) error {
+func (s Staff) CreateAccount(bossId int, staff model.Staff, password string, deviceCode string, pushToken string) error {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	staff.PassMd5 = string(hashedPassword)
 	d := s.db.Create(&staff).Scan(&staff)
 
 	if d.Error != nil {
 		return d.Error
+	}
+
+	staffToBoss := model.StaffToBoss{
+		StaffId: staff.Id,
+		BossId:  bossId,
+	}
+	k := s.db.Create(&staffToBoss).Scan(&staffToBoss)
+
+	if k.Error != nil {
+		return k.Error
 	}
 
 	tk := &Token{UserId: staff.Id}
