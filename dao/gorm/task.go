@@ -280,6 +280,16 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 		}
 	}
 
+	pushTokens, err := getStaffPushTokens(t.db, staffId)
+	if err != nil {
+		return err
+	}
+
+	err = androidMessage("Добавлено задание", t.app, pushTokens)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -297,7 +307,6 @@ func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error {
 //where id =  13 and type_id = 2
 func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 	var task entity.Task
-	var staffIds []int
 	taskFromDB := t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
 		Where(`staff_task.id = ?`, taskId).Row()
@@ -313,7 +322,6 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		return err
 	}
 
-	staffIds = append(staffIds, task.StaffId)
 	subQuery := t.db.Table(fmt.Sprintf(`%s task_state_change`, new(model.Task).StateChangesTableName())).
 		Select(`task_state_change.state_to_id as new_state`).
 		Where(`task_state_change.type_id = ? and task_state_change.state_from_id = ? and task_state_change.state_to_id = ?`,
@@ -326,33 +334,15 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 	if err != nil {
 		return err
 	}
-	pushTokens, err := t.getPushTokens(staffIds)
+	pushTokens, err := getBossPushTokens(t.db, task.StaffId)
 	if err != nil {
 		return err
 	}
-	//err = sendPush(pushTokens)
-	err = androidMessage(t.app, pushTokens)
+	err = androidMessage("Обнавлен статус задания", t.app, pushTokens)
 	if err != nil {
 		return err
 	}
 	return err
-}
-
-func (t Task) getPushTokens(staffIds []int) ([]string, error) {
-	var pushTokens []string
-	for _, v := range staffIds {
-		var pushToken string
-		pushTokenFromDb := t.db.
-			Select(`ss.push_token`).
-			Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
-			Where(`ss.staff_id = ?`, v).Row()
-		err := pushTokenFromDb.Scan(&pushToken)
-		if err != nil {
-			return nil, err
-		}
-		pushTokens = append(pushTokens, pushToken)
-	}
-	return pushTokens, nil
 }
 
 //select s.id,
@@ -400,7 +390,21 @@ func (t *Task) AddAwaitingTask(taskId int, staffId int) error {
 		UpdatedAt: time.Time{},
 	}}
 
-	return t.db.Create(&task).Error
+	err := t.db.Create(&task).Error
+	if err != nil {
+		return err
+	}
+	pushTokens, err := getStaffPushTokens(t.db, task.StaffId)
+	if err != nil {
+		return err
+	}
+	//err = sendPush(pushTokens)
+	err = androidMessage("Добавлено ожидающее задание", t.app, pushTokens)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (t Task) AddTaskWithoutStaff(typeId int, expectedLeadTime float64,
@@ -482,10 +486,27 @@ func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
 	}
 
 	//update tasks.awaiting_tasks set state_id = 2 where task_id = 38
-	return t.db.
+
+	err := t.db.
 		Table(fmt.Sprintf(`%s awaiting_tasks`, new(model.Task).AwaitingTasksTableName())).
 		Where(`awaiting_tasks.task_id = ?`, taskId).
 		Updates(map[string]interface{}{"state_id": 2, "updated_at": time.Now()}).Error
+
+	if err != nil {
+		return err
+	}
+
+	pushTokens, err := getBossPushTokens(t.db, staffId)
+	if err != nil {
+		return err
+	}
+	//err = sendPush(pushTokens)
+	err = androidMessage("Ожидающее задание стало активным", t.app, pushTokens)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (t Task) GetFlagsByTask(taskId int) ([]string, error) {
@@ -561,10 +582,27 @@ func (t Task) UpdateTaskStatusByBoss(taskId int, stateTo int) error {
 		Select(`task_state_change.state_to_id as new_state`).
 		Where(`task_state_change.type_id = ? and task_state_change.state_from_id = ? and task_state_change.state_to_id = ?`,
 			task.TypeId, task.StateId, stateTo).SubQuery()
-	return t.db.
+	err = t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
 		Where(`staff_task.id = ? and staff_task.type_id = ?`, taskId, task.TypeId).
 		Updates(map[string]interface{}{"updated_at": time.Now(), "state_id": subQuery}).Error
+
+	if err != nil {
+		return err
+	}
+
+	pushTokens, err := getStaffPushTokens(t.db, task.StaffId)
+	if err != nil {
+		return err
+	}
+	//err = sendPush(pushTokens)
+	err = androidMessage("Обнавлен статус задания", t.app, pushTokens)
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
 
 //5 исполнителей, у которых меньше всего заданий

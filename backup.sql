@@ -1,5 +1,4 @@
 
-
 --
 -- PostgreSQL database dump
 --
@@ -414,6 +413,80 @@ ALTER SEQUENCE tasks.awaiting_tasks_id_seq OWNED BY tasks.awaiting_tasks.id;
 
 
 --
+-- Name: boss; Type: TABLE; Schema: tasks; Owner: default
+--
+
+CREATE TABLE tasks.boss (
+    id integer NOT NULL,
+    login character varying NOT NULL,
+    pass character varying NOT NULL
+);
+
+
+ALTER TABLE tasks.boss OWNER TO "default";
+
+--
+-- Name: boss_id_seq; Type: SEQUENCE; Schema: tasks; Owner: default
+--
+
+CREATE SEQUENCE tasks.boss_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tasks.boss_id_seq OWNER TO "default";
+
+--
+-- Name: boss_id_seq; Type: SEQUENCE OWNED BY; Schema: tasks; Owner: default
+--
+
+ALTER SEQUENCE tasks.boss_id_seq OWNED BY tasks.boss.id;
+
+
+--
+-- Name: boss_session; Type: TABLE; Schema: tasks; Owner: default
+--
+
+CREATE TABLE tasks.boss_session (
+    id integer NOT NULL,
+    device_code character varying NOT NULL,
+    auth_token character varying NOT NULL,
+    original_pass character varying NOT NULL,
+    expires_at character varying,
+    push_token character varying,
+    boss_id integer NOT NULL
+);
+
+
+ALTER TABLE tasks.boss_session OWNER TO "default";
+
+--
+-- Name: boss_session_id_seq; Type: SEQUENCE; Schema: tasks; Owner: default
+--
+
+CREATE SEQUENCE tasks.boss_session_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tasks.boss_session_id_seq OWNER TO "default";
+
+--
+-- Name: boss_session_id_seq; Type: SEQUENCE OWNED BY; Schema: tasks; Owner: default
+--
+
+ALTER SEQUENCE tasks.boss_session_id_seq OWNED BY tasks.boss_session.id;
+
+
+--
 -- Name: comments; Type: TABLE; Schema: tasks; Owner: default
 --
 
@@ -799,6 +872,41 @@ ALTER SEQUENCE tasks.staff_task_id_seq OWNED BY tasks.staff_task.id;
 
 
 --
+-- Name: staff_to_boss; Type: TABLE; Schema: tasks; Owner: default
+--
+
+CREATE TABLE tasks.staff_to_boss (
+    id integer NOT NULL,
+    staff_id integer NOT NULL,
+    boss_id integer NOT NULL
+);
+
+
+ALTER TABLE tasks.staff_to_boss OWNER TO "default";
+
+--
+-- Name: staff_to_boss_id_seq; Type: SEQUENCE; Schema: tasks; Owner: default
+--
+
+CREATE SEQUENCE tasks.staff_to_boss_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE tasks.staff_to_boss_id_seq OWNER TO "default";
+
+--
+-- Name: staff_to_boss_id_seq; Type: SEQUENCE OWNED BY; Schema: tasks; Owner: default
+--
+
+ALTER SEQUENCE tasks.staff_to_boss_id_seq OWNED BY tasks.staff_to_boss.id;
+
+
+--
 -- Name: task_content; Type: TABLE; Schema: tasks; Owner: default
 --
 
@@ -1071,6 +1179,20 @@ ALTER TABLE ONLY tasks.awaiting_tasks ALTER COLUMN id SET DEFAULT nextval('tasks
 
 
 --
+-- Name: boss id; Type: DEFAULT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.boss ALTER COLUMN id SET DEFAULT nextval('tasks.boss_id_seq'::regclass);
+
+
+--
+-- Name: boss_session id; Type: DEFAULT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.boss_session ALTER COLUMN id SET DEFAULT nextval('tasks.boss_session_id_seq'::regclass);
+
+
+--
 -- Name: comments id; Type: DEFAULT; Schema: tasks; Owner: default
 --
 
@@ -1131,6 +1253,13 @@ ALTER TABLE ONLY tasks.staff_session ALTER COLUMN id SET DEFAULT nextval('tasks.
 --
 
 ALTER TABLE ONLY tasks.staff_task ALTER COLUMN id SET DEFAULT nextval('tasks.staff_task_id_seq'::regclass);
+
+
+--
+-- Name: staff_to_boss id; Type: DEFAULT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.staff_to_boss ALTER COLUMN id SET DEFAULT nextval('tasks.staff_to_boss_id_seq'::regclass);
 
 
 --
@@ -1204,6 +1333,24 @@ COPY tasks.awaiting_tasks (id, task_id, staff_id, state_id, created_at, updated_
 52	155	3	2	2020-02-23 21:05:10.789789	2020-02-23 21:08:56.621298	\N
 53	155	5	2	2020-02-23 21:05:10.805099	2020-02-23 21:08:56.621298	\N
 51	155	1	2	2020-02-23 21:05:10.781721	2020-02-23 21:08:56.621298	\N
+\.
+
+
+--
+-- Data for Name: boss; Type: TABLE DATA; Schema: tasks; Owner: default
+--
+
+COPY tasks.boss (id, login, pass) FROM stdin;
+1	Boss	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm
+\.
+
+
+--
+-- Data for Name: boss_session; Type: TABLE DATA; Schema: tasks; Owner: default
+--
+
+COPY tasks.boss_session (id, device_code, auth_token, original_pass, expires_at, push_token, boss_id) FROM stdin;
+1	1ce27d05ee3c5a48	йй	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	eSR6hg3ITSK7spdbg21Peh:APA91bEhw6yQC7ic1zZR9ol7ThPN8whCZ4pEmgunQzuD2B6i57ApLGGs7fMUhLnCCOe0tAH2ynpCeuQxFJKUjWbujxVlr3hxE7wLcwwyMbn4_Q33u273qWJOa2wRCKMY5eRL0fPOz4Fn	1
 \.
 
 
@@ -1417,6 +1564,18 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 
 
 --
+-- Data for Name: staff_to_boss; Type: TABLE DATA; Schema: tasks; Owner: default
+--
+
+COPY tasks.staff_to_boss (id, staff_id, boss_id) FROM stdin;
+1	1	1
+2	3	1
+3	4	1
+4	5	1
+\.
+
+
+--
 -- Data for Name: task_content; Type: TABLE DATA; Schema: tasks; Owner: default
 --
 
@@ -1555,6 +1714,20 @@ SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 53, true);
 
 
 --
+-- Name: boss_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
+--
+
+SELECT pg_catalog.setval('tasks.boss_id_seq', 1, true);
+
+
+--
+-- Name: boss_session_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
+--
+
+SELECT pg_catalog.setval('tasks.boss_session_id_seq', 1, true);
+
+
+--
 -- Name: comments_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
@@ -1618,6 +1791,13 @@ SELECT pg_catalog.setval('tasks.staff_task_id_seq', 182, true);
 
 
 --
+-- Name: staff_to_boss_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
+--
+
+SELECT pg_catalog.setval('tasks.staff_to_boss_id_seq', 4, true);
+
+
+--
 -- Name: task_content_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
@@ -1664,6 +1844,22 @@ SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 25, true);
 --
 
 SELECT pg_catalog.setval('tasks.tasks_state_id_seq', 1, true);
+
+
+--
+-- Name: boss boss_pk; Type: CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.boss
+    ADD CONSTRAINT boss_pk PRIMARY KEY (id);
+
+
+--
+-- Name: boss boss_un; Type: CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.boss
+    ADD CONSTRAINT boss_un UNIQUE (login);
 
 
 --
@@ -1946,6 +2142,14 @@ CREATE TRIGGER started_at_update BEFORE UPDATE ON tasks.staff_task FOR EACH ROW 
 
 
 --
+-- Name: boss_session boss_session_fk; Type: FK CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.boss_session
+    ADD CONSTRAINT boss_session_fk FOREIGN KEY (boss_id) REFERENCES tasks.boss(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: comments comments_fk; Type: FK CONSTRAINT; Schema: tasks; Owner: default
 --
 
@@ -2071,6 +2275,22 @@ ALTER TABLE ONLY tasks.staff_form
 
 ALTER TABLE ONLY tasks.staff_form
     ADD CONSTRAINT staff_form_fk_2 FOREIGN KEY (group_id) REFERENCES tasks.question_group(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: staff_to_boss staff_to_boss_boss_fk; Type: FK CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.staff_to_boss
+    ADD CONSTRAINT staff_to_boss_boss_fk FOREIGN KEY (boss_id) REFERENCES tasks.boss(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: staff_to_boss staff_to_boss_fk; Type: FK CONSTRAINT; Schema: tasks; Owner: default
+--
+
+ALTER TABLE ONLY tasks.staff_to_boss
+    ADD CONSTRAINT staff_to_boss_fk FOREIGN KEY (staff_id) REFERENCES tasks.staff(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

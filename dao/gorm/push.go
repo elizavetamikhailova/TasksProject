@@ -6,6 +6,8 @@ import (
 	"firebase.google.com/go/messaging"
 	"fmt"
 	"github.com/douglasmakey/go-fcm"
+	"github.com/elizavetamikhailova/TasksProject/dao/gorm/model"
+	"github.com/jinzhu/gorm"
 	"log"
 	"time"
 )
@@ -89,7 +91,7 @@ func sendNotification(app *firebase.App, pushTokens []string) error {
 	return nil
 }
 
-func androidMessage(app *firebase.App, pushTokens []string) error {
+func androidMessage(title string, app *firebase.App, pushTokens []string) error {
 	// [START android_message_golang]
 	ctx := context.Background()
 	client, err := app.Messaging(ctx)
@@ -105,8 +107,8 @@ func androidMessage(app *firebase.App, pushTokens []string) error {
 				TTL:      &oneHour,
 				Priority: "normal",
 				Notification: &messaging.AndroidNotification{
-					Title: "$GOOG up 1.43% on the day",
-					Body:  "$GOOG gained 11.80 points to close at 835.67, up 1.43% on the day.",
+					Title: title,
+					Body:  "",
 					Icon:  "stock_ticker_update",
 					Color: "#f45342",
 				},
@@ -124,4 +126,61 @@ func androidMessage(app *firebase.App, pushTokens []string) error {
 	}
 
 	return nil
+}
+
+func getPushTokensForStaffList(db *gorm.DB, staffIds []int) ([]string, error) {
+	var pushTokens []string
+	for _, v := range staffIds {
+		var pushToken string
+		pushTokenFromDb := db.
+			Select(`ss.push_token`).
+			Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
+			Where(`ss.staff_id = ?`, v).Row()
+		err := pushTokenFromDb.Scan(&pushToken)
+		if err != nil {
+			return nil, err
+		}
+		pushTokens = append(pushTokens, pushToken)
+	}
+	return pushTokens, nil
+}
+
+func getStaffPushTokens(db *gorm.DB, staffId int) ([]string, error) {
+	var pushTokens []string
+	var pushToken string
+	pushTokenFromDb := db.
+		Select(`ss.push_token`).
+		Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
+		Where(`ss.staff_id = ?`, staffId).Row()
+	err := pushTokenFromDb.Scan(&pushToken)
+	if err != nil {
+		return nil, err
+	}
+	pushTokens = append(pushTokens, pushToken)
+	return pushTokens, nil
+}
+
+func getBossPushTokens(db *gorm.DB, staffId int) ([]string, error) {
+	var pushTokens []string
+	var bossId int
+	bossIdFromDb := db.Select(`ss.boss_id`).
+		Table(fmt.Sprintf(`%s ss`, new(model.StaffToBoss).TableName())).
+		Where(`ss.staff_id = ?`, staffId).Row()
+	err := bossIdFromDb.Scan(&bossId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pushToken string
+	pushTokenFromDb := db.
+		Select(`ss.push_token`).
+		Table(fmt.Sprintf(`%s ss`, new(model.BossSession).TableName())).
+		Where(`ss.boss_id = ?`, bossId).Row()
+	err = pushTokenFromDb.Scan(&pushToken)
+	if err != nil {
+		return nil, err
+	}
+	pushTokens = append(pushTokens, pushToken)
+
+	return pushTokens, nil
 }
