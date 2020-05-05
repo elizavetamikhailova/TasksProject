@@ -118,8 +118,9 @@ func androidMessage(title string, app *firebase.App, pushTokens []string) error 
 
 		br, err := client.Send(context.Background(), message)
 		if err != nil {
-			log.Fatalln(err)
-			return err
+			println(err.Error())
+			//log.Fatalln(err)
+			return nil
 		}
 
 		fmt.Printf("%d messages were sent successfully\n", br)

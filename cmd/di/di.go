@@ -15,8 +15,6 @@ import (
 	"go.uber.org/dig"
 	"golang.org/x/net/context"
 	"google.golang.org/api/option"
-	"log"
-	"os"
 )
 
 func GetDI(cfg configs.Config) *dig.Container {
@@ -30,13 +28,13 @@ func GetDI(cfg configs.Config) *dig.Container {
 		if err != nil {
 			panic(err)
 		}
-		db.LogMode(true)
-		db.SetLogger(log.New(os.Stdout, "\r\n", 0))
+		db.LogMode(false)
+		//db.SetLogger(log.New(os.Stdout, "\r\n", 0))
 		return db
 	})
 
 	di.Provide(func() *firebase.App {
-		opt := option.WithCredentialsFile("TaskProject-62abf690c362.json")
+		opt := option.WithCredentialsFile("configs/taskproject-e89d0-firebase-adminsdk-e5kc9-afec43d725.json")
 		app, err := firebase.NewApp(context.Background(), nil, opt)
 		if err != nil {
 			panic(err)
