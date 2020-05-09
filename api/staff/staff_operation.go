@@ -91,11 +91,17 @@ func (s *Staff) CheckToken(next httprouter.Handle) httprouter.Handle {
 			return
 		} else {
 			n := len(bearerPrefix)
-			err := s.op.CheckToken(authorizationHeader[n:])
-			if err != nil {
-				error2.WriteError(error2.CodeUnauthorized, err.Error(), w)
+			if len(authorizationHeader) > n {
+				err := s.op.CheckToken(authorizationHeader[n:])
+				if err != nil {
+					error2.WriteError(error2.CodeUnauthorized, err.Error(), w)
+					return
+				}
+			} else {
+				error2.WriteError(error2.CodeUnauthorized, "authorization type not specified", w)
 				return
 			}
+
 		}
 		w.Header().Set("Content-Type", "application/json")
 		next(w, r, p)
@@ -160,6 +166,93 @@ func (s *Staff) UpdatePushToken(w http.ResponseWriter, r *http.Request, ps httpr
 		return
 	}
 	err = s.op.UpdatePushToken(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}
+
+func validationChangePassword(bodyIN io.ReadCloser) (staff.ArgChangePassword, error) {
+	post := staff.ArgChangePassword{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func validationChangeLogin(bodyIN io.ReadCloser) (staff.ArgChangeLogin, error) {
+	post := staff.ArgChangeLogin{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func validationChangePhone(bodyIN io.ReadCloser) (staff.ArgChangePhone, error) {
+	post := staff.ArgChangePhone{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func (s *Staff) ChangePassword(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationChangePassword(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+	err = s.op.ChangePassword(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}
+
+func (s *Staff) ChangeLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationChangeLogin(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+	err = s.op.ChangeLogin(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}
+
+func (s *Staff) ChangePhone(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationChangePhone(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+	err = s.op.ChangePhone(post)
 
 	if err != nil {
 		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)

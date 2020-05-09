@@ -10,4 +10,6 @@ type Boss interface {
 	GetAuth(login string, password string, deviceCode string, pushToken string) (string, error)
 	GetBossInfo(login string) (*model.Boss, error)
 	UpdatePushToken(deviceId string, pushToken string) error
+	ChangePassword(bossId int, pass string, oldPass string) error
+	ChangeLogin(bossId int, login string) error
 }

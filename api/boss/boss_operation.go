@@ -146,3 +146,61 @@ func (b *Boss) UpdatePushToken(w http.ResponseWriter, r *http.Request, ps httpro
 		return
 	}
 }
+
+func validationChangePassword(bodyIN io.ReadCloser) (boss.ArgChangePassword, error) {
+	post := boss.ArgChangePassword{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func validationChangeLogin(bodyIN io.ReadCloser) (boss.ArgChangeLogin, error) {
+	post := boss.ArgChangeLogin{}
+	body, err := ioutil.ReadAll(bodyIN)
+	if err != nil {
+		return post, err
+	}
+	if err = json.Unmarshal(body, &post); err != nil {
+		return post, err
+	}
+	if _, err = govalidator.ValidateStruct(post); err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func (b *Boss) ChangePassword(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationChangePassword(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+	err = b.op.ChangePassword(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}
+
+func (b *Boss) ChangeLogin(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	post, err := validationChangeLogin(r.Body)
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeDataInvalid, err.Error(), w)
+		return
+	}
+	err = b.op.ChangeLogin(post)
+
+	if err != nil {
+		errorcode.WriteError(errorcode.CodeUnexpected, err.Error(), w)
+		return
+	}
+}

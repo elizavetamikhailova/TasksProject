@@ -133,3 +133,60 @@ func (b Boss) UpdatePushToken(deviceId string, pushToken string) error {
 	}
 	return nil
 }
+
+func (b Boss) ChangePassword(bossId int, pass string, oldPass string) error {
+
+	var boss model.Boss
+
+	bossFromDb := b.db.
+		Table(fmt.Sprintf(`%s b`, new(model.Boss).TableName())).
+		Where(`b.id = ?`, bossId).
+		Row()
+
+	err := bossFromDb.Scan(&boss.Id, &boss.Login,
+		&boss.Pass)
+
+	if err != nil {
+		return err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(boss.Pass), []byte(oldPass))
+	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Пароль не совпадает!!
+		return err
+	}
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
+	err = b.db.
+		Table(fmt.Sprintf(`%s bs`, new(model.BossSession).TableName())).
+		Where(`bs.boss_id = ?`, bossId).
+		Updates(map[string]interface{}{"original_pass": hashedPassword}).Error
+
+	if err != nil {
+		return err
+	}
+
+	err = b.db.
+		Table(fmt.Sprintf(`%s b`, new(model.Boss).TableName())).
+		Where(`b.id = ?`, bossId).
+		Updates(map[string]interface{}{"pass": hashedPassword}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (b Boss) ChangeLogin(bossId int, login string) error {
+
+	err := b.db.
+		Table(fmt.Sprintf(`%s b`, new(model.Boss).TableName())).
+		Where(`b.id = ?`, bossId).
+		Updates(map[string]interface{}{"login": login}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -26,4 +26,7 @@ type Staff interface {
 	GetAuth(login string, password string, deviceCode string, pushToken string) (string, error)
 	GetUserInfo(login string) (*entity.Staff, error)
 	UpdatePushToken(deviceId string, pushToken string) error
+	ChangePassword(staffId int, pass string, oldPass string) error
+	ChangeLogin(staffId int, login string) error
+	ChangePhone(staffId int, phone string) error
 }

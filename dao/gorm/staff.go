@@ -122,6 +122,77 @@ func (s Staff) Add(bossId int, login string, phone string, passMd5 string) error
 	return s.CreateAccount(bossId, staff, passMd5, "", "")
 }
 
+func (s Staff) ChangePassword(staffId int, pass string, oldPass string) error {
+
+	var staff entity.Staff
+
+	staffFromDb := s.db.
+		Table(fmt.Sprintf(`%s s`, new(model.Staff).TableName())).
+		Where(`s.id = ?`, staffId).
+		Row()
+
+	err := staffFromDb.Scan(&staff.Id, &staff.Login, &staff.Phone,
+		&staff.PassMd5, &staff.CreatedAt, &staff.UpdatedAt, &staff.DeletedAt, &staff.Practice)
+
+	if err != nil {
+		return err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(staff.PassMd5), []byte(oldPass))
+	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Пароль не совпадает!!
+		return err
+	}
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
+	err = s.db.
+		Table(fmt.Sprintf(`%s ss`, new(model.StaffSession).TableName())).
+		Where(`ss.staff_id = ?`, staffId).
+		Updates(map[string]interface{}{"original_pass": hashedPassword}).Error
+
+	if err != nil {
+		return err
+	}
+
+	err = s.db.
+		Table(fmt.Sprintf(`%s ss`, new(model.Staff).TableName())).
+		Where(`ss.id = ?`, staffId).
+		Updates(map[string]interface{}{"pass_md5": hashedPassword}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s Staff) ChangeLogin(staffId int, login string) error {
+
+	err := s.db.
+		Table(fmt.Sprintf(`%s ss`, new(model.Staff).TableName())).
+		Where(`ss.id = ?`, staffId).
+		Updates(map[string]interface{}{"login": login}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s Staff) ChangePhone(staffId int, phone string) error {
+
+	err := s.db.
+		Table(fmt.Sprintf(`%s ss`, new(model.Staff).TableName())).
+		Where(`ss.id = ?`, staffId).
+		Updates(map[string]interface{}{"phone": phone}).Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s Staff) CheckToken(token string) error {
 	var staffSession model.StaffSession
 	staffSessionFromDb := s.db.Table("tasks.staff_session").

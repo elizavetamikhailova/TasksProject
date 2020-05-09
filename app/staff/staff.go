@@ -38,6 +38,22 @@ type ArgGetUserInfo struct {
 	Login string `valid:"required"`
 }
 
+type ArgChangePassword struct {
+	StaffId int    `valid:"required"`
+	Pass    string `valid:"required"`
+	OldPass string `valid:"required"`
+}
+
+type ArgChangeLogin struct {
+	StaffId int    `valid:"required"`
+	Login   string `valid:"required"`
+}
+
+type ArgChangePhone struct {
+	StaffId int    `valid:"required"`
+	Phone   string `valid:"required"`
+}
+
 func (s *Staff) Add(arg ArgAdd) error {
 	return s.staffDAO.Add(arg.BossId, arg.Login, arg.Phone, arg.PassMd5)
 }
@@ -56,4 +72,16 @@ func (s *Staff) GetUserInfo(arg ArgGetUserInfo) (*entity.Staff, error) {
 
 func (s *Staff) UpdatePushToken(arg ArgUpdatePushToken) error {
 	return s.staffDAO.UpdatePushToken(arg.DeviceId, arg.PushToken)
+}
+
+func (s *Staff) ChangePassword(arg ArgChangePassword) error {
+	return s.staffDAO.ChangePassword(arg.StaffId, arg.Pass, arg.OldPass)
+}
+
+func (s *Staff) ChangeLogin(arg ArgChangeLogin) error {
+	return s.staffDAO.ChangeLogin(arg.StaffId, arg.Login)
+}
+
+func (s *Staff) ChangePhone(arg ArgChangePhone) error {
+	return s.staffDAO.ChangePhone(arg.StaffId, arg.Phone)
 }

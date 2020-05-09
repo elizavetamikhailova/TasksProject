@@ -114,5 +114,15 @@ func (r *Router) Get(dig *dig.Container) *httprouter.Router {
 
 	router.POST("/boss/UpdatePushToken", bossApi1.CheckToken(bossApi1.UpdatePushToken))
 
+	router.POST("/staff/changePass", staffApi1.CheckToken(staffApi1.ChangePassword))
+
+	router.POST("/staff/changeLogin", staffApi1.CheckToken(staffApi1.ChangeLogin))
+
+	router.POST("/staff/changePhone", staffApi1.CheckToken(staffApi1.ChangePhone))
+
+	router.POST("/boss/changePass", bossApi1.CheckToken(bossApi1.ChangePassword))
+
+	router.POST("/boss/changeLogin", staffApi1.CheckToken(bossApi1.ChangeLogin))
+
 	return router
 }

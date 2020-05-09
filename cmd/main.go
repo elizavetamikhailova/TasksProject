@@ -11,7 +11,7 @@ import (
 
 func main() {
 	cfg := configs.Config{}
-	if err := configor.Load(&cfg, "configs/config.prod.yaml", "configs/config.yaml"); err != nil {
+	if err := configor.Load(&cfg, "configs/config1.prod.yaml", "configs/config.yaml"); err != nil {
 		panic(err)
 	}
 	fmt.Println(cfg)
