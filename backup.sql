@@ -1345,8 +1345,8 @@ COPY tasks.boss (id, login, pass) FROM stdin;
 --
 
 COPY tasks.boss_session (id, device_code, auth_token, original_pass, expires_at, push_token, boss_id) FROM stdin;
-2	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	eqndpQ0mQpa0ZpEFNxaVRj:APA91bEymjjwqXpeMB3UYkvsFej_vCemXcV0qs3YUr9ct08Mvp62r2SWHXuS0BQyuOgNXoR3cClWkYfDj637taWF1i-TAooRwFvpXWFLla30hb3qat9jKazvhvwlCYR5SzdaUWGHHdRF	1
-1	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	eSR6hg3ITSK7spdbg21Peh:APA91bEhw6yQC7ic1zZR9ol7ThPN8whCZ4pEmgunQzuD2B6i57ApLGGs7fMUhLnCCOe0tAH2ynpCeuQxFJKUjWbujxVlr3hxE7wLcwwyMbn4_Q33u273qWJOa2wRCKMY5eRL0fPOz4Fn	1
+2	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	fn44QNZtQy-Km50Nx3JU9e:APA91bE3KQhQ3jb_iq--vegGcBab9-9RASEooQVL8OJTZ_os8a0tabZort1dpC2lk2d4rHeucqMtdOggllDy1KIX60gUtp7XzhL0QH8Efso9nYNV0an3cSFdsgsyplVLIFIKsH_y6h48	1
+1	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	f1r8thqqSdesT5mFGHeLEs:APA91bFkpW4QdKvcHfh8jxezswTkpnvdH9-2xOzrvwf7whmO6ZiXcUDldlKF543FCq2sC8v8si2lQ7oKB9KaFNtHGXegX9Pezomz00owNY0bwfEaQ5G-Vkrxr4hpi-Xquz8WzTTOTTEX	1
 \.
 
 
@@ -1411,6 +1411,9 @@ COPY tasks.questions (id, group_id, code, title) FROM stdin;
 
 COPY tasks.staff (id, login, phone, pass_md5, created_at, updated_at, deleted_at, practice) FROM stdin;
 1	Liza	89167337777	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2019-12-08 11:31:57.259851	2019-12-08 11:31:57.259851	0001-01-01 00:00:00	\N
+8	Karl	89991112233	$2a$10$OGqXX10iPgWm0sw/ld.Mm.pL.9PSxblNdCZa8rh2EVPmZty30N4bW	2020-05-10 15:35:00.526801	2020-05-10 15:35:00.526801	\N	\N
+9	Lip	89991112233	$2a$10$fBqi.5QVhYRek4ghkDGgMOHF4OEU4KoVrP/NtrQ5K7WYp.5HWWWcu	2020-05-10 15:36:51.555542	2020-05-10 15:36:51.555542	\N	\N
+10	Yen	89991112233	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-05-10 15:38:21.640246	2020-05-10 15:38:21.640246	\N	\N
 \.
 
 
@@ -1444,6 +1447,8 @@ COPY tasks.staff_answers (id, form_id, question_code, created_at, updated_at, de
 23	77	UNCOMFORTABLE	2020-03-01 18:44:43.502487	2020-03-01 18:44:43.502487	\N
 24	77	UNCOMFORTABLE	2020-03-01 18:44:45.892183	2020-03-01 18:44:45.892183	\N
 25	77	UNCOMFORTABLE	2020-03-01 18:44:47.245374	2020-03-01 18:44:47.245374	\N
+26	80	UNCOMFORTABLE	2020-05-10 18:31:10.039787	2020-05-10 18:31:10.039787	\N
+27	81	DELETE_REQUIRED	2020-05-10 18:35:43.246863	2020-05-10 18:35:43.246863	\N
 \.
 
 
@@ -1485,6 +1490,8 @@ COPY tasks.staff_form (id, staff_id, group_id, created_at, updated_at, deleted_a
 76	1	1	2020-03-01 12:33:09.677557	2020-03-01 12:33:09.677557	\N	177
 78	1	2	2020-03-01 17:59:16.442864	2020-03-01 17:59:16.442864	\N	181
 79	1	1	2020-05-05 11:22:17.949243	2020-05-05 11:22:17.949243	\N	187
+80	10	2	2020-05-10 15:24:32.606919	2020-05-10 15:24:32.606919	\N	189
+81	10	2	2020-05-10 15:34:45.144663	2020-05-10 15:34:45.144663	\N	190
 \.
 
 
@@ -1494,8 +1501,14 @@ COPY tasks.staff_form (id, staff_id, group_id, created_at, updated_at, deleted_a
 
 COPY tasks.staff_session (id, device_code, auth_token, original_pass, expires_at, push_token, staff_id) FROM stdin;
 3	 	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	fshogjuRQF6RqlcAC2jKGv:APA91bFbkxF_aZVydfpje-0cKPH_rxTq7XayH4IxoWG9zeioWntFbRtAfejrSYyWEKttRGUf_mqTFJ8R7n8E19R85EQEW4Mq9Z7mPk_i_A3dH9llwWTD5Im841FVnvZIst2RlWrOevsz	1
-12	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	cr-POp9nTP22HhQjSG5QAZ:APA91bHvzke4LuzWe-nQ4ZZ7fyMHFJPle1uTKWAYm8URQ8h--EiYSJR4tOuIzF_OnVm2ENLYrjl0lr0gScSrpWPWKdgS1KaoVCBEjU1FKbiCii9JoPBstL6GFGqAl7KsjZT9mhmz9ZlB	1
+18		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjh9.qg9oyegoV3XW_r40qAyjTsYN6TmoFtKFkejEtdD2Nbk	$2a$10$OGqXX10iPgWm0sw/ld.Mm.pL.9PSxblNdCZa8rh2EVPmZty30N4bW	2020-10-25T10:16:23.000Z		8
+19		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjl9.Zy4gt-wL1k39d2ITD7kCmlXBT1o3L4nxUkrwRCLJth8	$2a$10$fBqi.5QVhYRek4ghkDGgMOHF4OEU4KoVrP/NtrQ5K7WYp.5HWWWcu	2020-10-25T10:16:23.000Z		9
+20		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z		10
+12	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	1
+22	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	10
+23	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjh9.qg9oyegoV3XW_r40qAyjTsYN6TmoFtKFkejEtdD2Nbk	$2a$10$OGqXX10iPgWm0sw/ld.Mm.pL.9PSxblNdCZa8rh2EVPmZty30N4bW	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	8
 17	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	frbo0R1CSrChvo-NdIQKTr:APA91bFgVTBnS-CL74e_hXo8vC787qZi6cizS63njbwxFS5BMTAOOTC6L4vqof6cqoYG-Ot3_n4lANV4df7DhfsqIlfXm01AQoF6UdIq6JiKOQQsc7r0IdqqUCc1f3PBsH4tApag0O26	1
+21	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z	frbo0R1CSrChvo-NdIQKTr:APA91bFgVTBnS-CL74e_hXo8vC787qZi6cizS63njbwxFS5BMTAOOTC6L4vqof6cqoYG-Ot3_n4lANV4df7DhfsqIlfXm01AQoF6UdIq6JiKOQQsc7r0IdqqUCc1f3PBsH4tApag0O26	10
 \.
 
 
@@ -1504,8 +1517,6 @@ COPY tasks.staff_session (id, device_code, auth_token, original_pass, expires_at
 --
 
 COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, finished_at, created_at, updated_at, deleted_at, difficulty_level, expected_lead_time) FROM stdin;
-181	5	1	1	180	\N	\N	2020-03-01 17:59:16.442864	2020-03-01 17:59:16.442864	\N	0	0
-180	6	1	5	0	2020-03-01 17:59:00.241476	0001-01-01 00:00:00	2020-03-01 17:58:52.858054	2020-03-01 17:59:16.442864	\N	1	0
 182	3	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-03-01 21:14:24.329363	2020-03-02 00:14:24.33046	\N	0	0
 100	2	1	3	13	2019-12-25 12:04:20.638603	0001-01-01 00:00:00	2019-12-14 14:35:04.379662	2019-12-25 10:16:23	0001-01-01 00:00:00	1	2
 69	5	1	3	38	\N	\N	2019-12-29 22:24:32.758245	2019-12-30 01:36:07.647289	\N	0	0
@@ -1515,17 +1526,10 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 136	6	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 12:21:33.80168	2020-02-22 12:21:33.80168	\N	2	1
 137	6	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 12:23:04.925219	2020-02-22 12:23:04.925219	\N	2	1
 139	6	5	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 12:26:36.667513	2020-02-22 12:45:16.633145	\N	0	0
-158	2	1	3	156	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-03-01 11:23:53.220331	2020-03-01 11:29:48.317538	\N	0	1
 140	6	5	1	139	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-02-22 23:38:43.622857	2020-02-22 23:38:43.622857	\N	2	4
 17	3	1	3	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2019-12-14 22:40:00.756795	2020-02-23 18:23:30.394881	0001-01-01 00:00:00	0	3
-161	5	1	1	156	\N	\N	2020-03-01 08:35:11.161875	2020-03-01 08:35:11.161875	\N	0	0
-162	5	1	1	157	\N	\N	2020-03-01 08:35:11.161875	2020-03-01 08:35:11.161875	\N	0	0
-163	5	1	1	156	\N	\N	2020-03-01 08:35:29.042311	2020-03-01 08:35:29.042311	\N	0	0
-164	5	1	1	157	\N	\N	2020-03-01 08:35:29.042311	2020-03-01 08:35:29.042311	\N	0	0
-157	6	1	5	156	2020-03-01 08:24:59.526186	0001-01-01 00:00:00	2020-03-01 11:23:05.936595	2020-03-01 11:24:59.525888	\N	1	1
 146	6	1	3	144	2020-02-23 17:20:40.195174	0001-01-01 00:00:00	2020-02-23 20:19:50.018075	2020-02-23 20:20:49.410727	\N	1	1
 147	5	1	3	146	\N	\N	2020-02-23 17:20:49.410854	2020-02-23 20:21:07.802735	\N	0	0
-156	6	1	5	0	2020-03-01 08:23:59.030648	0001-01-01 00:00:00	2020-03-01 11:22:08.066595	2020-03-01 11:35:29.042016	\N	2	3
 145	6	1	3	144	2020-02-23 17:21:21.772677	0001-01-01 00:00:00	2020-02-23 20:18:31.104922	2020-02-23 20:21:30.654029	\N	3	1
 148	5	1	3	145	\N	\N	2020-02-23 17:21:30.654203	2020-02-23 20:21:43.658222	\N	0	0
 166	5	1	1	165	\N	\N	2020-03-01 10:05:47.811095	2020-03-01 10:05:47.811095	\N	0	0
@@ -1543,22 +1547,48 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 170	5	1	3	169	\N	2020-03-01 10:25:03.566443	2020-03-01 10:24:36.313385	2020-03-01 13:25:03.564937	\N	0	0
 171	5	1	3	169	\N	2020-03-01 10:25:32.267254	2020-03-01 10:25:28.268158	2020-03-01 13:25:32.266931	\N	0	0
 169	6	1	3	0	2020-03-01 10:32:25.908369	2020-03-01 10:32:56.428043	2020-03-01 13:08:16.721937	2020-03-01 13:32:56.427481	\N	2	1
-159	5	1	3	156	\N	\N	2020-03-01 08:24:05.152668	2020-03-01 11:24:31.169084	\N	0	0
 172	5	1	3	169	\N	2020-03-01 10:34:20.654018	2020-03-01 10:32:56.428043	2020-03-01 13:34:20.653824	\N	0	0
 175	5	1	3	174	\N	2020-03-01 11:08:35.117953	2020-03-01 11:08:24.90159	2020-03-01 11:08:35.117953	\N	0	0
 174	6	1	3	0	2020-03-01 11:12:24.527933	2020-03-01 11:12:27.775001	2020-03-01 11:07:52.180515	2020-03-01 11:12:27.775001	\N	2	1
 173	6	1	3	0	2020-03-01 11:05:27.958824	2020-03-01 11:12:45.688248	2020-03-01 14:05:11.377125	2020-03-01 11:12:45.688248	\N	2	4
-160	5	1	1	157	\N	\N	2020-03-01 08:25:16.723148	2020-03-01 08:25:16.723148	\N	0	0
 176	6	1	3	0	2020-03-01 11:13:23.246887	2020-03-01 12:33:09.677557	2020-03-01 11:13:16.155597	2020-03-01 12:33:09.677557	\N	1	1
 177	5	1	3	176	\N	2020-03-01 12:33:16.06608	2020-03-01 12:33:09.677557	2020-03-01 12:33:16.06608	\N	0	0
 138	6	5	5	137	2020-03-01 15:44:17.732542	0001-01-01 00:00:00	2020-02-22 12:24:33.191051	2020-03-01 15:44:20.941061	\N	3	1
 178	5	5	3	138	\N	2020-03-01 15:44:47.269688	2020-03-01 15:44:20.941061	2020-03-01 15:44:47.269688	\N	0	0
-183	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 15:29:05.551995	2020-04-25 18:29:05.553143	\N	3	4
-184	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 16:01:11.362374	2020-04-25 19:01:11.36353	\N	3	4
-185	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 17:01:47.119861	2020-04-25 20:01:47.121217	\N	2	3
-186	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 17:37:28.133442	2020-04-25 20:37:28.134234	\N	2	3
 187	5	1	1	179	\N	\N	2020-05-05 11:22:17.949243	2020-05-05 11:22:17.949243	\N	0	0
 179	6	1	3	0	2020-03-18 09:32:17.996965	2020-05-05 11:22:17.949243	2020-03-01 17:58:52.077563	2020-05-05 11:22:17.949243	\N	1	0
+183	6	1	6	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 15:29:05.551995	2020-05-23 13:44:46.064758	\N	3	4
+191	6	1	6	184	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-17 13:49:43.437926	2020-05-23 13:45:00.260524	\N	1	2.3
+192	6	1	6	184	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-17 13:50:23.474796	2020-05-23 13:45:00.260524	\N	1	2.3
+193	6	1	6	184	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-17 13:52:42.625577	2020-05-23 13:45:00.260524	\N	1	2.3
+184	6	1	6	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 16:01:11.362374	2020-05-23 13:45:00.260524	\N	3	4
+185	6	1	6	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 17:01:47.119861	2020-05-23 13:45:07.097274	\N	2	3
+186	6	1	6	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-04-25 17:37:28.133442	2020-05-23 13:45:16.45469	\N	2	3
+158	2	1	4	156	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-03-01 11:23:53.220331	2020-05-23 13:45:30.195338	\N	0	1
+161	5	1	4	156	\N	\N	2020-03-01 08:35:11.161875	2020-05-23 13:45:30.195338	\N	0	0
+163	5	1	4	156	\N	\N	2020-03-01 08:35:29.042311	2020-05-23 13:45:30.195338	\N	0	0
+162	5	1	4	157	\N	\N	2020-03-01 08:35:11.161875	2020-05-23 13:45:30.195338	\N	0	0
+164	5	1	4	157	\N	\N	2020-03-01 08:35:29.042311	2020-05-23 13:45:30.195338	\N	0	0
+160	5	1	4	157	\N	\N	2020-03-01 08:25:16.723148	2020-05-23 13:45:30.195338	\N	0	0
+157	6	1	4	156	2020-03-01 08:24:59.526186	0001-01-01 00:00:00	2020-03-01 11:23:05.936595	2020-05-23 13:45:30.195338	\N	1	1
+159	5	1	4	156	\N	\N	2020-03-01 08:24:05.152668	2020-05-23 13:45:30.195338	\N	0	0
+156	6	1	4	0	2020-03-01 08:23:59.030648	0001-01-01 00:00:00	2020-03-01 11:22:08.066595	2020-05-23 13:45:30.195338	\N	2	3
+181	5	1	4	180	\N	\N	2020-03-01 17:59:16.442864	2020-05-23 13:45:38.762307	\N	0	0
+180	6	1	4	0	2020-03-01 17:59:00.241476	0001-01-01 00:00:00	2020-03-01 17:58:52.858054	2020-05-23 13:45:38.762307	\N	1	0
+189	5	10	6	188	\N	2020-05-10 15:31:10.049947	2020-05-10 15:24:32.606919	2020-05-23 13:45:43.908416	\N	0	0
+190	5	10	6	188	\N	2020-05-10 15:35:43.259656	2020-05-10 15:34:45.144663	2020-05-23 13:45:43.908416	\N	0	0
+188	6	10	6	0	2020-05-10 15:24:27.838384	0001-01-01 00:00:00	2020-05-10 12:44:10.520788	2020-05-23 13:45:43.908416	\N	1	1
+194	6	8	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 13:48:33.023063	2020-05-23 16:48:33.023845	\N	1	2.45
+195	6	8	1	194	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 13:50:07.301922	2020-05-23 16:50:07.30252	\N	3	0.15
+196	6	8	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 13:51:51.126623	2020-05-23 16:51:51.127192	\N	3	0.15
+197	6	8	1	194	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 13:56:29.051896	2020-05-23 16:56:29.052539	\N	1	1
+198	6	10	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 13:57:31.802987	2020-05-23 16:57:31.805184	\N	2	1
+199	6	10	1	198	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 14:00:32.905523	2020-05-23 17:00:32.90641	\N	1	2
+200	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 14:01:35.40999	2020-05-23 17:01:35.411744	\N	1	3
+201	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 14:03:02.767601	2020-05-23 17:03:02.767971	\N	4	1
+202	6	1	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 14:04:42.210627	2020-05-23 17:04:42.21143	\N	5	2.2
+203	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 14:07:06.047685	2020-05-23 17:07:06.048157	\N	4	0.4
+204	6	9	1	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-23 14:09:27.144139	2020-05-23 17:09:27.145368	\N	4	2
 \.
 
 
@@ -1568,6 +1598,9 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 
 COPY tasks.staff_to_boss (id, staff_id, boss_id) FROM stdin;
 1	1	1
+7	8	1
+8	9	1
+9	10	1
 \.
 
 
@@ -1602,6 +1635,21 @@ COPY tasks.task_content (id, text, title, address, task_id) FROM stdin;
 31	Тест тест 	Проверка 	Южная 	184
 32	Ttt	Ttt	Ttt	185
 33	Ttt	Ttt	Ttt	186
+34	Test test	Test	Test	188
+35	Получить банковскую карту у представителя	Получить карту	Южная улица, 15, Реутов, городской округ Реутов, Московская область	191
+36	Получить банковскую карту у представителя	Получить карту	Южная улица, 15, Реутов, городской округ Реутов, Московская область	192
+37	Получить банковскую карту у представителя	Получить карту	Южная улица, 15, Реутов, городской округ Реутов, Московская область	193
+38	Подготовить бар к мероприятию	Подготовка	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	194
+39	Протереть стаканы полотенцем с микрофиброй	Протереть стаканы	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	195
+40	Сменить все бутылки на полные	Выставить бутылки	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	196
+41	Провести влажную и сухую уборку	Уборка	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	197
+42	Провести инвентаризацию 	Инвентаризация 	Носовихинское шоссе, 7, Реутов, городской округ Реутов, Московская область	198
+43	Данные о недостаче, об отсутствии и об остатках 	Внести данные в систему	Носовихинское шоссе, 7, Реутов, городской округ Реутов, Московская область	199
+44	Доставить продукты со склада в бар 	Доставка	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	200
+45	Принять доставку со склада, заполнить документы о полученых товарах	Приём доставки	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	201
+46	Приготовить капкейки для мероприятия: с розовым, голубым и жёлтым кремом. Мука овсяная. 	Пирожные 	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	202
+47	Расставить растения в соответствии со схемой. Схема в документации бара 	Расставить растения	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	203
+48	Развесить украшения в баре в соответствии с дизайном, дизайн в документации 	Развесить украшения 	Юбилейный проспект, 47, Реутов, городской округ Реутов, Московская область	204
 \.
 
 
@@ -1761,49 +1809,49 @@ SELECT pg_catalog.setval('tasks.questions_id_seq', 5, true);
 -- Name: staff_answers_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_answers_id_seq', 25, true);
+SELECT pg_catalog.setval('tasks.staff_answers_id_seq', 27, true);
 
 
 --
 -- Name: staff_form_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_form_id_seq', 79, true);
+SELECT pg_catalog.setval('tasks.staff_form_id_seq', 81, true);
 
 
 --
 -- Name: staff_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_id_seq', 6, true);
+SELECT pg_catalog.setval('tasks.staff_id_seq', 10, true);
 
 
 --
 -- Name: staff_session_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_session_id_seq', 17, true);
+SELECT pg_catalog.setval('tasks.staff_session_id_seq', 23, true);
 
 
 --
 -- Name: staff_task_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_task_id_seq', 187, true);
+SELECT pg_catalog.setval('tasks.staff_task_id_seq', 204, true);
 
 
 --
 -- Name: staff_to_boss_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_to_boss_id_seq', 5, true);
+SELECT pg_catalog.setval('tasks.staff_to_boss_id_seq', 9, true);
 
 
 --
 -- Name: task_content_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.task_content_id_seq', 33, true);
+SELECT pg_catalog.setval('tasks.task_content_id_seq', 48, true);
 
 
 --

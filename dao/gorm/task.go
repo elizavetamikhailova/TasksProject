@@ -587,7 +587,7 @@ func (t Task) UpdateTaskStatusByBoss(taskId int, stateTo int) error {
 
 	err := taskFromDB.Scan(&task.Id, &task.TypeId, &task.StaffId, &task.StateId, &task.ParentId,
 		&task.StartedAt, &task.FinishedAt, &task.CreatedAt, &task.UpdatedAt, &task.DeletedAt,
-		&task.ExpectedLeadTime, &task.DifficultyLevel)
+		&task.DifficultyLevel, &task.ExpectedLeadTime)
 
 	println(task.Id, task.TypeId, task.StaffId, task.StateId, task.ParentId,
 		task.ExpectedLeadTime, task.DifficultyLevel)
