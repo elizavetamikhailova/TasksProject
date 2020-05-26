@@ -200,6 +200,14 @@ func (c *Changes) AddTaskWithContent(arg ArgAddTaskWithContent) error {
 			}
 			content = newContent
 		}
+	case 2:
+		{
+			var jsonContent = arg.Content.(map[string]interface{})
+			newContent := model.ConfirmLeadTime{
+				Creater: jsonContent["Creater"].(string),
+			}
+			content = newContent
+		}
 
 	}
 	return c.taskDAO.AddTaskWithContent(arg.TypeId, arg.StaffId, arg.ParentId, arg.ExpectedLeadTime, arg.DifficultyLevel, arg.Flags, content)

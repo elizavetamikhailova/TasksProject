@@ -65,6 +65,8 @@ func (t Task) GetTasksByStaffId(
 			task.Content, err = t.GetTasksForms(task.Id)
 		case "TASK":
 			task.Content, err = t.GetTaskContent(task.Id)
+		case "CONFIRM_LEAD_TIME":
+			task.Content, err = t.GetConfirmLeadTimeCreater(task.Id)
 		}
 
 		if err != nil {
@@ -126,6 +128,8 @@ func (t Task) GetTasksLastUpdate(
 			taskEntity.Content, err = t.GetTasksForms(taskEntity.Id)
 		case "TASK":
 			taskEntity.Content, err = t.GetTaskContent(task.Id)
+		case "CONFIRM_LEAD_TIME":
+			taskEntity.Content, err = t.GetConfirmLeadTimeCreater(task.Id)
 		}
 
 		if err != nil {
@@ -189,6 +193,8 @@ func (t Task) GetTasksLastUpdateForBoss(
 			taskEntity.Content, err = t.GetTasksForms(taskEntity.Id)
 		case "TASK":
 			taskEntity.Content, err = t.GetTaskContent(task.Id)
+		case "CONFIRM_LEAD_TIME":
+			taskEntity.Content, err = t.GetConfirmLeadTimeCreater(task.Id)
 		}
 
 		if err != nil {
@@ -278,6 +284,15 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 				return err
 			}
 		}
+	case 2:
+		{
+			var newContent = content.(model.ConfirmLeadTime)
+			err = t.AddConfirmLeadTime(task.Id, newContent.Creater)
+			if err != nil {
+				return err
+			}
+		}
+
 	}
 
 	pushTokens, err := getStaffPushTokens(t.db, staffId)
