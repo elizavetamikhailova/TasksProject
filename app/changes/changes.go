@@ -123,7 +123,7 @@ func (c *Changes) GetChangesForBoss(arg ArgGetChangesForBoss) (*DataForBoss, err
 type ArgUpdateTaskLeadTime struct {
 	StaffId     int       `valid:"required"`
 	TaskId      int       `valid:"required"`
-	NewLeadTime int       `valid:"required"`
+	NewLeadTime float64   `valid:"required"`
 	UpdateTime  time.Time `valid:"required"`
 }
 

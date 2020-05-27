@@ -31,7 +31,7 @@ type Task interface {
 		updateTime time.Time,
 	) ([]entity.GetTasksResponse, error)
 
-	UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error
+	UpdateTaskExpectedLeadTime(taskId int, newLeadTime float64) error
 
 	UpdateTaskStatus(taskId int, stateTo int) error
 

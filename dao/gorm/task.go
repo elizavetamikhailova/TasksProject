@@ -308,7 +308,7 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 	return nil
 }
 
-func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime int) error {
+func (t Task) UpdateTaskExpectedLeadTime(taskId int, newLeadTime float64) error {
 	return t.db.
 		Table(fmt.Sprintf(`%s staff_task`, new(model.Task).TableName())).
 		Where(`staff_task.id = ?`, taskId).
