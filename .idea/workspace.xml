@@ -21,10 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7174ceaf-405d-4bed-af32-8fa03b3861e7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/changes/changes.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/changes/changes.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backup.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/gorm/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/gorm/task.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/dao/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/di/di.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/di/di.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,14 +154,14 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="788" y="485" key="#GOROOT/67.27.1853.1053@67.27.1853.1053" timestamp="1587821941946" />
-    <state x="558" y="149" width="912" height="807" key="CommitChangelistDialog2" timestamp="1590520897276">
+    <state x="558" y="149" width="912" height="807" key="CommitChangelistDialog2" timestamp="1590593565208">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="558" y="149" width="912" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1590520897276" />
-    <state x="167" y="125" width="1653" height="855" key="DiffContextDialog" timestamp="1590246174906">
+    <state x="558" y="149" width="912" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1590593565208" />
+    <state x="167" y="125" width="1653" height="855" key="DiffContextDialog" timestamp="1590593524551">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="167" y="125" width="1653" height="855" key="DiffContextDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1590246174906" />
+    <state x="167" y="125" width="1653" height="855" key="DiffContextDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1590593524551" />
     <state x="706" y="297" width="447" height="484" key="FileChooserDialogImpl" timestamp="1587821940381">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -180,18 +178,18 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state width="498" height="446" key="SwitcherDM/67.27.1853.1053@67.27.1853.1053" timestamp="1584286951967" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1590520900269">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1590593569687">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1590520900269" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1590593569687" />
     <state x="755" y="264" width="467" height="576" key="com.goide.refactor.move.GoMoveDeclarationDialog" timestamp="1589031284389">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="755" y="264" width="467" height="576" key="com.goide.refactor.move.GoMoveDeclarationDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1589031284389" />
-    <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1588687700592">
+    <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1590828339215">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1588687700592" />
+    <state x="167" y="125" width="1653" height="855" key="com.intellij.history.integration.ui.views.FileHistoryDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1590828339215" />
     <state x="761" y="472" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1584286933156">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>

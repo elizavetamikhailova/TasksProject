@@ -15,8 +15,6 @@ import (
 	"go.uber.org/dig"
 	"golang.org/x/net/context"
 	"google.golang.org/api/option"
-	"log"
-	"os"
 )
 
 func GetDI(cfg configs.Config) *dig.Container {
@@ -30,8 +28,9 @@ func GetDI(cfg configs.Config) *dig.Container {
 		if err != nil {
 			panic(err)
 		}
-		db.LogMode(true)
-		db.SetLogger(log.New(os.Stdout, "\r\n", 0))
+		//db.LogMode(true)
+		//db.SetLogger(log.New(os.Stdout, "\r\n", 0))
+		db.LogMode(false)
 		return db
 	})
 
