@@ -301,9 +301,9 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 	}
 
 	err = androidMessage("Добавлено задание", t.app, pushTokens)
-	if err != nil {
-		return err
-	}
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 }
@@ -354,9 +354,9 @@ func (t Task) UpdateTaskStatus(taskId int, stateTo int) error {
 		return err
 	}
 	err = androidMessage("Обнавлен статус задания", t.app, pushTokens)
-	if err != nil {
-		return err
-	}
+	//if err != nil {
+	//	return err
+	//}
 	return err
 }
 
@@ -433,9 +433,9 @@ func (t *Task) AddAwaitingTask(taskId int, staffId int) error {
 	}
 	//err = sendPush(pushTokens)
 	err = androidMessage("Добавлено ожидающее задание", t.app, pushTokens)
-	if err != nil {
-		return err
-	}
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 }
@@ -535,9 +535,9 @@ func (t Task) UpdateAwaitingTaskToActive(taskId int, staffId int) error {
 	}
 	//err = sendPush(pushTokens)
 	err = androidMessage("Ожидающее задание стало активным", t.app, pushTokens)
-	if err != nil {
-		return err
-	}
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 }
@@ -630,9 +630,9 @@ func (t Task) UpdateTaskStatusByBoss(taskId int, stateTo int) error {
 	}
 	//err = sendPush(pushTokens)
 	err = androidMessage("Обнавлен статус задания", t.app, pushTokens)
-	if err != nil {
-		return err
-	}
+	//if err != nil {
+	//	return err
+	//}
 
 	return nil
 

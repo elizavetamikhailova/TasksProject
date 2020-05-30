@@ -31,12 +31,12 @@ ALTER SCHEMA tasks OWNER TO "default";
 
 CREATE FUNCTION tasks.add_created_at() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-	begin
-	new.created_at = current_timestamp;
-	return new;
-	end;
-
+    AS $$
+	begin
+	new.created_at = current_timestamp;
+	return new;
+	end;
+
 $$;
 
 
@@ -48,14 +48,14 @@ ALTER FUNCTION tasks.add_created_at() OWNER TO "default";
 
 CREATE FUNCTION tasks.add_finished_at() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-	begin
-		if new.state_id = 3 
-			then new.finished_at = current_timestamp;
-		end if;
-	return new;
-	end;
-
+    AS $$
+	begin
+		if new.state_id = 3 
+			then new.finished_at = current_timestamp;
+		end if;
+	return new;
+	end;
+
 $$;
 
 
@@ -67,14 +67,14 @@ ALTER FUNCTION tasks.add_finished_at() OWNER TO "default";
 
 CREATE FUNCTION tasks.add_started_at() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-	begin
-		if old.state_id = 1 and new.state_id = 2 
-			then new.started_at = current_timestamp;
-		end if;
-	return new;
-	end;
-
+    AS $$
+	begin
+		if old.state_id = 1 and new.state_id = 2 
+			then new.started_at = current_timestamp;
+		end if;
+	return new;
+	end;
+
 $$;
 
 
@@ -86,12 +86,12 @@ ALTER FUNCTION tasks.add_started_at() OWNER TO "default";
 
 CREATE FUNCTION tasks.add_updated_at() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-	begin
-	new.updated_at = current_timestamp;
-	return new;
-	end;
-
+    AS $$
+	begin
+	new.updated_at = current_timestamp;
+	return new;
+	end;
+
 $$;
 
 
@@ -103,17 +103,17 @@ ALTER FUNCTION tasks.add_updated_at() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_active() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if old.state_id = 5 and new.state_id = 1 and old.parent_id = 0
-      then 
-	  update tasks.staff_task set state_id = 1 where parent_id = old.id and type_id != 5 and state_id != 3 and state_id != 4 and state_id != 6;
-    end if;
-  return new;
-  end;
-
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if old.state_id = 5 and new.state_id = 1 and old.parent_id = 0
+      then 
+	  update tasks.staff_task set state_id = 1 where parent_id = old.id and type_id != 5 and state_id != 3 and state_id != 4 and state_id != 6;
+    end if;
+  return new;
+  end;
+
+
 $$;
 
 
@@ -125,17 +125,17 @@ ALTER FUNCTION tasks.check_for_active() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_cancel() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-declare count_id integer;
-declare new_id integer;
-  begin
-    if new.state_id = 4
-      then 
-      	update tasks.staff_task set state_id = 4 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
+    AS $$
+declare count_id integer;
+declare new_id integer;
+  begin
+    if new.state_id = 4
+      then 
+      	update tasks.staff_task set state_id = 4 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -147,16 +147,16 @@ ALTER FUNCTION tasks.check_for_cancel() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_change_state_from_delay_to_in_progress() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if old.state_id = 5 and new.state_id = 2 and old.parent_id = 0
-      then 
-	  update tasks.staff_task set state_id = 2 where parent_id = old.id and type_id != 5 and state_id != 3 and state_id != 4 and state_id != 6;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if old.state_id = 5 and new.state_id = 2 and old.parent_id = 0
+      then 
+	  update tasks.staff_task set state_id = 2 where parent_id = old.id and type_id != 5 and state_id != 3 and state_id != 4 and state_id != 6;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -168,22 +168,22 @@ ALTER FUNCTION tasks.check_for_change_state_from_delay_to_in_progress() OWNER TO
 
 CREATE FUNCTION tasks.check_for_delay() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if (old.state_id = 2 or old.state_id = 1) and new.state_id = 5 
-      then 
-	  insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
-	  									updated_at, difficulty_level, expected_lead_time) 
-			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
-	  insert into tasks.staff_form (staff_id, group_id, created_at, 
-  						            updated_at, task_id) 						       
-			 values (new.staff_id, 2, current_timestamp, current_timestamp, new_task_id);
-			return new;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if (old.state_id = 2 or old.state_id = 1) and new.state_id = 5 
+      then 
+	  insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
+	  									updated_at, difficulty_level, expected_lead_time) 
+			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
+	  insert into tasks.staff_form (staff_id, group_id, created_at, 
+  						            updated_at, task_id) 						       
+			 values (new.staff_id, 2, current_timestamp, current_timestamp, new_task_id);
+			return new;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -195,16 +195,16 @@ ALTER FUNCTION tasks.check_for_delay() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_delay_sub_tasks() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if (old.state_id = 2 or old.state_id = 1)  and new.state_id = 5 and old.parent_id = 0
-      then 
-	  update tasks.staff_task set state_id = 5 where parent_id = old.id and type_id != 5 and state_id != 3 and state_id != 4 and state_id != 6;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if (old.state_id = 2 or old.state_id = 1)  and new.state_id = 5 and old.parent_id = 0
+      then 
+	  update tasks.staff_task set state_id = 5 where parent_id = old.id and type_id != 5 and state_id != 3 and state_id != 4 and state_id != 6;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -216,17 +216,17 @@ ALTER FUNCTION tasks.check_for_delay_sub_tasks() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_delete() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-declare count_id integer;
-declare new_id integer;
-  begin
-    if new.state_id = 6
-      then 
-      	update tasks.staff_task set state_id = 6 where parent_id = old.id;
-    end if;
-  return new;
-  end;
-
+    AS $$
+declare count_id integer;
+declare new_id integer;
+  begin
+    if new.state_id = 6
+      then 
+      	update tasks.staff_task set state_id = 6 where parent_id = old.id;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -238,22 +238,22 @@ ALTER FUNCTION tasks.check_for_delete() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_done() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-declare count_id integer;
-declare new_id integer;
-  begin
-    if new.state_id = 3
-      then 
-        select count(st.id) from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1 into count_id;
-      if count_id = 1 and (select st.id from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1) = new.id
-      	then
-      	update tasks.staff_task set state_id = 3 where id = old.parent_id;
-      	return new;
-      end if;
-    end if;
-  return new;
-  end;
-
+    AS $$
+declare count_id integer;
+declare new_id integer;
+  begin
+    if new.state_id = 3
+      then 
+        select count(st.id) from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1 into count_id;
+      if count_id = 1 and (select st.id from tasks.staff_task st where st.parent_id = new.parent_id and st.state_id != 3 limit 1) = new.id
+      	then
+      	update tasks.staff_task set state_id = 3 where id = old.parent_id;
+      	return new;
+      end if;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -265,21 +265,21 @@ ALTER FUNCTION tasks.check_for_done() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_end_work_day() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare count_id integer;
-  begin
-    if new.type_id = 4
-      then 
-	  select count(st.id) from tasks.staff_task st where st.state_id != 3 and st.state_id != 4 and st.state_id != 6 limit 1 into count_id;
-	  if count_id > 0
-	  	then raise exception 'it is impossible to complete the work day while there are unclosed tasks';
-	  else return new;
-	  	end if;
-	  else return new;
-    end if;
-  end;
-
-
+    AS $$
+  declare count_id integer;
+  begin
+    if new.type_id = 4
+      then 
+	  select count(st.id) from tasks.staff_task st where st.state_id != 3 and st.state_id != 4 and st.state_id != 6 limit 1 into count_id;
+	  if count_id > 0
+	  	then raise exception 'it is impossible to complete the work day while there are unclosed tasks';
+	  else return new;
+	  	end if;
+	  else return new;
+    end if;
+  end;
+
+
 $$;
 
 
@@ -291,22 +291,22 @@ ALTER FUNCTION tasks.check_for_end_work_day() OWNER TO "default";
 
 CREATE FUNCTION tasks.check_for_lateness() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-  declare new_task_id integer;
-  begin
-    if (new.updated_at > new.started_at + to_char(to_timestamp((new.expected_lead_time) * 60), 'MI:SS')::interval) and (old.state_id = 2 and new.state_id = 3)
-      then 
-      insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
-	  									updated_at, difficulty_level, expected_lead_time) 
-			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
-      insert into tasks.staff_form (staff_id, group_id, created_at, 
-								       updated_at, task_id) 
-			 values (new.staff_id, 1, current_timestamp, current_timestamp, new_task_id);
-			return new;
-    end if;
-  return new;
-  end;
-
+    AS $$
+  declare new_task_id integer;
+  begin
+    if (new.updated_at > new.started_at + to_char(to_timestamp((new.expected_lead_time) * 60), 'MI:SS')::interval) and (old.state_id = 2 and new.state_id = 3)
+      then 
+      insert into tasks.staff_task (type_id, staff_id, state_id, parent_id, created_at, 
+	  									updated_at, difficulty_level, expected_lead_time) 
+			 values (5, old.staff_id, 1, old.id, current_timestamp, current_timestamp, 0, 0) RETURNING id INTO new_task_id;
+      insert into tasks.staff_form (staff_id, group_id, created_at, 
+								       updated_at, task_id) 
+			 values (new.staff_id, 1, current_timestamp, current_timestamp, new_task_id);
+			return new;
+    end if;
+  return new;
+  end;
+
 $$;
 
 
@@ -1368,6 +1368,11 @@ COPY tasks.awaiting_task_state (id, title, code) FROM stdin;
 
 COPY tasks.awaiting_tasks (id, task_id, staff_id, state_id, created_at, updated_at, deleted_at) FROM stdin;
 47	139	1	2	2020-02-22 12:26:36.702545	2020-02-22 12:45:16.647245	\N
+54	256	1	1	2020-05-30 13:05:24.236023	2020-05-30 13:05:24.236023	\N
+55	260	1	1	2020-05-30 13:24:25.993569	2020-05-30 13:24:25.993569	\N
+56	261	1	1	2020-05-30 13:41:55.662147	2020-05-30 13:41:55.662147	\N
+57	262	1	1	2020-05-30 13:48:54.702753	2020-05-30 13:48:54.702753	\N
+58	263	1	1	2020-05-30 13:52:34.718794	2020-05-30 13:52:34.718794	\N
 \.
 
 
@@ -1385,8 +1390,8 @@ COPY tasks.boss (id, login, pass) FROM stdin;
 --
 
 COPY tasks.boss_session (id, device_code, auth_token, original_pass, expires_at, push_token, boss_id) FROM stdin;
-1	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	f1r8thqqSdesT5mFGHeLEs:APA91bFkpW4QdKvcHfh8jxezswTkpnvdH9-2xOzrvwf7whmO6ZiXcUDldlKF543FCq2sC8v8si2lQ7oKB9KaFNtHGXegX9Pezomz00owNY0bwfEaQ5G-Vkrxr4hpi-Xquz8WzTTOTTEX	1
 2	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	d6LCXIgPQJm_O6rXc_XVKj:APA91bGGjTxrucgiuU3urMnwmqZjRk2HWyjRDC4rhHIhD5Af4ZMwnvtuJdP14ChnPyGxbeYZeDDQb3cD31i6dC19P-ThWtoEk7LvRbRqmfUO2Rm0Gufp6ilgd7vD72SLxk67p0tqbNDm	1
+1	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$f0al/8Z2yIVyadnpXUXD2ePnfS3Y76FyZqfCr5QocfkkrFI./GmOm	2020-10-25T10:16:23.000Z	fBEzxvmOQ9mQkjD3wAj1PY:APA91bFiNAZtxi8nFIDXFgoFnzNmNAdl07AGebhp3qEFmfaBBbj4OAVh0bY5JQX3I3P5bq6PdSp4Y4oMwkdUEEOY1xXptq-Wi__6uZzjCBJddqMZWAi7tBSpus5JFvmh-s4QGNEvcqer	1
 \.
 
 
@@ -1556,16 +1561,10 @@ COPY tasks.staff_form (id, staff_id, group_id, created_at, updated_at, deleted_a
 --
 
 COPY tasks.staff_session (id, device_code, auth_token, original_pass, expires_at, push_token, staff_id) FROM stdin;
-3	 	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	fshogjuRQF6RqlcAC2jKGv:APA91bFbkxF_aZVydfpje-0cKPH_rxTq7XayH4IxoWG9zeioWntFbRtAfejrSYyWEKttRGUf_mqTFJ8R7n8E19R85EQEW4Mq9Z7mPk_i_A3dH9llwWTD5Im841FVnvZIst2RlWrOevsz	1
-18		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjh9.qg9oyegoV3XW_r40qAyjTsYN6TmoFtKFkejEtdD2Nbk	$2a$10$OGqXX10iPgWm0sw/ld.Mm.pL.9PSxblNdCZa8rh2EVPmZty30N4bW	2020-10-25T10:16:23.000Z		8
-19		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjl9.Zy4gt-wL1k39d2ITD7kCmlXBT1o3L4nxUkrwRCLJth8	$2a$10$fBqi.5QVhYRek4ghkDGgMOHF4OEU4KoVrP/NtrQ5K7WYp.5HWWWcu	2020-10-25T10:16:23.000Z		9
-20		eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z		10
-23	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjh9.qg9oyegoV3XW_r40qAyjTsYN6TmoFtKFkejEtdD2Nbk	$2a$10$OGqXX10iPgWm0sw/ld.Mm.pL.9PSxblNdCZa8rh2EVPmZty30N4bW	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	8
-24	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjl9.Zy4gt-wL1k39d2ITD7kCmlXBT1o3L4nxUkrwRCLJth8	$2a$10$fBqi.5QVhYRek4ghkDGgMOHF4OEU4KoVrP/NtrQ5K7WYp.5HWWWcu	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	9
-12	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	1
-22	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z	e46H1KQYRlmpSx5RGkJ72P:APA91bEYehd5APwzl-_qJYvkz8ziByNsAZQipgx5YtXMA-oKi34yxcuZAGe9kXkV-VUt6kSxrYYx9fpCkGMJS_ceImhheAxCqOuGNmdlN2ja3S8tDb0hnFcO_WqywVLzANf7S9_kLydM	10
-21	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z	d0MynOfWSrqkgyDofbCt3K:APA91bG048KARcCD3m-NMEKtii8cFQiYDMexw9ROCSMLN_-I9DEXQNQpNLsH7rZ_DSkuNj1yIl_u168rGbpbby1pKYy03853uWUW5cdFJF9vLreu-k5guVO1xRFdIcEsOV3T0T-NA0PH	10
-17	eab88beb5fbd36ef	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	d0MynOfWSrqkgyDofbCt3K:APA91bG048KARcCD3m-NMEKtii8cFQiYDMexw9ROCSMLN_-I9DEXQNQpNLsH7rZ_DSkuNj1yIl_u168rGbpbby1pKYy03853uWUW5cdFJF9vLreu-k5guVO1xRFdIcEsOV3T0T-NA0PH	1
+23	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjh9.qg9oyegoV3XW_r40qAyjTsYN6TmoFtKFkejEtdD2Nbk	$2a$10$OGqXX10iPgWm0sw/ld.Mm.pL.9PSxblNdCZa8rh2EVPmZty30N4bW	2020-10-25T10:16:23.000Z	dhYw0_S9Tlmm9WoLXDcZLZ:APA91bEzZYTqNG0WWPLlshYMvFPkyhZn5IHmSUpwdQh9wqBCtSPmYwO8tFM333213MY3ymXgoxMwgBqG5j3sS0CR85hPwxa17ts2Z_wiuXyXlXyclozZ3l0uoPugQK22FmmOmvLqEvZL	8
+24	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjl9.Zy4gt-wL1k39d2ITD7kCmlXBT1o3L4nxUkrwRCLJth8	$2a$10$fBqi.5QVhYRek4ghkDGgMOHF4OEU4KoVrP/NtrQ5K7WYp.5HWWWcu	2020-10-25T10:16:23.000Z	dhYw0_S9Tlmm9WoLXDcZLZ:APA91bEzZYTqNG0WWPLlshYMvFPkyhZn5IHmSUpwdQh9wqBCtSPmYwO8tFM333213MY3ymXgoxMwgBqG5j3sS0CR85hPwxa17ts2Z_wiuXyXlXyclozZ3l0uoPugQK22FmmOmvLqEvZL	9
+22	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEwfQ.N62a4206e3fAbMB5veIQM2FDqJhhGDN2j5FSJy01RyM	$2a$10$kjzuFumxAov6WqvimHYFcev1dMH8wQxAkpt4Vs5HEd8aXKE1W2azm	2020-10-25T10:16:23.000Z	dhYw0_S9Tlmm9WoLXDcZLZ:APA91bEzZYTqNG0WWPLlshYMvFPkyhZn5IHmSUpwdQh9wqBCtSPmYwO8tFM333213MY3ymXgoxMwgBqG5j3sS0CR85hPwxa17ts2Z_wiuXyXlXyclozZ3l0uoPugQK22FmmOmvLqEvZL	10
+12	1ce27d05ee3c5a48	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjF9.Vcp2grZ53t_OG3jwSXsRwfc_UUjboNgZarkAGiX0jgM	$2a$10$yE2S3nc3O5ZJzNKYevhCKe.VMjDkaj6iWJmwHhqOnxMyarK/84rdm	2020-10-25T10:16:23.000Z	dhYw0_S9Tlmm9WoLXDcZLZ:APA91bEzZYTqNG0WWPLlshYMvFPkyhZn5IHmSUpwdQh9wqBCtSPmYwO8tFM333213MY3ymXgoxMwgBqG5j3sS0CR85hPwxa17ts2Z_wiuXyXlXyclozZ3l0uoPugQK22FmmOmvLqEvZL	1
 \.
 
 
@@ -1629,6 +1628,15 @@ COPY tasks.staff_task (id, type_id, staff_id, state_id, parent_id, started_at, f
 253	2	1	3	227	0001-01-01 00:00:00	2020-05-28 21:53:02.529256	2020-05-28 21:47:50.019145	2020-05-28 21:53:02.529256	\N	0	1.03
 252	2	1	4	227	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-28 21:47:38.755316	2020-05-28 21:53:21.333588	\N	0	20.4
 227	6	1	2	0	2020-05-28 20:47:05.695648	0001-01-01 00:00:00	2020-05-26 10:18:58.437241	2020-05-28 21:53:41.541439	\N	2	4
+255	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 09:39:51.529837	2020-05-30 12:39:51.531645	\N	3	13.39
+256	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:05:24.208951	2020-05-30 13:05:24.209751	\N	2	1.1
+257	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:06:44.299943	2020-05-30 13:06:44.300595	\N	2	0.06
+258	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:18:39.11963	2020-05-30 13:18:39.120447	\N	2	2
+259	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:20:45.082548	2020-05-30 13:20:45.083174	\N	2	2
+260	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:24:25.971875	2020-05-30 13:24:25.972455	\N	2	2
+261	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:41:55.364063	2020-05-30 13:41:55.364684	\N	2	1
+262	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:48:54.491785	2020-05-30 13:48:54.492102	\N	5	1
+263	6	0	7	0	0001-01-01 00:00:00	0001-01-01 00:00:00	2020-05-30 10:52:34.436534	2020-05-30 13:52:34.437322	\N	5	1
 \.
 
 
@@ -1677,6 +1685,15 @@ COPY tasks.task_content (id, text, title, address, task_id) FROM stdin;
 59	Повернуть хавортии и эчеверии	Повернуть растения	Южная улица, 15, Реутов, городской округ Реутов, Московская область	223
 60	Убрать под крышу эхеверии и пахифитумы	Убрать растения под крышу 	Южная улица, 15, Реутов, городской округ Реутов, Московская область	224
 61	Собрать отзывы об организации 	Собрать отзывы 	Южная улица, 15, Реутов, городской округ Реутов, Московская область	227
+62	Yyy	Fgg	Gg	255
+63	QQQQQQQQQQQQQQ	qqqq	QQQQQQQQQQQQQQQQ	256
+64	Rr	Ghh	Rt	257
+65	ttt	dd	ttt	258
+66	ttt	dd	ttt	259
+67	ff	tt	ff	260
+68	G	Ru	J	261
+69	G	H	G	262
+70	G	H	G	263
 \.
 
 
@@ -1759,6 +1776,7 @@ COPY tasks.tasks_flags (id, task_id, flag_id) FROM stdin;
 29	210	1
 30	214	1
 31	215	1
+32	256	1
 \.
 
 
@@ -1809,7 +1827,7 @@ SELECT pg_catalog.setval('tasks.awaiting_task_state_id_seq', 2, true);
 -- Name: awaiting_tasks_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 53, true);
+SELECT pg_catalog.setval('tasks.awaiting_tasks_id_seq', 58, true);
 
 
 --
@@ -1886,7 +1904,7 @@ SELECT pg_catalog.setval('tasks.staff_session_id_seq', 24, true);
 -- Name: staff_task_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.staff_task_id_seq', 254, true);
+SELECT pg_catalog.setval('tasks.staff_task_id_seq', 263, true);
 
 
 --
@@ -1900,7 +1918,7 @@ SELECT pg_catalog.setval('tasks.staff_to_boss_id_seq', 9, true);
 -- Name: task_content_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.task_content_id_seq', 61, true);
+SELECT pg_catalog.setval('tasks.task_content_id_seq', 70, true);
 
 
 --
@@ -1935,7 +1953,7 @@ SELECT pg_catalog.setval('tasks.task_type_id_seq', 3, true);
 -- Name: tasks_flags_id_seq; Type: SEQUENCE SET; Schema: tasks; Owner: default
 --
 
-SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 31, true);
+SELECT pg_catalog.setval('tasks.tasks_flags_id_seq', 32, true);
 
 
 --
