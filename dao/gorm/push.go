@@ -123,6 +123,7 @@ func androidMessage(title string, app *firebase.App, pushTokens []string) error 
 			return nil
 		}
 
+		fmt.Printf("%d pushToken is\n", v)
 		fmt.Printf("%d messages were sent successfully\n", br)
 	}
 
