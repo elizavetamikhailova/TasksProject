@@ -300,7 +300,11 @@ func (t Task) AddTaskWithContent(typeId int, staffId int, parentId int, expected
 		return err
 	}
 
-	err = androidMessage("Добавлено задание", t.app, pushTokens)
+	if task.TypeId == 2 {
+		err = androidMessage("Добавлен запрос об изменении времени", t.app, pushTokens)
+	} else {
+		err = androidMessage("Добавлено задание", t.app, pushTokens)
+	}
 	//if err != nil {
 	//	return err
 	//}
