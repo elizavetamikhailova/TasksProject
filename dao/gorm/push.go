@@ -120,7 +120,6 @@ func androidMessage(title string, app *firebase.App, pushTokens []string) error 
 		if err != nil {
 			println(err.Error())
 			//log.Fatalln(err)
-			return nil
 		}
 
 		fmt.Printf("%d pushToken is\n", v)
